@@ -20,6 +20,7 @@
       <!--<HelloWorld/>-->
       <Nav/>
       <Home/>
+      <Footer/>
     </v-content>
   </v-app>
 </template>
@@ -28,6 +29,7 @@
 //import HelloWorld from './components/HelloWorld';
 import Nav from './components/Nav';
 import Home from './components/Home';
+import Footer from './components/Footer';
 
 export default {
   name: 'App',
@@ -35,6 +37,7 @@ export default {
     //HelloWorld,
     Nav,
     Home,
+    Footer,
   },
   data: () => ({
     //
