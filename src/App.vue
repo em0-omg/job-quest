@@ -17,9 +17,11 @@
     </v-app-bar>
     -->
     <v-content>
-      <!--<HelloWorld/>-->
-      <Nav/>
-      <Home/>
+      <Header/>
+      <!-- <HelloWorld/> -->
+      <!-- <Nav/> -->
+      <!-- <Home/> -->
+      <router-view/>
       <Footer/>
     </v-content>
   </v-app>
@@ -27,16 +29,18 @@
 
 <script>
 //import HelloWorld from './components/HelloWorld';
-import Nav from './components/Nav';
-import Home from './components/Home';
+//import Nav from './components/Nav';
+//import Home from './components/Home';
+import Header from './components/Header';
 import Footer from './components/Footer';
 
 export default {
   name: 'App',
   components: {
     //HelloWorld,
-    Nav,
-    Home,
+    //Nav,
+    //Home,
+    Header,
     Footer,
   },
   data: () => ({
