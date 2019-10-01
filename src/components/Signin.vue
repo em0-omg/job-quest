@@ -1,6 +1,9 @@
 <template>
   <div class="signin">
     <h2>Sign in</h2>
+    <br>
+    <button @click="googleLogin">Googleでログイン</button>
+    <br>
     <input type="text" placeholder="Username" v-model="username">
     <input type="password" placeholder="Password" v-model="password">
     <button @click="signIn">Signin</button>
@@ -32,7 +35,17 @@ export default {
           alert(err.message)
         }
       )
-    }
+    },
+    googleLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider()
+
+      firebase.auth().signInWithPopup(provider).then(result => {
+        alert('Success!')
+        this.$router.push('/')
+      }).catch(error => {
+          alert(error.message)
+      })
+    },
   }
 }
 </script>
@@ -64,5 +77,8 @@ a {
 input {
   margin: 10px 0;
   padding: 10px;
+}
+hr {
+    border-top: 3px double #8c8b8b;
 }
 </style>

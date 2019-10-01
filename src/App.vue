@@ -18,9 +18,6 @@
     -->
     <v-content>
       <Header/>
-      <!-- <HelloWorld/> -->
-      <!-- <Nav/> -->
-      <!-- <Home/> -->
       <router-view/>
       <Footer/>
     </v-content>

@@ -2,7 +2,7 @@
   <v-card
     color="grey lighten-4"
     flat
-    height="200px"
+    height="50px"
     tile
   >
     <v-toolbar dense>
