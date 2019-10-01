@@ -20,6 +20,31 @@
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
+
+      <v-btn icon @click="signOut()">
+        <v-icon>mdi-account-off</v-icon>
+      </v-btn>
+
     </v-toolbar>
   </v-card>
 </template>
+
+<script>
+import firebase from 'firebase'
+
+export default {
+  name: 'Header',
+  data () {
+    return {
+
+    }
+  },
+  methods: {
+    signOut: function () {
+      firebase.auth().signOut().then(() => {
+        this.$router.push('/signin')
+      })
+    }
+  }
+}
+</script>

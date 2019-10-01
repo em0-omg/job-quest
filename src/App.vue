@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 //import HelloWorld from './components/HelloWorld';
 //import Nav from './components/Nav';
 //import Home from './components/Home';
@@ -44,7 +45,7 @@ export default {
     Footer,
   },
   data: () => ({
-    //
+    mail: firebase.auth().currentUser.email,
   }),
 };
 </script>
