@@ -26,6 +26,9 @@
       </v-btn>
 
     </v-toolbar>
+    <v-layout justify-center v-else>
+        <h1>JobQuest</h1>
+    </v-layout>
   </v-card>
 </template>
 
