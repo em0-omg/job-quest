@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Signup from '@/components/Signup'
 import Signin from '@/components/Signin'
-import Firebase from './firebase'
 import firebase from 'firebase'
 
 Vue.use(Router)
@@ -47,7 +46,6 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  Firebase.onAuth();
   if (requiresAuth) {
     // このルートはログインされているかどうか認証が必要です。
     // もしされていないならば、ログインページにリダイレクトします。

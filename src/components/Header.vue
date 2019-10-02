@@ -12,7 +12,7 @@
       <v-toolbar-title class="white--text"></v-toolbar-title>
 
       <div class="flex-grow-1"></div>
-
+      
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
+import Store from './../store';
 
 export default {
   name: 'Header',
@@ -50,6 +51,9 @@ export default {
   methods: {
     signOut: function () {
       firebase.auth().signOut().then(() => {
+        var user = {};
+        Store.commit('onAuthStateChanged', user);
+        Store.commit('onUserStatusChanged', user.uid ? true : false);
         this.$router.push('/signin')
       })
     }

@@ -14,11 +14,12 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import Firebase from './../firebase';
 
 export default {
     name: 'Home',
     created: function () {
+        Firebase.onAuth();
     },
     computed: {
         user() {
