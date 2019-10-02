@@ -18,22 +18,21 @@ import firebase from 'firebase';
 import Firebase from './../firebase';
 
 export default {
-  name: 'Home',
-  created: function () {
-      //Firebase.onAuth();
-  },
-  computed: {
-      user() {
-          return this.$store.getters.user;
-      },
-      userStatus() {
-          return this.$store.getters.isSignedIn;
-      }
-  },
-  components: {
-  },
-  data: () => ({
-    mail: firebase.auth().currentUser.email,
-  }),
+    name: 'Home',
+    created: function () {
+        Firebase.onAuth();
+    },
+    computed: {
+        user() {
+            return this.$store.getters.user;
+        },
+        userStatus() {
+            return this.$store.getters.isSignedIn;
+        }
+    },
+    components: {
+    },
+    data: () => ({
+    }),
 };
 </script>

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "jobquest-b6a5c"
+    "default": "jobquest-b6a5c",
+    "jq": "jobquest-b6a5c"
   }
 }
