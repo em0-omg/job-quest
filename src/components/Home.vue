@@ -15,7 +15,6 @@
 
 <script>
 import firebase from 'firebase';
-import Firebase from './../firebase';
 
 export default {
     name: 'Home',
