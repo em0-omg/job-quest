@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import 'firebase/firestore'
 import store from "./store";
 
 const config = {

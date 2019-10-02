@@ -10,14 +10,21 @@
         <v-layout justify-space-around>
             <p>{{ user.email }}</p>
         </v-layout>
+        <v-layout justify-space-around>
+            <Timeline/>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
 import Firebase from './../firebase';
+import Timeline from './Timeline'
 
 export default {
     name: 'Home',
+    components: {
+        Timeline,
+    },
     created: function () {
         Firebase.onAuth();
     },
@@ -28,8 +35,6 @@ export default {
         userStatus() {
             return this.$store.getters.isSignedIn;
         }
-    },
-    components: {
     },
     data: () => ({
     }),

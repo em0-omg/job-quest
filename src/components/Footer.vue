@@ -1,8 +1,9 @@
 <template>
+<v-card>
   <v-footer
-    absolute
     dark
     padless
+    fixed
   >
     <v-card
       width="100%"
@@ -30,6 +31,7 @@
 
     </v-card>
   </v-footer>
+</v-card>
 </template>
 
 <script>
