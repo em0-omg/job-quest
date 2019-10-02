@@ -25,7 +25,7 @@
 
       <v-divider></v-divider>
 
-      <v-card-text class="white--text">
+      <v-card-text class="white--text" v-if="!userStatus">
           {{ new Date().getFullYear() }} — <strong>Powered By JohnWORKS.</strong>
       </v-card-text>
 
