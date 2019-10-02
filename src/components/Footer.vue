@@ -11,7 +11,7 @@
       class="indigo lighten-1 white--text text-center"
     >
 
-      <v-card-text>
+      <v-card-text v-if="userStatus">
         <v-btn
           v-for="icon in icons"
           :key="icon"
@@ -34,6 +34,14 @@
 
 <script>
   export default {
+    computed: {
+      user() {
+          return this.$store.getters.user;
+      },
+      userStatus() {
+          return this.$store.getters.isSignedIn;
+      }
+    },
     data: () => ({
       icons: [
         'mdi-ticket-confirmation',

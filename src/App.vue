@@ -42,7 +42,6 @@ export default {
     Footer,
   },
   data: () => ({
-    mail: firebase.auth().currentUser.email,
   }),
 };
 </script>

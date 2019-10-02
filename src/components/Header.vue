@@ -5,11 +5,11 @@
     height="50px"
     tile
   >
-    <v-toolbar dense>
+    <v-toolbar dense v-if="userStatus">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
-      <v-toolbar-title class="white--text">JobQuest</v-toolbar-title>
+      <v-toolbar-title class="white--text"></v-toolbar-title>
 
       <div class="flex-grow-1"></div>
 
@@ -38,6 +38,14 @@ export default {
     return {
 
     }
+  },
+  computed: {
+      user() {
+          return this.$store.getters.user;
+      },
+      userStatus() {
+          return this.$store.getters.isSignedIn;
+      }
   },
   methods: {
     signOut: function () {
