@@ -15,13 +15,14 @@ const config = {
 export default {
     init() {
         firebase.initializeApp(config);
-        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
     },
     login() {
         const provider = new firebase.auth.GoogleAuthProvider()
 
         firebase.auth().signInWithPopup(provider).then(result => {
-            alert('Success!'+result)
+            alert('Success!')
+            console.log(result);
             this.$router.push('/')
         }).catch(error => {
             alert(error.message)

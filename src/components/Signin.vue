@@ -14,6 +14,7 @@
         <v-divider></v-divider>
         <br>
         <v-layout justify-center>メールアドレスでログイン</v-layout>
+        <br>
         <v-layout justify-center>
             <input type="text" placeholder="Username" v-model="username">
         </v-layout>
@@ -51,7 +52,8 @@ export default {
     signIn: function () {
       firebase.auth().signInWithEmailAndPassword(this.username, this.password).then(
         user => {
-          alert('Success!'+user)
+          alert('Success!')
+          console.log(user)
           this.$router.push('/')
         },
         err => {
@@ -63,7 +65,8 @@ export default {
       const provider = new firebase.auth.GoogleAuthProvider()
 
       firebase.auth().signInWithPopup(provider).then(result => {
-        alert('Success!'+result)
+        alert('Success!')
+        console.log(result)
         this.$router.push('/')
       }).catch(error => {
           alert(error.message)

@@ -25,7 +25,6 @@ import Firebase from './../firebase';
 export default {
     name: 'authentication',
     created: function() {
-        Firebase.onAuth();
     },
     computed: {
         user() {
