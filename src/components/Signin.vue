@@ -15,12 +15,9 @@
         </button>
         </v-layout>
         <br>
-        <v-layout justify-center>or</v-layout>
-        <br>
         <v-divider></v-divider>
         <br>
         <v-layout justify-center>メールアドレスでログイン</v-layout>
-        <br>
         <v-layout justify-center>
             <input type="text" placeholder="Username" v-model="username">
         </v-layout>
