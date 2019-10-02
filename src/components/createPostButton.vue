@@ -30,7 +30,9 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+    import firebase from 'firebase';
+    import moment from 'moment';
+
     export default {
         created: function () {
             var db = firebase.firestore();
@@ -41,17 +43,18 @@ import firebase from 'firebase';
             hidden: false,
         db: null,
         }),
+        filters: {
+        },
         methods: {
             createPost: function () {
-                alert("in")
+                var nowDate = Date.now();
                 var newPost = {
-                    content: 'content',
-                    createdAt: 'nowdate',
-                    image: 'imageURL',
+                    content: 'This is content.',
+                    createdAt: moment(nowDate).format('YYYY/MM/DD HH:mm'),
+                    image: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
                     pk: 'pk',
-                    subtitle: 'tmpSub',
                     tags: ['t,m,p'],
-                    title: 'tmpTitle',
+                    title: 'This is title.',
                 };
                 var newPostRef = this.db.collection('users').doc('company').collection('posts').doc();
                 newPostRef.set(newPost);

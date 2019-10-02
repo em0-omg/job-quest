@@ -2,21 +2,17 @@
     <v-container>
 
         <v-list three-line>
+        <v-subheader
+            v-text="'TODAY'"
+        ></v-subheader>
         <template v-for="(item, index) in posts">
-            <v-subheader
-                v-if="item.title"
-                :key="item.id"
-                v-text="item.title"
-            ></v-subheader>
 
             <v-divider
-                v-else-if="item.divider"
                 :key="index"
             ></v-divider>
 
             <v-list-item
-                v-else
-                :key="item.title"
+                :key="item.id"
                 @click="tmp"
             >
                 <v-list-item-avatar>
@@ -24,8 +20,9 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                    <v-list-item-title v-html="item.title"></v-list-item-title>
-                    <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
+                    <v-list-item-title v-html="'<h2>'+item.title+'</h2>'"></v-list-item-title>
+                    <v-list-item-content v-html="item.content"></v-list-item-content>
+                    <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
         </template>
@@ -74,10 +71,13 @@ export default {
         })
     },
     methods: {
+        tmp: function () {
+            console.log('tmp');
+        }
     },
     firestore() {
         return {
-            posts: firebase.firestore().collection('users').doc('company').collection('posts')
+            posts: firebase.firestore().collection('users').doc('company').collection('posts').orderBy('createdAt', 'desc').limit(20)
         }
     }
 }
