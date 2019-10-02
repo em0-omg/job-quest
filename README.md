@@ -33,3 +33,4 @@ icons
 - https://iconify.design/icon-sets/mdi/
 firebase.json修正前
 - "npm --prefix \"$RESOURCE_DIR\" run lint"
+- firebase init functionsで解決
