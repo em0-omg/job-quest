@@ -5,7 +5,8 @@
         <v-subheader
             v-text="'TODAY'"
         ></v-subheader>
-        <template v-for="(item, index) in posts">
+        {{ postSize }}
+        <template v-for="(item, index) in showPosts">
 
             <v-divider
                 :key="index"
@@ -27,27 +28,34 @@
             </v-list-item>
         </template>
         </v-list>
+        <infinite-loading
+            ref="infiniteLoading"
+            @infinite="infiniteHandler"
+        >
+        <div slot="no-results"/>
+        </infinite-loading>
         <createPostButton/>
     </v-container>
 </template>
 <script>
 import firebase from 'firebase';
 import createPostButton from './createPostButton';
+import InfiniteLoading from 'vue-infinite-loading';
 
 export default {
     name: 'timeline',
     components: {
         createPostButton,
+        InfiniteLoading,
     },
     data() {
         return {
             db: null,
-            usersCollectionRef: null,
-            workerDocRef: null,
-            companyDocRef: null,
-            workers: [],
-            companies: [],
             posts: [],
+            count: 0,
+            postSize: 0,
+            allPosts: [],
+            showPosts: [],
         }
     },
     created: function () {
@@ -55,24 +63,39 @@ export default {
         var _this = this;
         _this.db = db;
 
-        _this.usersCollectionRef = db.collection('users');
-        _this.workerDocRef = db.collection('users').doc('worker');
-        _this.companyDocRef = db.collection('users').doc('company').collection('user');
-
-        _this.companies = _this.companyDocRef.where('isActive', '==', true)
-        .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                console.log(doc.id, " => ", doc.data());
-            });
+    },
+    mounted: function () {
+        var self = this;
+        self.db.collection('users').doc('company').collection('posts').get().then( function (querySnapshot) {
+            querySnapshot.forEach( function (doc) {
+                self.allPosts.push(doc.data());
+            })
         })
-        .catch(function(error) {
-            alert(error)
+        self.db.collection('users').doc('company').collection('posts').get().then( snap => {
+            self.postSize = snap.size;
         })
     },
     methods: {
         tmp: function () {
             console.log('tmp');
+        },
+        infiniteHandler () {
+            var self = this;
+            setTimeout(() => {
+                if (this.count < this.postSize) {
+                    var counter = 0;
+                    this.allPosts.forEach (function (item) {
+                        if (counter >= self.count && counter < self.count+5) {
+                            self.showPosts.push(item);
+                        }
+                        counter++;
+                    })
+                    this.count += 5;
+                    this.$refs.infiniteLoading.stateChanger.loaded();
+                } else {
+                    this.$refs.infiniteLoading.stateChanger.complete();
+                }
+            }, 1000)
         }
     },
     firestore() {
