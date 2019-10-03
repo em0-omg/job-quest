@@ -1,9 +1,18 @@
 <template>
   <v-container>
     <v-list three-line>
-      <v-subheader v-text="'Timeline'"></v-subheader>
-      {{ this.postSize }}
-      <template v-for="(item, index) in showPosts">
+      <!--
+      <v-layout justify-center v-show="isUpdated">新着があります</v-layout>
+      <v-layout justify-center>
+        <v-btn class="ma-2" color="primary" dark @click="updateTimeline()" v-show="isUpdated">
+          タイムラインを更新
+          <v-icon dark right>mdi-reload</v-icon>
+        </v-btn>
+      </v-layout>
+      <br />
+      -->
+
+      <template v-for="(item, index) in allPosts">
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id" @click="tmp">
@@ -19,31 +28,29 @@
         </v-list-item>
       </template>
     </v-list>
+    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-results" />
     </infinite-loading>
-    <createPostButton />
+    -->
   </v-container>
 </template>
 <script>
 import firebase from "firebase";
-import createPostButton from "./createPostButton";
-import InfiniteLoading from "vue-infinite-loading";
 
 export default {
   name: "timeline",
-  components: {
-    createPostButton,
-    InfiniteLoading
-  },
+  components: {},
   data() {
     return {
       db: null,
       posts: [],
       count: 0,
+
       postSize: 0,
-      allPosts: [],
-      showPosts: []
+      showLimit: 1000,
+
+      allPosts: []
     };
   },
   created: function() {
@@ -51,31 +58,35 @@ export default {
     var _this = this;
     _this.db = db;
   },
+  computed: {},
   mounted: function() {
     var self = this;
     self.db
       .collection("users")
       .doc("company")
       .collection("posts")
-      .get()
-      .then(function(querySnapshot) {
+      .orderBy("createdAt", "desc")
+      .limit(this.showLimit)
+      .onSnapshot(function(querySnapshot) {
+        self.allPosts = [];
         querySnapshot.forEach(function(doc) {
           self.allPosts.push(doc.data());
         });
       });
+
     self.db
       .collection("users")
       .doc("company")
       .collection("posts")
-      .get()
-      .then(snap => {
+      .onSnapshot(snap => {
         self.postSize = snap.size;
       });
   },
   methods: {
     tmp: function() {
       console.log("tmp");
-    },
+    }
+    /*
     infiniteHandler() {
       var self = this;
       setTimeout(() => {
@@ -94,17 +105,7 @@ export default {
         }
       }, 1000);
     }
-  },
-  firestore() {
-    return {
-      posts: firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("posts")
-        .orderBy("createdAt", "desc")
-        .limit(20)
-    };
+    */
   }
 };
 </script>
