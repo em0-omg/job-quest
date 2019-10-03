@@ -102,6 +102,7 @@ export default {
         .collection("posts")
         .doc();
       newPostRef.set(newPost);
+      this.dialog = false;
     }
   }
 };

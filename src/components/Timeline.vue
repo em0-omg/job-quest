@@ -1,17 +1,6 @@
 <template>
   <v-container>
     <v-list three-line>
-      <!--
-      <v-layout justify-center v-show="isUpdated">新着があります</v-layout>
-      <v-layout justify-center>
-        <v-btn class="ma-2" color="primary" dark @click="updateTimeline()" v-show="isUpdated">
-          タイムラインを更新
-          <v-icon dark right>mdi-reload</v-icon>
-        </v-btn>
-      </v-layout>
-      <br />
-      -->
-
       <template v-for="(item, index) in allPosts">
         <v-divider :key="index"></v-divider>
 
@@ -26,21 +15,22 @@
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-btn icon>
+          <postDetailDialog />
+        </v-btn>
       </template>
     </v-list>
-    <!--
-    <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
-      <div slot="no-results" />
-    </infinite-loading>
-    -->
   </v-container>
 </template>
 <script>
 import firebase from "firebase";
+import postDetailDialog from "./postDetailDialog";
 
 export default {
   name: "timeline",
-  components: {},
+  components: {
+    postDetailDialog
+  },
   data() {
     return {
       db: null,
