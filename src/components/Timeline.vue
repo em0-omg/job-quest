@@ -3,9 +3,8 @@
 
         <v-list three-line>
         <v-subheader
-            v-text="'TODAY'"
+            v-text="'Timeline'"
         ></v-subheader>
-        {{ postSize }}
         <template v-for="(item, index) in showPosts">
 
             <v-divider
