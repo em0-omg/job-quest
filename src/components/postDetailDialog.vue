@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <!-- <v-dialog v-model="dialog" persistent max-width="600px"> -->
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog" max-width="400px">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
           <v-icon>mdi-open-in-new</v-icon>
