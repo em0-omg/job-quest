@@ -15,9 +15,11 @@
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-btn icon>
-          <postDetailDialog />
-        </v-btn>
+        <v-layout justify-center :key="item.id">
+          <v-btn icon>
+            <postDetailDialog />
+          </v-btn>
+        </v-layout>
       </template>
     </v-list>
   </v-container>

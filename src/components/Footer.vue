@@ -1,56 +1,49 @@
 <template>
-<v-card>
-  <v-footer
-    dark
-    padless
-    fixed
-  >
-    <v-card
-      width="100%"
-      flat
-      tile
-      class="indigo lighten-1 white--text text-center"
-    >
+  <v-bottom-navigation v-model="bottomNav" dark shift fixed>
+    <v-btn>
+      <span>contact</span>
+      <v-icon>mdi-phone-forward</v-icon>
+    </v-btn>
 
-      <v-card-text v-if="userStatus">
-        <v-btn
-          v-for="icon in icons"
-          :key="icon"
-          class="mx-4 white--text"
-          icon
-        >
-          <v-icon size="32px">{{ icon }}</v-icon>
-        </v-btn>
-      </v-card-text>
+    <v-btn @click="toHome()">
+      <span>home</span>
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
 
-      <v-divider></v-divider>
-
-      <v-card-text class="white--text" v-if="!userStatus">
-          {{ new Date().getFullYear() }} — <strong>Powered By JohnWORKS.</strong>
-      </v-card-text>
-
-    </v-card>
-  </v-footer>
-</v-card>
+    <v-btn @click="toProfile()">
+      <span>profile</span>
+      <v-icon>mdi-account</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
 </template>
-
 <script>
-  export default {
-    computed: {
-      user() {
-          return this.$store.getters.user;
-      },
-      userStatus() {
-          return this.$store.getters.isSignedIn;
+export default {
+  data() {
+    return {
+      bottomNav: 3
+    };
+  },
+  computed: {
+    color() {
+      switch (this.bottomNav) {
+        case 0:
+          return "blue-grey";
+        case 1:
+          return "teal";
+        case 2:
+          return "brown";
+        case 3:
+          return "indigo";
       }
+    }
+  },
+  methods: {
+    toProfile: function() {
+      this.$router.push("/profile");
     },
-    data: () => ({
-      icons: [
-        'mdi-ticket-confirmation',
-        'mdi-home',
-        'mdi-phone-forward',
-        'mdi-account',
-      ],
-    }),
+    toHome: function() {
+      this.$router.push("/");
+    }
   }
+};
 </script>

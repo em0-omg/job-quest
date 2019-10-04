@@ -4,13 +4,7 @@
       <h1>JobQuest</h1>
     </v-layout>
     <br />
-    <v-divider></v-divider>
-    <v-layout justify-space-around>
-      <p>{{ user.displayName }}</p>
-    </v-layout>
-    <v-layout justify-space-around>
-      <p>{{ user.email }}</p>
-    </v-layout>
+    <!-- <v-divider></v-divider> -->
     <v-layout justify-space-around>
       <Timeline />
     </v-layout>
