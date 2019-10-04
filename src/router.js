@@ -2,8 +2,8 @@ import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Profile from "@/components/Profile";
-import Signup from "@/components/Signup";
-import Signin from "@/components/Signin";
+import Signup from "@/components/Auth/Signup";
+import Signin from "@/components/Auth/Signin";
 import firebase from "firebase";
 
 Vue.use(Router);

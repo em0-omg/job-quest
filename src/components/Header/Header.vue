@@ -28,8 +28,8 @@
 
 <script>
 import firebase from "firebase";
-import Store from "./../store";
-import postDialog from "./postDialog";
+import Store from "./../../store";
+import postDialog from "../Post/postDialog";
 
 export default {
   name: "Header",

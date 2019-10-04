@@ -17,7 +17,7 @@
 
 <script>
 import Firebase from "./../firebase";
-import Timeline from "./Timeline";
+import Timeline from "./Timeline/Timeline";
 
 export default {
   name: "Home",

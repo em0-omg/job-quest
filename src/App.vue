@@ -1,9 +1,9 @@
 <template>
   <v-app>
     <v-content>
-      <Header/>
-      <router-view/>
-      <Footer/>
+      <Header />
+      <router-view />
+      <Footer />
     </v-content>
   </v-app>
 </template>
@@ -12,19 +12,18 @@
 //import HelloWorld from './components/HelloWorld';
 //import Nav from './components/Nav';
 //import Home from './components/Home';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     //HelloWorld,
     //Nav,
     //Home,
     Header,
-    Footer,
+    Footer
   },
-  data: () => ({
-  }),
+  data: () => ({})
 };
 </script>

@@ -104,8 +104,6 @@
 </template>
 
 <script>
-import postDetail from "./postDialog";
-
 export default {
   created: function() {},
   data: () => ({

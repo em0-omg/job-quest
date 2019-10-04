@@ -26,7 +26,7 @@
 </template>
 <script>
 import firebase from "firebase";
-import postDetailDialog from "./postDetailDialog";
+import postDetailDialog from "../Post/postDetailDialog";
 
 export default {
   name: "timeline",
