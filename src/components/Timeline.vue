@@ -10,7 +10,7 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-html="'<h2>'+item.title+'</h2>'"></v-list-item-title>
+            <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
           </v-list-item-content>
