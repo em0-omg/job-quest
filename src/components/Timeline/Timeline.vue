@@ -4,7 +4,7 @@
       <template v-for="(item, index) in allPosts">
         <v-divider :key="index"></v-divider>
 
-        <v-list-item :key="item.id" @click="tmp">
+        <v-list-item :key="item.id" @click="selectId(item.id)">
           <v-list-item-avatar>
             <v-img :src="item.image"></v-img>
           </v-list-item-avatar>
@@ -14,12 +14,12 @@
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
           </v-list-item-content>
+          <v-layout justify-center :key="item.id">
+            <v-btn icon>
+              <postDetailDialog :selectedId = selectedId></postDetailDialog>
+            </v-btn>
+          </v-layout>
         </v-list-item>
-        <v-layout justify-center :key="item.id">
-          <v-btn icon>
-            <postDetailDialog />
-          </v-btn>
-        </v-layout>
       </template>
     </v-list>
   </v-container>
@@ -42,7 +42,9 @@ export default {
       postSize: 0,
       showLimit: 1000,
 
-      allPosts: []
+      allPosts: [],
+
+      selectedId: '',
     };
   },
   created: function() {
@@ -62,7 +64,10 @@ export default {
       .onSnapshot(function(querySnapshot) {
         self.allPosts = [];
         querySnapshot.forEach(function(doc) {
-          self.allPosts.push(doc.data());
+          var docData = doc.data();
+          docData.id = doc.id;
+          //self.allPosts.push(doc.data());
+          self.allPosts.push(docData);
         });
       });
 
@@ -75,8 +80,8 @@ export default {
       });
   },
   methods: {
-    tmp: function() {
-      console.log("tmp");
+    selectId: function(id) {
+      this.selectedId = id;
     }
     /*
     infiniteHandler() {

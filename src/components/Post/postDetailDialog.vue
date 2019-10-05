@@ -29,13 +29,13 @@
             <div class="flex-grow-1"></div>
 
             <v-card-title class="white--text pl-12 pt-12">
-              <div class="display-1 pl-12 pt-12">Ali Conners</div>
+              <div class="display-1 pl-12 pt-12">{{ selectedId }}</div>
             </v-card-title>
           </v-row>
         </v-img>
 
         <v-list two-line>
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-phone</v-icon>
             </v-list-item-icon>
@@ -50,7 +50,7 @@
             </v-list-item-icon>
           </v-list-item>
 
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-action></v-list-item-action>
 
             <v-list-item-content>
@@ -65,7 +65,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-email</v-icon>
             </v-list-item-icon>
@@ -76,7 +76,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-action></v-list-item-action>
 
             <v-list-item-content>
@@ -87,7 +87,7 @@
 
           <v-divider inset></v-divider>
 
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-map-marker</v-icon>
             </v-list-item-icon>
@@ -109,6 +109,7 @@ export default {
   data: () => ({
     dialog: false
   }),
+  props: ['selectedId'],
   computed: {},
   methods: {}
 };
