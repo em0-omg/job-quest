@@ -1,8 +1,12 @@
 <template>
-  <v-bottom-navigation v-model="bottomNav" dark shift fixed>
+  <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed>
     <v-btn>
       <span>contact</span>
       <v-icon>mdi-phone-forward</v-icon>
+    </v-btn>
+    <v-btn @click="toFavorite()">
+      <span>favorite</span>
+      <v-icon>mdi-heart</v-icon>
     </v-btn>
 
     <v-btn @click="toHome()">
@@ -10,20 +14,36 @@
       <v-icon>mdi-home</v-icon>
     </v-btn>
 
+    <v-btn @click="toMyPost()">
+      <span>my post</span>
+      <v-icon>mdi-account-clock</v-icon>
+    </v-btn>
+
     <v-btn @click="toProfile()">
-      <span>profile</span>
-      <v-icon>mdi-account</v-icon>
+      <span>setting</span>
+      <v-icon>mdi-settings</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>
 <script>
+import store from "./../../store";
 export default {
+  created: function () {
+    var self = this;
+    self.bottomNav = 2;
+  },
   data() {
     return {
-      bottomNav: 3
+      bottomNav: 2
     };
   },
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+    userStatus() {
+      return this.$store.getters.isSignedIn;
+    },
     color() {
       switch (this.bottomNav) {
         case 0:
@@ -42,8 +62,17 @@ export default {
       this.$router.push("/profile");
     },
     toHome: function() {
+      store.commit('nowTimelineChanged', 'home');
       this.$router.push("/");
-    }
+    },
+    toMyPost: function () {
+      store.commit('nowTimelineChanged', 'mypost');
+      this.$router.push("/");
+    },
+    toFavorite: function () {
+      store.commit('nowTimelineChanged', 'favorite');
+      this.$router.push("/");
+    },
   }
 };
 </script>

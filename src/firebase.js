@@ -40,6 +40,7 @@ export default {
             user = user ? user : {};
             store.commit('onAuthStateChanged', user);
             store.commit('onUserStatusChanged', user.uid ? true : false);
+            store.commit('nowTimelineChanged', 'home');
         });
     }
 };

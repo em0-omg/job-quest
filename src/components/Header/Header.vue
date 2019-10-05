@@ -8,9 +8,6 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
 
       <v-btn icon>
         <postDialog />
