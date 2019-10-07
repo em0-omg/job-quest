@@ -25,30 +25,9 @@
 
             <v-card-actions>
               <v-layout justify-center>
-                <v-btn class="ma-2">
-                  編集
-                  <v-icon dark right>mdi-settings-outline</v-icon>
-                </v-btn>
+                <profileDialog />
               </v-layout>
             </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container class="pa-2" fluid>
-      <v-row>
-        <v-col>
-          <v-card color="#952175" dark>
-            <v-card-text class="white--text">
-              <div class="headline mb-2">項目2</div>Listen to your favorite artists and albums whenever and wherever, online and offline.
-            </v-card-text>
-
-            <v-layout justify-center>
-              <v-btn class="ma-2">
-                編集
-                <v-icon dark right>mdi-settings-outline</v-icon>
-              </v-btn>
-            </v-layout>
           </v-card>
         </v-col>
       </v-row>
@@ -56,7 +35,12 @@
   </v-card>
 </template>
 <script>
+import profileDialog from "./Profile/profileDialog";
+
 export default {
+  components: {
+    profileDialog
+  },
   data: () => ({
     items: [
       {

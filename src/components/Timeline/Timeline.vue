@@ -16,7 +16,13 @@
           </v-list-item-content>
           <v-layout justify-center :key="item.id">
             <v-btn icon>
-              <postDetailDialog :selectedId="selectedId"></postDetailDialog>
+              <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp;
+              &nbsp;
+              &nbsp;
+              <v-btn icon @click="favorite(item.id)">
+                <v-icon v-if="!isFav">mdi-heart-multiple-outline</v-icon>
+                <v-icon v-else>mdi-heart-multiple</v-icon>
+              </v-btn>
             </v-btn>
           </v-layout>
         </v-list-item>
@@ -45,7 +51,9 @@ export default {
       allPosts: [],
       showPosts: [],
 
-      selectedId: ""
+      selectedId: "",
+
+      isFav: false
     };
   },
   created: function() {
@@ -92,6 +100,10 @@ export default {
       });
   },
   methods: {
+    favorite: function(id) {
+      alert(id);
+      this.isFav = !this.isFav;
+    },
     selectId: function(id) {
       this.selectedId = id;
     },
