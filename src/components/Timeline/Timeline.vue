@@ -13,15 +13,20 @@
             <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.id"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="user.email"></v-list-item-subtitle>
           </v-list-item-content>
           <v-layout justify-center :key="item.id">
             <v-btn icon>
               <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp;
               &nbsp;
               &nbsp;
-              <v-btn icon @click="favorite(item.id)">
-                <v-icon v-if="!isFav">mdi-heart-multiple-outline</v-icon>
-                <v-icon v-else>mdi-heart-multiple</v-icon>
+              <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
+                <v-icon>mdi-heart-multiple-outline</v-icon>
+              </v-btn>
+              <v-btn icon v-else @click="unfavorite(item.id)">
+                <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>
             </v-btn>
           </v-layout>
@@ -100,9 +105,45 @@ export default {
       });
   },
   methods: {
+    isFavorite: function(fromList) {
+      if (fromList.indexOf(this.user.email) >= 0) return true;
+      else return false;
+    },
     favorite: function(id) {
-      alert(id);
-      this.isFav = !this.isFav;
+      var favRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(id);
+      return favRef
+        .update({
+          favoriteFrom: ["tmp", this.user.email]
+        })
+        .then(function() {
+          console.log("fav!");
+        })
+        .catch(function(error) {
+          console.log("fav faliled...");
+        });
+    },
+    unfavorite: function(id) {
+      var favRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(id);
+      return favRef
+        .update({
+          favoriteFrom: ["tmp"]
+        })
+        .then(function() {
+          console.log("fav!");
+        })
+        .catch(function(error) {
+          console.log("fav faliled...");
+        });
     },
     selectId: function(id) {
       this.selectedId = id;
