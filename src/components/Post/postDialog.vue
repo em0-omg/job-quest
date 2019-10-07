@@ -94,7 +94,8 @@ export default {
         owner: this.user.email,
         // TODO 空白考慮
         tags: this.tags.split(","),
-        title: this.title
+        title: this.title,
+        favoriteFrom: ["tmp"]
       };
       var newPostRef = this.db
         .collection("users")

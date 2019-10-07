@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in allPosts">
+      <template v-for="(item, index) in showPosts">
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id" @click="selectId(item.id)">
@@ -16,7 +16,7 @@
           </v-list-item-content>
           <v-layout justify-center :key="item.id">
             <v-btn icon>
-              <postDetailDialog :selectedId = selectedId></postDetailDialog>
+              <postDetailDialog :selectedId="selectedId"></postDetailDialog>
             </v-btn>
           </v-layout>
         </v-list-item>
@@ -43,8 +43,9 @@ export default {
       showLimit: 1000,
 
       allPosts: [],
+      showPosts: [],
 
-      selectedId: '',
+      selectedId: ""
     };
   },
   created: function() {
@@ -52,7 +53,17 @@ export default {
     var _this = this;
     _this.db = db;
   },
-  computed: {},
+  computed: {
+    nowTimeline: function() {
+      return this.$store.getters.nowTimeline;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    userStatus() {
+      return this.$store.getters.isSignedIn;
+    }
+  },
   mounted: function() {
     var self = this;
     self.db
@@ -68,6 +79,7 @@ export default {
           docData.id = doc.id;
           //self.allPosts.push(doc.data());
           self.allPosts.push(docData);
+          self.showPosts.push(docData);
         });
       });
 
@@ -82,27 +94,36 @@ export default {
   methods: {
     selectId: function(id) {
       this.selectedId = id;
-    }
-    /*
-    infiniteHandler() {
-      var self = this;
-      setTimeout(() => {
-        if (this.count < this.postSize) {
-          var counter = 0;
-          this.allPosts.forEach(function(item) {
-            if (counter >= self.count && counter < self.count + 5) {
-              self.showPosts.push(item);
-            }
-            counter++;
-          });
-          this.count += 5;
-          this.$refs.infiniteLoading.stateChanger.loaded();
-        } else {
-          this.$refs.infiniteLoading.stateChanger.complete();
+    },
+    swichTimeline: function(now) {
+      var showPosts = [];
+      var post = {};
+      var key = "";
+      if (now === "favorite") {
+        console.log("switch fav");
+        // TODO userのfavoriteリスト.indexOf('post.owner')で絞り込む
+        this.showPosts = showPosts;
+      } else if (now === "mypost") {
+        console.log("switch my");
+        for (key in this.allPosts) {
+          post = this.allPosts[key];
+          if (post.owner === this.user.email) {
+            showPosts[key] = post;
+          }
         }
-      }, 1000);
+        this.showPosts = showPosts;
+      } else {
+        console.log("switch else");
+        this.showPosts = this.allPosts;
+      }
     }
-    */
+  },
+  watch: {
+    nowTimeline() {
+      this.$nextTick(() => {
+        this.swichTimeline(this.nowTimeline);
+      });
+    }
   }
 };
 </script>
