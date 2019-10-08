@@ -13,21 +13,23 @@
             <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.owner"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
+            <v-layout justify-center :key="item.id">
+              <v-btn icon>
+                <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp;
+                &nbsp;
+                &nbsp;
+                <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
+                  <v-icon>mdi-heart-multiple-outline</v-icon>
+                </v-btn>
+                <v-btn icon v-else @click="unfavorite(item.id)">
+                  <v-icon>mdi-heart-multiple</v-icon>
+                </v-btn>
+              </v-btn>
+            </v-layout>
           </v-list-item-content>
-          <v-layout justify-center :key="item.id">
-            <v-btn icon>
-              <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp;
-              &nbsp;
-              &nbsp;
-              <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
-                <v-icon>mdi-heart-multiple-outline</v-icon>
-              </v-btn>
-              <v-btn icon v-else @click="unfavorite(item.id)">
-                <v-icon>mdi-heart-multiple</v-icon>
-              </v-btn>
-            </v-btn>
-          </v-layout>
         </v-list-item>
       </template>
     </v-list>
@@ -150,22 +152,18 @@ export default {
       this.selectedId = id;
     },
     swichTimeline: function(now) {
-      var showPosts = [];
       var post = {};
       var key = "";
       if (now === "favorite") {
-        console.log("switch fav");
-        // TODO userのfavoriteリスト.indexOf('post.owner')で絞り込む
-        this.showPosts = showPosts;
+        console.log("switch fav " + this.user.email);
+        var newFavArray = this.allPosts.filter(p =>
+          p.favoriteFrom.includes(this.user.email)
+        );
+        this.showPosts = newFavArray;
       } else if (now === "mypost") {
-        console.log("switch my");
-        for (key in this.allPosts) {
-          post = this.allPosts[key];
-          if (post.owner === this.user.email) {
-            showPosts[key] = post;
-          }
-        }
-        this.showPosts = showPosts;
+        console.log("switch my " + this.user.email);
+        var newMyArray = this.allPosts.filter(p => p.owner === this.user.email);
+        this.showPosts = newMyArray;
       } else {
         console.log("switch else");
         this.showPosts = this.allPosts;
