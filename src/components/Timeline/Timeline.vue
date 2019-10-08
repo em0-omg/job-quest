@@ -13,9 +13,7 @@
             <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.id"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="user.email"></v-list-item-subtitle>
+            <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
           </v-list-item-content>
           <v-layout justify-center :key="item.id">
             <v-btn icon>
@@ -87,10 +85,10 @@ export default {
       .limit(this.showLimit)
       .onSnapshot(function(querySnapshot) {
         self.allPosts = [];
+        self.showPosts = [];
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
-          //self.allPosts.push(doc.data());
           self.allPosts.push(docData);
           self.showPosts.push(docData);
         });
@@ -116,6 +114,9 @@ export default {
         .doc("company")
         .collection("posts")
         .doc(id);
+      // showPosts再生成 結局いらなかったけどやり方はメモ
+      // var newArray = this.showPosts.filter(p => p.id !== id);
+      // this.showPosts = newArray;
       return favRef
         .update({
           favoriteFrom: ["tmp", this.user.email]
