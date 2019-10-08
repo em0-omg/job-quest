@@ -14,6 +14,11 @@
         <v-card-text>
           <v-container>
             <v-row>
+              <v-col cols="12">
+                <imageUpload />
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="ユーザ名" v-model="updateUser.displayName"></v-text-field>
               </v-col>
@@ -31,7 +36,11 @@
   </v-row>
 </template>
 <script>
+import imageUpload from "./imageUpload";
 export default {
+  components: {
+    imageUpload
+  },
   data: () => ({
     dialog: false,
 
