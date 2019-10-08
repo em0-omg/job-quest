@@ -13,11 +13,13 @@
           <v-card color="#385f73" dark>
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
-              <div v-if="user.photoUrl">
-                <img :src="user.photoUrl" />>
+              <div v-if="user.photoURL">
+                URL:{{ user.photoURL }}
+                <img :src="user.photoURL" />>
               </div>
               <div v-else>
                 <p>プロフィール画像：未設定</p>
+                URL:{{ user.photoURL }}
               </div>
               <p>ユーザ名：{{ user.displayName }}</p>
               <p>メールアドレス：{{ user.email }}</p>
