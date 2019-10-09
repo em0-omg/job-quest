@@ -14,12 +14,10 @@
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
               <div v-if="user.photoURL">
-                URL:{{ user.photoURL }}
-                <img :src="user.photoURL" />>
+                <img :src="user.photoURL" width="80%" />>
               </div>
               <div v-else>
                 <p>プロフィール画像：未設定</p>
-                URL:{{ user.photoURL }}
               </div>
               <p>ユーザ名：{{ user.displayName }}</p>
               <p>メールアドレス：{{ user.email }}</p>
@@ -38,10 +36,14 @@
 </template>
 <script>
 import profileDialog from "./Profile/profileDialog";
+import Firebase from "./../firebase";
 
 export default {
   components: {
     profileDialog
+  },
+  created: function() {
+    Firebase.onAuth();
   },
   data: () => ({
     items: [
