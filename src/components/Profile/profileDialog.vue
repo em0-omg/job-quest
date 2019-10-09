@@ -19,17 +19,17 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
+              <v-col cols="6" sm="6" md="4">
                 <v-text-field label="ユーザ名" v-model="updateUser.displayName"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-textarea label="プロフィール*" required v-model="updateUser.profile"></v-textarea>
+                <v-textarea label="プロフィール" required v-model="updateUser.profile"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
+          <!-- <small>*indicates required field</small> -->
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>

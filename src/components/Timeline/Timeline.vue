@@ -5,8 +5,11 @@
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id" @click="selectId(item.id)">
-          <v-list-item-avatar>
+          <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-avatar v-else>
+            <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -16,7 +19,8 @@
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
-                <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp;
+                <!-- <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp; -->
+                <postDetailDialog :selectedPost="item"></postDetailDialog>&nbsp;
                 &nbsp;
                 &nbsp;
                 <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">

@@ -85,14 +85,18 @@ export default {
     post: function() {
       var nowDate = Date.now();
       var newPost = {
+        dateLimit: this.dateLimit,
+        howMany: this.howMany,
         content: this.content,
         createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-        image: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        owner: this.user.email,
+        // image: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+        image: this.user.photoURL,
+        ownerName: this.user.displayName,
+        ownerEmail: this.user.email,
         // TODO 空白考慮
         tags: this.tags.split(","),
         title: this.title,
-        favoriteFrom: ["tmp"]
+        favoriteFrom: []
       };
       var newPostRef = this.db
         .collection("users")
