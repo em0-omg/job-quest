@@ -86,6 +86,7 @@ export default {
       .orderBy("createdAt", "desc")
       .limit(this.showLimit)
       .onSnapshot(function(querySnapshot) {
+        console.log("onSnap");
         self.allPosts = [];
         self.showPosts = [];
         querySnapshot.forEach(function(doc) {
@@ -151,9 +152,7 @@ export default {
     selectId: function(id) {
       this.selectedId = id;
     },
-    swichTimeline: function(now) {
-      var post = {};
-      var key = "";
+    switchTimeline: function(now) {
       if (now === "favorite") {
         console.log("switch fav " + this.user.email);
         var newFavArray = this.allPosts.filter(p =>
@@ -173,7 +172,12 @@ export default {
   watch: {
     nowTimeline() {
       this.$nextTick(() => {
-        this.swichTimeline(this.nowTimeline);
+        this.switchTimeline(this.nowTimeline);
+      });
+    },
+    allPosts() {
+      this.$nextTick(() => {
+        this.switchTimeline(this.nowTimeline);
       });
     }
   }
