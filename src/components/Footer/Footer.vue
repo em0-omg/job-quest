@@ -64,7 +64,7 @@ export default {
     },
     toSetting: function() {
       store.commit("nowTimelineChanged", "setting");
-      this.$router.push("/");
+      this.$router.push("/profile");
     },
     toMyPost: function() {
       store.commit("nowTimelineChanged", "mypost");
