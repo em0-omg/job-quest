@@ -13,8 +13,6 @@
             <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.owner"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -128,7 +126,7 @@ export default {
           console.log("fav!");
         })
         .catch(function(error) {
-          console.log("fav faliled...");
+          console.log(error);
         });
     },
     unfavorite: function(id) {
@@ -146,7 +144,7 @@ export default {
           console.log("fav!");
         })
         .catch(function(error) {
-          console.log("fav faliled...");
+          console.log(error);
         });
     },
     selectId: function(id) {

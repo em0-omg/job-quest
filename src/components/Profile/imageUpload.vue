@@ -46,7 +46,7 @@ export default {
       );
       photoImageRef
         .put(this.innerImage)
-        .then(function(snapshot) {
+        .then(function() {
           photoImageRef.getDownloadURL().then(url => {
             var photoURL = url;
             if (user) {

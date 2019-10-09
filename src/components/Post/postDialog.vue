@@ -26,9 +26,6 @@
               <v-col cols="12">
                 <v-textarea label="内容*" required v-model="content"></v-textarea>
               </v-col>
-              <v-col cols="12">
-                <v-text-field label="タグ" hint="「,」区切りで入力してください" v-model="tags"></v-text-field>
-              </v-col>
               <!--
                 <v-col cols="12" sm="6">
                     <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>

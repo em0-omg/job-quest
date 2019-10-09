@@ -23,6 +23,11 @@
                 <v-text-field label="ユーザ名" v-model="updateUser.displayName"></v-text-field>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="12">
+                <v-textarea label="プロフィール*" required v-model="updateUser.profile"></v-textarea>
+              </v-col>
+            </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -37,6 +42,8 @@
 </template>
 <script>
 import imageUpload from "./imageUpload";
+import firebase from "firebase";
+
 export default {
   components: {
     imageUpload
@@ -45,7 +52,13 @@ export default {
     dialog: false,
 
     updateUser: {
-      displayName: ""
+      name: "",
+      email: "",
+      photoURL: "",
+      // advanced
+      displayName: "",
+      profile: "",
+      Rank: 1
     }
   }),
   computed: {
@@ -58,6 +71,7 @@ export default {
   },
   methods: {
     saveUserProfile: function() {
+      //firebase上の
       this.user
         .updateProfile({
           displayName: this.updateUser.displayName
@@ -68,7 +82,21 @@ export default {
         .catch(function(error) {
           alert(error);
         });
+      this.saveToFirestore();
       this.dialog = false;
+    },
+    saveToFirestore: function() {
+      var newUser = this.updateUser;
+      newUser.name = this.user.displayName;
+      newUser.email = this.user.email;
+      newUser.photoURL = this.user.photoURL;
+      var newUserRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc();
+      newUserRef.set(newUser);
     }
   }
 };

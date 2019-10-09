@@ -27,10 +27,20 @@
 </template>
 <script>
 import store from "./../../store";
+
 export default {
   created: function() {
     var self = this;
-    self.bottomNav = 2;
+    var timelineList = {
+      phone: 0,
+      favorite: 1,
+      home: 2,
+      mypost: 3,
+      setting: 4
+    };
+    //TODO なぜか反応しない
+    var selectedFooter = timelineList[self.nowTimeline];
+    self.bottomNav = selectedFooter;
   },
   data() {
     return {
@@ -43,6 +53,9 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    nowTimeline: function() {
+      return this.$store.getters.nowTimeline;
     },
     color() {
       switch (this.bottomNav) {

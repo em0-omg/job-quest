@@ -15,16 +15,30 @@
               <div class="headline mb-2">プロフィール</div>
               <div v-if="user.photoURL">
                 <v-layout justify-center>
-                  <img :src="user.photoURL" width="50%" />
+                  <img :src="user.photoURL" width="30%" height="30%" />
                 </v-layout>
               </div>
               <div v-else>
                 <p>プロフィール画像：未設定</p>
               </div>
+              <br />
               <p>ユーザ名：{{ user.displayName }}</p>
               <p>メールアドレス：{{ user.email }}</p>
+              <br />
+              <hr />
+              <br />
+              <div v-if="showUserProfile">
+                <p>
+                  プロフィール文:
+                  <br />
+                  {{ showUserProfile.profile }}
+                </p>
+                <p>ランク: {{ showUserProfile.Rank }}</p>
+              </div>
+              <div v-else>
+                <p>追加情報を設定しましょう！</p>
+              </div>
             </v-card-text>
-
             <v-card-actions>
               <v-layout justify-center>
                 <profileDialog />
@@ -33,11 +47,15 @@
           </v-card>
         </v-col>
       </v-row>
+      <br />
+      <br />
+      <br />
     </v-container>
   </v-card>
 </template>
 <script>
 import profileDialog from "./Profile/profileDialog";
+import firebase from "firebase";
 import Firebase from "./../firebase";
 
 export default {
@@ -46,6 +64,25 @@ export default {
   },
   created: function() {
     Firebase.onAuth();
+  },
+  mounted: function() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          var docData = doc.data();
+          docData.id = doc.id;
+          if (docData.email === loginUser.email) {
+            console.log("find user " + docData.id);
+            self.showUserProfile = docData;
+          }
+        });
+      });
   },
   data: () => ({
     items: [
@@ -61,7 +98,8 @@ export default {
         title: "Halcyon Days",
         artist: "Ellie Goulding"
       }
-    ]
+    ],
+    showUserProfile: {}
   }),
   computed: {
     user() {
