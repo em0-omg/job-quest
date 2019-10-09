@@ -19,7 +19,7 @@
       <v-icon>mdi-account-clock</v-icon>
     </v-btn>
 
-    <v-btn @click="toProfile()">
+    <v-btn @click="toSetting()">
       <span>setting</span>
       <v-icon>mdi-settings</v-icon>
     </v-btn>
@@ -28,7 +28,7 @@
 <script>
 import store from "./../../store";
 export default {
-  created: function () {
+  created: function() {
     var self = this;
     self.bottomNav = 2;
   },
@@ -58,21 +58,22 @@ export default {
     }
   },
   methods: {
-    toProfile: function() {
-      this.$router.push("/profile");
-    },
     toHome: function() {
-      store.commit('nowTimelineChanged', 'home');
+      store.commit("nowTimelineChanged", "home");
       this.$router.push("/");
     },
-    toMyPost: function () {
-      store.commit('nowTimelineChanged', 'mypost');
+    toSetting: function() {
+      store.commit("nowTimelineChanged", "setting");
       this.$router.push("/");
     },
-    toFavorite: function () {
-      store.commit('nowTimelineChanged', 'favorite');
+    toMyPost: function() {
+      store.commit("nowTimelineChanged", "mypost");
       this.$router.push("/");
     },
+    toFavorite: function() {
+      store.commit("nowTimelineChanged", "favorite");
+      this.$router.push("/");
+    }
   }
 };
 </script>

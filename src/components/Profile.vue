@@ -14,7 +14,9 @@
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
               <div v-if="user.photoURL">
-                <img :src="user.photoURL" width="80%" />>
+                <v-layout justify-center>
+                  <img :src="user.photoURL" width="80%" />
+                </v-layout>
               </div>
               <div v-else>
                 <p>プロフィール画像：未設定</p>

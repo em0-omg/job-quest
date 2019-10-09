@@ -153,6 +153,7 @@ export default {
       this.selectedId = id;
     },
     switchTimeline: function(now) {
+      console.log("nowtimeline:" + now + "=>");
       if (now === "favorite") {
         console.log("switch fav " + this.user.email);
         var newFavArray = this.allPosts.filter(p =>
