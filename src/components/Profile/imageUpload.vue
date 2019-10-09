@@ -47,20 +47,22 @@ export default {
       photoImageRef
         .put(this.innerImage)
         .then(function(snapshot) {
-          var photoURL = snapshot.downloadURL;
-          if (user) {
-            user
-              .updateProfile({
-                photoURL: photoURL
-              })
-              .then(function() {
-                console.log("photo toroku");
-              })
-              .catch(function(err) {
-                console.log(err);
-              });
-          }
-          console.log("uploaded a file");
+          photoImageRef.getDownloadURL().then(url => {
+            var photoURL = url;
+            if (user) {
+              user
+                .updateProfile({
+                  photoURL: photoURL
+                })
+                .then(function() {
+                  console.log("update:" + photoURL);
+                })
+                .catch(function(err) {
+                  console.log(err);
+                });
+            }
+            console.log("uploaded a file");
+          });
         })
         .catch(function(error) {
           console.log(error);

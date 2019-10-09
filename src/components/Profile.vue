@@ -15,7 +15,7 @@
               <div class="headline mb-2">プロフィール</div>
               <div v-if="user.photoURL">
                 <v-layout justify-center>
-                  <img :src="user.photoURL" width="80%" />
+                  <img :src="user.photoURL" width="50%" />
                 </v-layout>
               </div>
               <div v-else>
