@@ -48,6 +48,7 @@
               <br />
               <v-list-item-subtitle>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
+                <p>現在の参加者：</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
             </v-list-item-content>

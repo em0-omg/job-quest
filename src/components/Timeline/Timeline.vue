@@ -22,16 +22,16 @@
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
-                <!-- <postDetailDialog :selectedId="selectedId"></postDetailDialog>&nbsp; -->
                 <postDetailDialog :selectedPost="item"></postDetailDialog>&nbsp;
-                &nbsp;
-                &nbsp;
-                <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
-                  <v-icon>mdi-heart-multiple-outline</v-icon>
-                </v-btn>
-                <v-btn icon v-else @click="unfavorite(item.id)">
-                  <v-icon>mdi-heart-multiple</v-icon>
-                </v-btn>
+              </v-btn>
+              <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
+                <v-icon>mdi-heart-multiple-outline</v-icon>
+              </v-btn>
+              <v-btn icon v-else @click="unfavorite(item.id)">
+                <v-icon>mdi-heart-multiple</v-icon>
+              </v-btn>&nbsp;
+              <v-btn icon v-if="nowTimeline==='mypost'">
+                <EditPost :selectedPost="item" />
               </v-btn>
             </v-layout>
           </v-list-item-content>
@@ -43,11 +43,13 @@
 <script>
 import firebase from "firebase";
 import postDetailDialog from "../Post/postDetailDialog";
+import EditPost from "./EditPost";
 
 export default {
   name: "timeline",
   components: {
-    postDetailDialog
+    postDetailDialog,
+    EditPost
   },
   data() {
     return {
