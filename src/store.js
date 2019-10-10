@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     user: {},
     status: false,
-    timeline: ''
+    timeline: ""
   },
   mutations: {
     onAuthStateChanged(state, user) {
@@ -29,6 +29,11 @@ export default new Vuex.Store({
     },
     nowTimeline(state) {
       return state.timeline;
+    }
+  },
+  actions: {
+    nowTimelineChanged(context) {
+      context.commit("nowTimelineChanged");
     }
   }
 });

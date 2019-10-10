@@ -16,6 +16,7 @@
             <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -88,7 +89,6 @@ export default {
       .orderBy("createdAt", "desc")
       .limit(this.showLimit)
       .onSnapshot(function(querySnapshot) {
-        console.log("onSnap");
         self.allPosts = [];
         self.showPosts = [];
         querySnapshot.forEach(function(doc) {
@@ -127,7 +127,7 @@ export default {
           favoriteFrom: ["tmp", this.user.email]
         })
         .then(function() {
-          console.log("fav!");
+          console.log("favorite add!");
         })
         .catch(function(error) {
           console.log(error);
@@ -145,7 +145,7 @@ export default {
           favoriteFrom: ["tmp"]
         })
         .then(function() {
-          console.log("fav!");
+          console.log("favorite remove");
         })
         .catch(function(error) {
           console.log(error);
@@ -155,19 +155,17 @@ export default {
       this.selectedId = id;
     },
     switchTimeline: function(now) {
-      console.log("nowtimeline:" + now + "=>");
       if (now === "favorite") {
-        console.log("switch fav " + this.user.email);
         var newFavArray = this.allPosts.filter(p =>
           p.favoriteFrom.includes(this.user.email)
         );
         this.showPosts = newFavArray;
       } else if (now === "mypost") {
-        console.log("switch my " + this.user.email);
-        var newMyArray = this.allPosts.filter(p => p.owner === this.user.email);
+        var newMyArray = this.allPosts.filter(
+          p => p.ownerEmail === this.user.email
+        );
         this.showPosts = newMyArray;
       } else {
-        console.log("switch else");
         this.showPosts = this.allPosts;
       }
     }

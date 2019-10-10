@@ -3,17 +3,18 @@
     <v-layout justify-center>
       <h1>JobQuest</h1>
     </v-layout>
-    <v-layout justify-center>
-      <p>{{ nowTimeline }}</p>
-    </v-layout>
     <br />
     <!-- <v-divider></v-divider> -->
-    <v-layout justify-space-around>
+    <v-layout justify-space-around v-show="!isTimeline()">
+      <Profile />
+    </v-layout>
+    <v-layout justify-space-around v-show="isTimeline()">
       <Timeline />
     </v-layout>
     <br />
     <v-layout justify-center>
-       {{ new Date().getFullYear() }} — <strong> Powered By JohnWORKS.</strong>
+      {{ new Date().getFullYear() }} —
+      <strong>Powered By JohnWORKS.</strong>
     </v-layout>
     <br />
     <br />
@@ -24,11 +25,13 @@
 <script>
 import Firebase from "./../firebase";
 import Timeline from "./Timeline/Timeline";
+import Profile from "./Profile";
 
 export default {
   name: "Home",
   components: {
-    Timeline
+    Timeline,
+    Profile
   },
   created: function() {
     Firebase.onAuth();
@@ -44,6 +47,11 @@ export default {
       return this.$store.getters.nowTimeline;
     }
   },
-  data: () => ({})
+  methods: {
+    isTimeline: function() {
+      if (this.nowTimeline === "setting") return false;
+      else return true;
+    }
+  }
 };
 </script>

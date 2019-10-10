@@ -24,6 +24,7 @@ let router = new Router({
         requiresAuth: true
       }
     },
+    /*
     {
       path: "/profile",
       name: "profile",
@@ -32,6 +33,7 @@ let router = new Router({
         requiresAuth: true
       }
     },
+    */
     {
       path: "/signup",
       name: "Signup",
