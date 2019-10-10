@@ -26,9 +26,6 @@
               <v-col cols="12">
                 <v-textarea label="内容*" required v-model="content"></v-textarea>
               </v-col>
-              <v-col cols="12">
-                <v-text-field label="タグ" hint="「,」区切りで入力してください" v-model="tags"></v-text-field>
-              </v-col>
               <!--
                 <v-col cols="12" sm="6">
                     <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
@@ -88,13 +85,18 @@ export default {
     post: function() {
       var nowDate = Date.now();
       var newPost = {
+        dateLimit: this.dateLimit,
+        howMany: this.howMany,
         content: this.content,
         createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-        image: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-        owner: this.user.email,
+        // image: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
+        image: this.user.photoURL,
+        ownerName: this.user.displayName,
+        ownerEmail: this.user.email,
         // TODO 空白考慮
         tags: this.tags.split(","),
-        title: this.title
+        title: this.title,
+        favoriteFrom: []
       };
       var newPostRef = this.db
         .collection("users")

@@ -8,86 +8,90 @@
         </v-btn>
       </template>
       <v-card max-width="100%" class="mx-auto">
-        <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="300px" dark>
+        <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="200px" dark>
           <v-row class="fill-height">
             <v-card-title>
               <v-btn dark icon>
-                <v-icon>mdi-chevron-left</v-icon>
-              </v-btn>
-
-              <div class="flex-grow-1"></div>
-
-              <v-btn dark icon class="mr-4">
-                <v-icon>mdi-pencil</v-icon>
-              </v-btn>
-
-              <v-btn dark icon>
-                <v-icon>mdi-dots-vertical</v-icon>
+                <v-icon>mdi-information-variant</v-icon>
               </v-btn>
             </v-card-title>
 
             <div class="flex-grow-1"></div>
 
             <v-card-title class="white--text pl-12 pt-12">
-              <div class="display-1 pl-12 pt-12">Ali Conners</div>
+              <div class="display-1 pl-12 pt-12 text-truncate">{{ selectedPost.ownerName }}&nbsp;</div>
             </v-card-title>
           </v-row>
         </v-img>
 
         <v-list two-line>
-          <v-list-item @click>
+          <v-list-item>
+            <v-list-item-icon>
+              <v-icon color="indigo">mdi-comment-question</v-icon>
+            </v-list-item-icon>
+
+            <v-list-item-content>
+              <h2>{{ selectedPost.title }}</h2>
+              <br />
+              <p>
+                <br />
+                <br />
+                {{ selectedPost.content }}
+              </p>
+              <br />
+              <v-layout justify-center>
+                <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
+                  <v-icon left>mdi-hand</v-icon>参加を希望する
+                </v-btn>
+              </v-layout>
+              <br />
+              <br />
+              <v-list-item-subtitle>
+                <p>募集人数：{{ selectedPost.howMany }}</p>
+                <p>現在の参加者：</p>
+                <p>募集期限：{{ selectedPost.dateLimit }}</p>
+              </v-list-item-subtitle>
+            </v-list-item-content>
+            <!--
+            <v-list-item-icon>
+              <v-icon>mdi-message-text</v-icon>
+            </v-list-item-icon>
+            -->
+          </v-list-item>
+
+          <v-divider inset></v-divider>
+
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-phone</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
               <v-list-item-title>(650) 555-1234</v-list-item-title>
-              <v-list-item-subtitle>Mobile</v-list-item-subtitle>
             </v-list-item-content>
-
+            <!--
             <v-list-item-icon>
               <v-icon>mdi-message-text</v-icon>
             </v-list-item-icon>
-          </v-list-item>
-
-          <v-list-item @click>
-            <v-list-item-action></v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>(323) 555-6789</v-list-item-title>
-              <v-list-item-subtitle>Work</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-icon>
-              <v-icon>mdi-message-text</v-icon>
-            </v-list-item-icon>
+            -->
           </v-list-item>
 
           <v-divider inset></v-divider>
 
-          <v-list-item @click>
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-email</v-icon>
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>aliconnors@example.com</v-list-item-title>
-              <v-list-item-subtitle>Personal</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item @click>
-            <v-list-item-action></v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title>ali_connors@example.com</v-list-item-title>
-              <v-list-item-subtitle>Work</v-list-item-subtitle>
+              <v-list-item-title>{{ selectedPost.ownerEmail }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 
           <v-divider inset></v-divider>
 
-          <v-list-item @click>
+          <!--
+          <v-list-item @click="tmp()">
             <v-list-item-icon>
               <v-icon color="indigo">mdi-map-marker</v-icon>
             </v-list-item-icon>
@@ -97,6 +101,7 @@
               <v-list-item-subtitle>Orlando, FL 79938</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+          -->
         </v-list>
       </v-card>
     </v-dialog>
@@ -104,12 +109,48 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import moment from "moment";
+
 export default {
   created: function() {},
   data: () => ({
     dialog: false
   }),
+  props: ["selectedPost"],
   computed: {},
-  methods: {}
+  methods: {
+    joinPost: function(postID) {
+      alert("join");
+      var nowDate = Date.now();
+      var loginUser = firebase.auth().currentUser;
+      var postRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(postID)
+        .collection("joinUsers")
+        .doc(loginUser.email);
+      return postRef
+        .set(
+          {
+            email: loginUser.email,
+            state: "undecided",
+            joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm")
+          },
+          { merge: true }
+        )
+        .then(function() {
+          console.log("join!");
+        })
+        .catch(function() {
+          console.log("join failed");
+        });
+    },
+    tmp: function() {
+      console.log("tmp methods");
+    }
+  }
 };
 </script>

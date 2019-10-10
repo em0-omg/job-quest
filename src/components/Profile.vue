@@ -1,62 +1,97 @@
 <template>
-  <v-card max-width="80%" class="mx-auto">
-    <br />
-    <v-layout justify-center v-if="user.displayName">
-      <h2>ようこそ {{ user.displayName }} さん</h2>
-    </v-layout>
-    <v-layout justify-center v-else>
-      <h2>ようこそ -------- さん</h2>
-    </v-layout>
-    <v-container class="pa-2" fluid>
+  <v-container>
+    <v-card class="mx-auto" max-width="434" tile>
+      <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
+        <!-- sample src="" -->
+        <v-row align="end" class="fill-height">
+          <v-col align-self="start" class="pa-0" cols="12">
+            <v-avatar class="profile" color="grey" size="164" tile>
+              <v-img v-if="showUserProfile.photoURL" :src="showUserProfile.photoURL"></v-img>
+              <v-img v-else src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col class="py-0">
+            <v-list-item color="rgba(0, 0, 0, .4)" dark>
+              <v-list-item-content>
+                <v-list-item-title class="title">{{ user.displayName }}</v-list-item-title>
+                <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-col>
+        </v-row>
+      </v-img>
       <v-row>
         <v-col>
           <v-card color="#385f73" dark>
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
-              <div v-if="user.photoUrl">
-                <img :src="user.photoUrl" />>
+              <p v-if="showUserProfile.photoURL">プロフィール画像を変更する</p>
+              <p v-else>プロフィール画像を設定してください</p>
+              <v-layout justify-center>
+                <imageUploadDialog :uid="showUserProfile.id" />
+              </v-layout>
+              <br />
+              <p>ユーザ名：{{ showUserProfile.displayName }}</p>
+              <p>メールアドレス：{{ showUserProfile.email }}</p>
+              <br />
+              <hr />
+              <br />
+              <div v-if="showUserProfile">
+                <p>
+                  プロフィール文:
+                  <br />
+                  {{ showUserProfile.profile }}
+                </p>
+                <p>ランク: {{ showUserProfile.Rank }}</p>
               </div>
               <div v-else>
-                <p>プロフィール画像：未設定</p>
+                <p>追加情報を設定しましょう！</p>
               </div>
-              <p>ユーザ名：{{ user.displayName }}</p>
-              <p>メールアドレス：{{ user.email }}</p>
             </v-card-text>
-
             <v-card-actions>
               <v-layout justify-center>
-                <v-btn class="ma-2">
-                  編集
-                  <v-icon dark right>mdi-settings-outline</v-icon>
-                </v-btn>
+                <profileDialog :userProfile="showUserProfile"/>
               </v-layout>
             </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
-    <v-container class="pa-2" fluid>
-      <v-row>
-        <v-col>
-          <v-card color="#952175" dark>
-            <v-card-text class="white--text">
-              <div class="headline mb-2">項目2</div>Listen to your favorite artists and albums whenever and wherever, online and offline.
-            </v-card-text>
-
-            <v-layout justify-center>
-              <v-btn class="ma-2">
-                編集
-                <v-icon dark right>mdi-settings-outline</v-icon>
-              </v-btn>
-            </v-layout>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-card>
+    </v-card>
+  </v-container>
 </template>
 <script>
+import profileDialog from "./Profile/profileDialog";
+import imageUploadDialog from "./Profile/imageUploadDialog";
+import firebase from "firebase";
+import Firebase from "./../firebase";
+
 export default {
+  components: {
+    profileDialog,
+    imageUploadDialog
+  },
+  created: function() {
+    Firebase.onAuth();
+  },
+  mounted: function() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          var docData = doc.data();
+          docData.id = doc.id;
+          if (docData.email === loginUser.email) {
+            console.log("find user " + docData.id);
+            self.showUserProfile = docData;
+          }
+        });
+      });
+  },
   data: () => ({
     items: [
       {
@@ -71,7 +106,8 @@ export default {
         title: "Halcyon Days",
         artist: "Ellie Goulding"
       }
-    ]
+    ],
+    showUserProfile: {}
   }),
   computed: {
     user() {

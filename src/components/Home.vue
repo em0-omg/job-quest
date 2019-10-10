@@ -5,10 +5,17 @@
     </v-layout>
     <br />
     <!-- <v-divider></v-divider> -->
-    <v-layout justify-space-around>
+    <v-layout justify-center v-show="!isTimeline()">
+      <Profile />
+    </v-layout>
+    <v-layout justify-center v-show="isTimeline()">
       <Timeline />
     </v-layout>
     <br />
+    <v-layout justify-center>
+      {{ new Date().getFullYear() }} —
+      <strong>Powered By JohnWORKS.</strong>
+    </v-layout>
     <br />
     <br />
     <br />
@@ -18,11 +25,13 @@
 <script>
 import Firebase from "./../firebase";
 import Timeline from "./Timeline/Timeline";
+import Profile from "./Profile";
 
 export default {
   name: "Home",
   components: {
-    Timeline
+    Timeline,
+    Profile
   },
   created: function() {
     Firebase.onAuth();
@@ -33,8 +42,16 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    nowTimeline() {
+      return this.$store.getters.nowTimeline;
     }
   },
-  data: () => ({})
+  methods: {
+    isTimeline: function() {
+      if (this.nowTimeline === "setting") return false;
+      else return true;
+    }
+  }
 };
 </script>

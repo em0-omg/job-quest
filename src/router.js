@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Profile from "@/components/Profile";
 import Signup from "@/components/Auth/Signup";
 import Signin from "@/components/Auth/Signin";
 import firebase from "firebase";
@@ -24,6 +23,7 @@ let router = new Router({
         requiresAuth: true
       }
     },
+    /*
     {
       path: "/profile",
       name: "profile",
@@ -32,6 +32,7 @@ let router = new Router({
         requiresAuth: true
       }
     },
+    */
     {
       path: "/signup",
       name: "Signup",
