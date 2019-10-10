@@ -50,7 +50,7 @@
             </v-card-text>
             <v-card-actions>
               <v-layout justify-center>
-                <profileDialog />
+                <profileDialog :userProfile="showUserProfile"/>
               </v-layout>
             </v-card-actions>
           </v-card>

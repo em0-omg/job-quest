@@ -40,6 +40,7 @@ import firebase from "firebase";
 
 export default {
   components: {},
+  props: ["userProfile"],
   data: () => ({
     dialog: false,
 
