@@ -1,25 +1,36 @@
 <template>
-  <v-card max-width="80%" class="mx-auto">
-    <br />
-    <v-layout justify-center v-if="user.displayName">
-      <h2>ようこそ {{ user.displayName }} さん</h2>
-    </v-layout>
-    <v-layout justify-center v-else>
-      <h2>ようこそ -------- さん</h2>
-    </v-layout>
-    <v-container class="pa-2" fluid>
+  <v-container>
+    <v-card class="mx-auto" max-width="434" tile>
+      <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
+        <!-- sample src="" -->
+        <v-row align="end" class="fill-height">
+          <v-col align-self="start" class="pa-0" cols="12">
+            <v-avatar class="profile" color="grey" size="164" tile>
+              <v-img v-if="user.photoURL" :src="user.photoURL"></v-img>
+              <v-img v-else src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col class="py-0">
+            <v-list-item color="rgba(0, 0, 0, .4)" dark>
+              <v-list-item-content>
+                <v-list-item-title class="title">{{ user.displayName }}</v-list-item-title>
+                <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-col>
+        </v-row>
+      </v-img>
       <v-row>
         <v-col>
           <v-card color="#385f73" dark>
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
               <div v-if="user.photoURL">
+                <p v-if="user.photoURL">プロフィール画像を変更する</p>
+                <p v-else>プロフィール画像を設定してください</p>
                 <v-layout justify-center>
-                  <img :src="user.photoURL" width="30%" height="30%" />
+                  <imageUploadDialog />
                 </v-layout>
-              </div>
-              <div v-else>
-                <p>プロフィール画像：未設定</p>
               </div>
               <br />
               <p>ユーザ名：{{ user.displayName }}</p>
@@ -47,20 +58,19 @@
           </v-card>
         </v-col>
       </v-row>
-      <br />
-      <br />
-      <br />
-    </v-container>
-  </v-card>
+    </v-card>
+  </v-container>
 </template>
 <script>
 import profileDialog from "./Profile/profileDialog";
+import imageUploadDialog from "./Profile/imageUploadDialog";
 import firebase from "firebase";
 import Firebase from "./../firebase";
 
 export default {
   components: {
-    profileDialog
+    profileDialog,
+    imageUploadDialog
   },
   created: function() {
     Firebase.onAuth();

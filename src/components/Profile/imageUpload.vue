@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-file-input v-model="image" :rules="rules" show-size accept="image/*" label="プロフィール画像を変更"></v-file-input>
+    <v-file-input v-model="image" :rules="rules" show-size accept="image/*" label="画像を選択"></v-file-input>
     <v-layout justify-center>
       <v-btn class="mx-4" fab dark large color="cyan" @click="uploadPhoto()">
         <v-icon dark>mdi-arrow-up-bold-outline</v-icon>

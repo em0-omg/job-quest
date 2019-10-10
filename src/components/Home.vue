@@ -5,10 +5,10 @@
     </v-layout>
     <br />
     <!-- <v-divider></v-divider> -->
-    <v-layout justify-space-around v-show="!isTimeline()">
+    <v-layout justify-center v-show="!isTimeline()">
       <Profile />
     </v-layout>
-    <v-layout justify-space-around v-show="isTimeline()">
+    <v-layout justify-center v-show="isTimeline()">
       <Timeline />
     </v-layout>
     <br />
