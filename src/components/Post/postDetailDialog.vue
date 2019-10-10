@@ -25,7 +25,7 @@
         </v-img>
 
         <v-list two-line>
-          <v-list-item @click="tmp()">
+          <v-list-item>
             <v-list-item-icon>
               <v-icon color="indigo">mdi-comment-question</v-icon>
             </v-list-item-icon>
@@ -39,6 +39,11 @@
                 {{ selectedPost.content }}
               </p>
               <br />
+              <v-layout justify-center>
+                <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
+                  <v-icon left>mdi-hand</v-icon>参加を希望する
+                </v-btn>
+              </v-layout>
               <br />
               <br />
               <v-list-item-subtitle>
@@ -103,6 +108,9 @@
 </template>
 
 <script>
+import firebase from "firebase";
+import moment from "moment";
+
 export default {
   created: function() {},
   data: () => ({
@@ -110,6 +118,38 @@ export default {
   }),
   props: ["selectedPost"],
   computed: {},
-  methods: {}
+  methods: {
+    joinPost: function(postID) {
+      alert("join");
+      var nowDate = Date.now();
+      var loginUser = firebase.auth().currentUser;
+      var postRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(postID)
+        .collection("joinUsers")
+        .doc(loginUser.email);
+      return postRef
+        .set(
+          {
+            email: loginUser.email,
+            state: "undecided",
+            joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm")
+          },
+          { merge: true }
+        )
+        .then(function() {
+          console.log("join!");
+        })
+        .catch(function() {
+          console.log("join failed");
+        });
+    },
+    tmp: function() {
+      console.log("tmp methods");
+    }
+  }
 };
 </script>

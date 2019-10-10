@@ -96,8 +96,9 @@ export default {
         .collection("users")
         .doc("company")
         .collection("user")
-        .doc();
-      newUserRef.set(newUser);
+        .doc(newUser.email);
+      newUserRef.set(newUser, { merge: true });
+      // TODO メールをキーにしてるので、メールを変えたらここのキーも変える
     }
   }
 };
