@@ -18,9 +18,9 @@
 
             <div class="flex-grow-1"></div>
 
-            <v-card-title class="white--text pl-12 pt-12">
-              <div class="display-1 pl-12 pt-12">{{ selectedPost.ownerName }}からの投稿&nbsp;</div>
-            </v-card-title>
+            <v-card-content class="white--text pl-12 pt-12">
+              <div class="display-1 pl-12 pt-12">{{ selectedPost.ownerName }}からの投稿&nbsp;&nbsp;</div>
+            </v-card-content>
           </v-row>
         </v-img>
 
