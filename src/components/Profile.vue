@@ -6,7 +6,7 @@
         <v-row align="end" class="fill-height">
           <v-col align-self="start" class="pa-0" cols="12">
             <v-avatar class="profile" color="grey" size="164" tile>
-              <v-img v-if="user.photoURL" :src="user.photoURL"></v-img>
+              <v-img v-if="showUserProfile.photoURL" :src="showUserProfile.photoURL"></v-img>
               <v-img v-else src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
             </v-avatar>
           </v-col>
@@ -25,16 +25,14 @@
           <v-card color="#385f73" dark>
             <v-card-text class="white--text">
               <div class="headline mb-2">プロフィール</div>
-              <div v-if="user.photoURL">
-                <p v-if="user.photoURL">プロフィール画像を変更する</p>
-                <p v-else>プロフィール画像を設定してください</p>
-                <v-layout justify-center>
-                  <imageUploadDialog />
-                </v-layout>
-              </div>
+              <p v-if="showUserProfile.photoURL">プロフィール画像を変更する</p>
+              <p v-else>プロフィール画像を設定してください</p>
+              <v-layout justify-center>
+                <imageUploadDialog :uid="showUserProfile.id" />
+              </v-layout>
               <br />
-              <p>ユーザ名：{{ user.displayName }}</p>
-              <p>メールアドレス：{{ user.email }}</p>
+              <p>ユーザ名：{{ showUserProfile.displayName }}</p>
+              <p>メールアドレス：{{ showUserProfile.email }}</p>
               <br />
               <hr />
               <br />

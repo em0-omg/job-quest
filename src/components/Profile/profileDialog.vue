@@ -36,38 +36,44 @@
   </v-row>
 </template>
 <script>
-import imageUpload from "./imageUpload";
 import firebase from "firebase";
 
 export default {
-  components: {
-    imageUpload
-  },
+  components: {},
   data: () => ({
     dialog: false,
 
+    loginUser: firebase.auth().currentUser,
+
     updateUser: {
-      name: "",
+      id: "",
+      displayName: "",
       email: "",
       photoURL: "",
       // advanced
-      displayName: "",
       profile: "",
       Rank: 1
     }
   }),
   computed: {
+    /*
     user() {
       return this.$store.getters.user;
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
     }
+    */
+  },
+  mounted: function() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    self.updateUser.displayName = loginUser.displayName;
   },
   methods: {
     saveUserProfile: function() {
       //firebase上の
-      this.user
+      this.loginUser
         .updateProfile({
           displayName: this.updateUser.displayName
         })
@@ -82,9 +88,9 @@ export default {
     },
     saveToFirestore: function() {
       var newUser = this.updateUser;
-      newUser.name = this.user.displayName;
-      newUser.email = this.user.email;
-      newUser.photoURL = this.user.photoURL;
+      newUser.name = this.loginUser.displayName;
+      newUser.email = this.loginUser.email;
+      newUser.photoURL = this.loginUser.photoURL;
       var newUserRef = firebase
         .firestore()
         .collection("users")

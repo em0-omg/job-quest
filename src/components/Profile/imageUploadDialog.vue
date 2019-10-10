@@ -9,7 +9,7 @@
         <v-card-title class="headline grey lighten-2" primary-title>プロフィール画像を設定</v-card-title>
 
         <v-card-text>
-          <imageUpload />
+          <imageUpload :uid="uid" />
         </v-card-text>
 
         <v-divider></v-divider>
@@ -33,6 +33,7 @@ export default {
     return {
       dialog: false
     };
-  }
+  },
+  props: ["uid"]
 };
 </script>

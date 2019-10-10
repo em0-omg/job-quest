@@ -2,7 +2,7 @@
   <v-container>
     <v-file-input v-model="image" :rules="rules" show-size accept="image/*" label="画像を選択"></v-file-input>
     <v-layout justify-center>
-      <v-btn class="mx-4" fab dark large color="cyan" @click="uploadPhoto()">
+      <v-btn class="mx-4" fab dark large color="cyan" @click="uploadPhoto(uid)">
         <v-icon dark>mdi-arrow-up-bold-outline</v-icon>
       </v-btn>
     </v-layout>
@@ -22,6 +22,7 @@ export default {
     ],
     user: null
   }),
+  props: ["uid"],
   computed: {
     image: {
       get() {
@@ -33,12 +34,11 @@ export default {
     }
   },
   methods: {
-    uploadPhoto() {
+    uploadPhoto(uid) {
       if (!this.innerImage) {
         alert("ファイルを選択してください");
         return;
       }
-      alert("upload");
       var user = firebase.auth().currentUser;
       var storageRef = firebase.storage().ref();
       var photoImageRef = storageRef.child(
@@ -50,6 +50,7 @@ export default {
           photoImageRef.getDownloadURL().then(url => {
             var photoURL = url;
             if (user) {
+              // firebaseAuth更新
               user
                 .updateProfile({
                   photoURL: photoURL
@@ -59,6 +60,25 @@ export default {
                 })
                 .catch(function(err) {
                   console.log(err);
+                });
+
+              // firestore更新
+              var userCollectionRef = firebase
+                .firestore()
+                .collection("users")
+                .doc("company")
+                .collection("user")
+                .doc(uid);
+
+              return userCollectionRef
+                .update({
+                  photoURL: photoURL
+                })
+                .then(function() {
+                  console.log("firestore update");
+                })
+                .catch(function(ferror) {
+                  console.log(ferror);
                 });
             }
             console.log("uploaded a file");

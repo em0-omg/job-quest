@@ -30,10 +30,5 @@ export default new Vuex.Store({
     nowTimeline(state) {
       return state.timeline;
     }
-  },
-  actions: {
-    nowTimelineChanged(context) {
-      context.commit("nowTimelineChanged");
-    }
   }
 });
