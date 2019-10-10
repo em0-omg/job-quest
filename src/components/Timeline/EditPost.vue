@@ -30,7 +30,7 @@
         <v-divider></v-divider>
         <v-list three-line subheader>
           <v-subheader>Other content</v-subheader>
-          <CheckJoiner />
+          <CheckJoiner :id="selectedPost.id" />
         </v-list>
       </v-card>
     </v-dialog>
@@ -43,28 +43,7 @@ export default {
     CheckJoiner
   },
   props: ["selectedPost"],
-  mounted: () => {
-    var self = this;
-    console.log(self.selectedPost.id);
-    /*
-    self.db
-      .collection("users")
-      .doc("company")
-      .collection("posts")
-      .orderBy("createdAt", "desc")
-      .limit(this.showLimit)
-      .onSnapshot(function(querySnapshot) {
-        self.allPosts = [];
-        self.showPosts = [];
-        querySnapshot.forEach(function(doc) {
-          var docData = doc.data();
-          docData.id = doc.id;
-          self.allPosts.push(docData);
-          self.showPosts.push(docData);
-        });
-      });
-      */
-  },
+  mounted: () => {},
   data() {
     return {
       dialog: false,
