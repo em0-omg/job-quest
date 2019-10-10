@@ -13,7 +13,9 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title v-html="'<h3>'+item.title+'</h3>'"></v-list-item-title>
+            <!-- 折り返してくれない -->
+            <!-- <v-list-item-title v-html="'<h4>'+item.title+'</h4>'"></v-list-item-title> -->
+            <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
             <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
