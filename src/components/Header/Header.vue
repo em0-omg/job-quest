@@ -1,13 +1,14 @@
 <template>
   <v-card color="grey lighten-4" flat height="50px" tile>
     <v-toolbar dense v-if="userStatus">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon>
+        <Chatlist />
+      </v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
       <v-toolbar-title class="white--text"></v-toolbar-title>
 
       <div class="flex-grow-1"></div>
-
 
       <v-btn icon>
         <postDialog />
@@ -27,11 +28,13 @@
 import firebase from "firebase";
 import Store from "./../../store";
 import postDialog from "../Post/postDialog";
+import Chatlist from "../Chat/Chatlist";
 
 export default {
   name: "Header",
   components: {
-    postDialog
+    postDialog,
+    Chatlist
   },
   data() {
     return {};
