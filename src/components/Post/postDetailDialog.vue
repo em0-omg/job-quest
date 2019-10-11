@@ -45,6 +45,10 @@
                 </v-btn>
               </v-layout>
               <br />
+              <v-layout justify-center>
+                <v-alert dense text type="success" v-show="joinAlert">参加申請が完了しました</v-alert>
+              </v-layout>
+              <br />
               <br />
               <v-list-item-subtitle>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
@@ -89,19 +93,6 @@
           </v-list-item>
 
           <v-divider inset></v-divider>
-
-          <!--
-          <v-list-item @click="tmp()">
-            <v-list-item-icon>
-              <v-icon color="indigo">mdi-map-marker</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>1400 Main Street</v-list-item-title>
-              <v-list-item-subtitle>Orlando, FL 79938</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          -->
         </v-list>
       </v-card>
     </v-dialog>
@@ -113,15 +104,16 @@ import firebase from "firebase";
 import moment from "moment";
 
 export default {
-  created: function() {},
+  components: {},
   data: () => ({
-    dialog: false
+    dialog: false,
+    joinAlert: false
   }),
   props: ["selectedPost"],
   computed: {},
   methods: {
     joinPost: function(postID) {
-      alert("join");
+      var self = this;
       var nowDate = Date.now();
       var loginUser = firebase.auth().currentUser;
       var postRef = firebase
@@ -136,16 +128,19 @@ export default {
         .set(
           {
             email: loginUser.email,
-            state: "undecided",
-            joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm")
+            isJoin: false,
+            joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+            rating: 3
           },
           { merge: true }
         )
         .then(function() {
           console.log("join!");
+          self.joinAlert = true;
+          setTimeout(() => (self.joinAlert = false), 2000);
         })
-        .catch(function() {
-          console.log("join failed");
+        .catch(function(err) {
+          console.log(err);
         });
     },
     tmp: function() {
