@@ -56,20 +56,11 @@ export default {
       Rank: 1
     }
   }),
-  computed: {
-    /*
-    user() {
-      return this.$store.getters.user;
-    },
-    userStatus() {
-      return this.$store.getters.isSignedIn;
-    }
-    */
-  },
+  computed: {},
   mounted: function() {
     var self = this;
-    var loginUser = firebase.auth().currentUser;
-    self.updateUser.displayName = loginUser.displayName;
+    self.updateUser.displayName = this.userProfile.displayName;
+    self.updateUser.profile = this.userProfile.profile;
   },
   methods: {
     saveUserProfile: function() {
