@@ -4,9 +4,7 @@
     <v-list two-line>
       <v-list-item v-for="item in userInfo.ChatWith" :key="item.postID">
         <v-list-item-icon>
-          <v-btn icon>
-            <v-icon v-if="true" color="pink">mdi-open-in-new</v-icon>
-          </v-btn>
+          <OpenChat />
         </v-list-item-icon>
 
         <v-list-item-content>
@@ -23,8 +21,12 @@
 </template>
 <script>
 import firebase from "firebase";
+import OpenChat from "./OpenChat";
 export default {
   props: ["userInfo"],
+  components: {
+    OpenChat
+  },
   data() {
     return {
       items: [
