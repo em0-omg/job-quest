@@ -2,7 +2,7 @@
   <v-card color="grey lighten-4" flat height="50px" tile>
     <v-toolbar dense v-if="userStatus">
       <v-app-bar-nav-icon>
-        <Chatlist />
+        <ChatDialog />
       </v-app-bar-nav-icon>
 
       <v-spacer></v-spacer>
@@ -28,13 +28,13 @@
 import firebase from "firebase";
 import Store from "./../../store";
 import postDialog from "../Post/postDialog";
-import Chatlist from "../Chat/Chatlist";
+import ChatDialog from "../Chat/ChatDialog";
 
 export default {
   name: "Header",
   components: {
     postDialog,
-    Chatlist
+    ChatDialog
   },
   data() {
     return {};

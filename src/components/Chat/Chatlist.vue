@@ -1,67 +1,52 @@
 <template>
-  <div class="text-center">
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
-      <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
-          <v-icon>mdi-format-list-bulleted</v-icon>
-        </v-btn>
-      </template>
+  <v-card max-width="500" class="mx-auto">
+    <v-card-title>Chat List</v-card-title>
+    <v-list two-line>
+      <v-list-item v-for="item in userInfo.ChatWith" :key="item.postID">
+        <v-list-item-icon>
+          <v-btn icon>
+            <v-icon v-if="true" color="pink">mdi-open-in-new</v-icon>
+          </v-btn>
+        </v-list-item-icon>
 
-      <v-card>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title v-text="item.with"></v-list-item-title>
+          <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle>
+        </v-list-item-content>
 
-            <v-list-item-content>
-              <v-list-item-title>John Leider</v-list-item-title>
-              <v-list-item-subtitle>Founder of Vuetify.js</v-list-item-subtitle>
-            </v-list-item-content>
-
-            <v-list-item-action>
-              <v-btn :class="fav ? 'red--text' : ''" icon @click="fav = !fav">
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
-
-        <v-divider></v-divider>
-
-        <v-list>
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="message" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable messages</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="hints" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>Enable hints</v-list-item-title>
-          </v-list-item>
-        </v-list>
-
-        <v-card-actions>
-          <div class="flex-grow-1"></div>
-
-          <v-btn text @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" text @click="menu = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-menu>
-  </div>
+        <v-list-item-avatar>
+          <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+        </v-list-item-avatar>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 <script>
+import firebase from "firebase";
 export default {
-  data: () => ({
-    fav: true,
-    menu: false,
-    message: false,
-    hints: true
-  })
+  props: ["userInfo"],
+  data() {
+    return {
+      items: [
+        {
+          icon: true,
+          title: "Jason Oner",
+          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg"
+        },
+        {
+          title: "Travis Howard",
+          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg"
+        },
+        {
+          title: "Ali Connors",
+          avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg"
+        },
+        {
+          title: "Cindy Baker",
+          avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg"
+        }
+      ]
+    };
+  }
 };
 </script>

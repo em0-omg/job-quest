@@ -39,7 +39,7 @@
           <div class="flex-grow-1"></div>
 
           <v-btn text @click="menu = false">Cancel</v-btn>
-          <v-btn color="primary" text @click="saveJoinerEdit()">Save</v-btn>
+          <v-btn color="primary" text @click="saveJoinerEdit(id)">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -76,7 +76,8 @@ export default {
       });
       this.joinersList = joiners;
     },
-    saveJoinerEdit: function() {
+    saveJoinerEdit: function(postID) {
+      var loginUser = firebase.auth().currentUser;
       var joinerRef = firebase
         .firestore()
         .collection("users")
@@ -84,7 +85,13 @@ export default {
         .collection("posts")
         .doc(this.id)
         .collection("joinUsers");
+      var firestoreUserRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user");
       this.joinersList.forEach(function(joiner) {
+        // ratingと参加情報を設定
         joinerRef
           .doc(joiner.email)
           .update({
@@ -97,6 +104,43 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+
+        // チャットルーム作成情報を追加
+        if (joiner.isJoin) {
+          var chatInfo = {
+            with: loginUser.email,
+            postID: postID
+          };
+          firestoreUserRef
+            .doc(joiner.email)
+            .update({
+              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
+            })
+            .then(function() {
+              console.log("create chatroom");
+            })
+            .catch(function() {
+              console.log("chatroom failed");
+            });
+        } else {
+          var chatInfoRemove = {
+            with: loginUser.email,
+            postID: postID
+          };
+          firestoreUserRef
+            .doc(joiner.email)
+            .update({
+              ChatWith: firebase.firestore.FieldValue.arrayRemove(
+                chatInfoRemove
+              )
+            })
+            .then(function() {
+              console.log("delete chatroom");
+            })
+            .catch(function() {
+              console.log("chatroom failed");
+            });
+        }
       });
       this.menu = false;
       console.log("menuoff");
