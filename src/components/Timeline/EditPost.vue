@@ -32,12 +32,22 @@
           <v-subheader>Other content</v-subheader>
           <CheckJoiner :id="selectedPost.id" />
         </v-list>
+        <br />
+        <v-divider></v-divider>
+        <br />
+        <v-layout justify-center>
+          <div class="my-2">
+            <v-btn color="warning" dark @click="deleteThisPost(selectedPost)">投稿を非公開にする</v-btn>
+          </div>
+        </v-layout>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
 import CheckJoiner from "./CheckJoiner";
+import firebase from "firebase";
+
 export default {
   components: {
     CheckJoiner
@@ -53,9 +63,24 @@ export default {
     };
   },
   methods: {
-    mountJoiner: function(selectedPost) {
-      var id = selectedPost.id;
-      alert(id);
+    deleteThisPost: function(post) {
+      var id = post.id;
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(id)
+        .update({
+          isActive: false
+        })
+        .then(function() {
+          console.log("post delete");
+        })
+        .catch(function(perror) {
+          console.log(perror);
+        });
+      alert("非公開にしました");
     }
   }
 };

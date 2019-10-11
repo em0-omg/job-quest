@@ -98,8 +98,10 @@ export default {
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
-          self.allPosts.push(docData);
-          self.showPosts.push(docData);
+          if (docData.isActive) {
+            self.allPosts.push(docData);
+            self.showPosts.push(docData);
+          }
         });
       });
 

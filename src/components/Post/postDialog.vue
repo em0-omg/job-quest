@@ -85,6 +85,7 @@ export default {
     post: function() {
       var nowDate = Date.now();
       var newPost = {
+        isActive: true,
         dateLimit: this.dateLimit,
         howMany: this.howMany,
         content: this.content,
