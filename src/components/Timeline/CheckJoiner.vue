@@ -8,12 +8,13 @@
         <v-list three-line v-for="(item,id) in joinersList" :key="id">
           <v-list-item>
             <v-list-item-avatar>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+              <img v-if="item.photoURL" :src="item.photoURL" :alt="item.email" />
+              <img v-else src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
             </v-list-item-avatar>
 
             <v-list-item-content>
               <v-list-item-title>{{item.email}}</v-list-item-title>
-              <v-list-item-subtitle>{{ item.rating }}:{{ item.id }}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{item.joinedAt}}に参加希望</v-list-item-subtitle>
               <v-list-item-action-text>
                 <v-rating v-model="item.rating"></v-rating>
               </v-list-item-action-text>

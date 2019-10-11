@@ -107,7 +107,8 @@ export default {
   components: {},
   data: () => ({
     dialog: false,
-    joinAlert: false
+    joinAlert: false,
+    userData: null
   }),
   props: ["selectedPost"],
   computed: {},
@@ -127,6 +128,7 @@ export default {
       return postRef
         .set(
           {
+            photoURL: loginUser.photoURL,
             email: loginUser.email,
             isJoin: false,
             joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-list three-line>
+    <v-list three-line v-if="showPosts">
       <template v-for="(item, index) in showPosts">
         <v-divider :key="index"></v-divider>
 
@@ -40,6 +40,9 @@
           </v-list-item-content>
         </v-list-item>
       </template>
+    </v-list>
+    <v-list v-else>
+      <p>no posts...</p>
     </v-list>
   </v-container>
 </template>
