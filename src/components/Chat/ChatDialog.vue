@@ -12,7 +12,7 @@
 </template>
 <script>
 import firebase from "firebase";
-import ChatList from "./Chatlist";
+import Chatlist from "./Chatlist";
 
 export default {
   components: {
