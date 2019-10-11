@@ -6,17 +6,17 @@
           <v-icon>mdi-format-list-bulleted</v-icon>
         </v-btn>
       </template>
-      <ChatList :userInfo="userInfo" />
+      <Chatlist :userInfo="userInfo" />
     </v-menu>
   </div>
 </template>
 <script>
 import firebase from "firebase";
-import ChatList from "./ChatList";
+import ChatList from "./Chatlist";
 
 export default {
   components: {
-    ChatList
+    Chatlist
   },
   data: () => ({
     fav: true,
