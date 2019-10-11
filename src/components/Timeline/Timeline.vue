@@ -15,6 +15,9 @@
           <v-list-item-content>
             <!-- 折り返してくれない -->
             <!-- <v-list-item-title v-html="'<h4>'+item.title+'</h4>'"></v-list-item-title> -->
+            <v-list-item-content v-if="!item.isActive">
+              <span style="color: red;">非公開設定中</span>
+            </v-list-item-content>
             <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
@@ -98,10 +101,8 @@ export default {
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
-          if (docData.isActive) {
-            self.allPosts.push(docData);
-            self.showPosts.push(docData);
-          }
+          self.allPosts.push(docData);
+          self.showPosts.push(docData);
         });
       });
 
@@ -165,14 +166,14 @@ export default {
         var newFavArray = this.allPosts.filter(p =>
           p.favoriteFrom.includes(this.user.email)
         );
-        this.showPosts = newFavArray;
+        this.showPosts = newFavArray.filter(p => p.isActive === true);
       } else if (now === "mypost") {
         var newMyArray = this.allPosts.filter(
           p => p.ownerEmail === this.user.email
         );
         this.showPosts = newMyArray;
       } else {
-        this.showPosts = this.allPosts;
+        this.showPosts = this.allPosts.filter(p => p.isActive === true);
       }
     }
   },

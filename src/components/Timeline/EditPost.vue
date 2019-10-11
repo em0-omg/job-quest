@@ -35,11 +35,18 @@
         <br />
         <v-divider></v-divider>
         <br />
-        <v-layout justify-center>
-          <div class="my-2">
-            <v-btn color="warning" dark @click="deleteThisPost(selectedPost)">投稿を非公開にする</v-btn>
-          </div>
-        </v-layout>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>公開設定</v-list-item-title>
+            <v-list-item-action>
+              <v-switch
+                v-model="selectedPost.isActive"
+                color="purple"
+                @click="deleteThisPost(selectedPost)"
+              ></v-switch>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
       </v-card>
     </v-dialog>
   </v-row>
@@ -72,15 +79,14 @@ export default {
         .collection("posts")
         .doc(id)
         .update({
-          isActive: false
+          isActive: !post.isActive
         })
         .then(function() {
-          console.log("post delete");
+          console.log("post isActive" + !post.isActive);
         })
         .catch(function(perror) {
           console.log(perror);
         });
-      alert("非公開にしました");
     }
   }
 };
