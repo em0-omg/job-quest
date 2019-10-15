@@ -11,20 +11,20 @@
     </v-card-title>
     <v-card-text class="py-0">
       <v-timeline dense light class="chat">
-        <v-timeline-item reverse v-for="(item, index) in messages" :key="id" large>
+        <v-timeline-item reverse v-for="item in messages" :key="item.id" large>
           <template v-slot:icon>
-            <v-avatar>
+            <v-avatar :key="item.id">
               <img :src="item.photoURL" />
             </v-avatar>
           </template>
           <template v-slot:opposite>
             <span>Tus eu perfecto</span>
           </template>
-          <v-card class="elevation-24">
+          <v-card class="elevation-24" :key="item.id">
             <v-card-text class="body-2 overline">{{ item.content }}</v-card-text>
           </v-card>
         </v-timeline-item>
-        <Chatinput :info="userinfo" />
+        <Chatinput :info="userinfo" :postid="pid" />
       </v-timeline>
     </v-card-text>
   </v-card>
@@ -34,7 +34,10 @@ import Chatinput from "./Chatinput";
 import firebase from "firebase";
 
 export default {
-  props: ["userinfo"],
+  props: {
+    userinfo: String,
+    pid: String
+  },
   components: { Chatinput },
   data() {
     return {
@@ -50,7 +53,7 @@ export default {
       .collection("chatroom")
       .doc(docKey)
       .collection("messages")
-      .orderBy("createdAt", "desc")
+      .orderBy("createdAt")
       .onSnapshot(function(querySnapshot) {
         self.messages = [];
         querySnapshot.forEach(function(doc) {
@@ -66,7 +69,7 @@ export default {
       var loginUser = firebase.auth().currentUser;
       keyArray.push(loginUser.email);
       keyArray.push(this.userinfo);
-      return keyArray.sort().join("+KEYJOIN+");
+      return keyArray.sort().join("+" + this.pid + "+");
     }
   }
 };

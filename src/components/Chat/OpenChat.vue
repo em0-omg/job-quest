@@ -6,14 +6,17 @@
           <v-icon color="pink" v-on="on" @click="setChatWith()">mdi-open-in-new</v-icon>
         </v-btn>
       </template>
-      <Chat :userinfo="info" />
+      <Chat :userinfo="info" :pid="postid" />
     </v-dialog>
   </v-row>
 </template>
 <script>
 import Chat from "./Chat";
 export default {
-  props: ["info"],
+  props: {
+    info: String,
+    postid: String
+  },
   components: {
     Chat
   },

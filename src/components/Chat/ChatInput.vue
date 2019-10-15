@@ -18,7 +18,10 @@ import firebase from "firebase";
 import moment from "moment";
 
 export default {
-  props: ["info"],
+  props: {
+    info: String,
+    postid: String
+  },
   data() {
     return {
       message: "",
@@ -31,7 +34,7 @@ export default {
       var loginUser = firebase.auth().currentUser;
       keyArray.push(loginUser.email);
       keyArray.push(this.info);
-      return keyArray.sort().join("+KEYJOIN+");
+      return keyArray.sort().join("+" + this.postid + "+");
     },
     sendMessage: function() {
       this.roomKey = this.createRoomKey();
@@ -41,10 +44,12 @@ export default {
         .firestore()
         .collection("chatroom")
         .doc(this.roomKey)
-        .collection("messages");
+        .collection("messages")
+        .doc();
       messageRef
         .set(
           {
+            sendBy: loginUser.displayName,
             content: this.message,
             createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
             photoURL: loginUser.photoURL

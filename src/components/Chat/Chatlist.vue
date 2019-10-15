@@ -4,7 +4,7 @@
     <v-list two-line>
       <v-list-item v-for="item in userInfo.ChatWith" :key="item.postID">
         <v-list-item-icon>
-          <OpenChat :info="item.with" />
+          <OpenChat :info="item.with" :postid="item.postID" />
         </v-list-item-icon>
 
         <v-list-item-content>
