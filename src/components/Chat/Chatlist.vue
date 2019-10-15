@@ -4,11 +4,12 @@
     <v-list two-line>
       <v-list-item v-for="item in userInfo.ChatWith" :key="item.postID">
         <v-list-item-icon>
-          <OpenChat />
+          <OpenChat :info="userInfo" />
         </v-list-item-icon>
 
         <v-list-item-content>
           <v-list-item-title v-text="item.with"></v-list-item-title>
+          <v-list-item-subtitle v-text="item.postID"></v-list-item-subtitle>
           <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle>
         </v-list-item-content>
 

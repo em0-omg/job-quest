@@ -1,6 +1,6 @@
 <template>
-  <v-timeline light class="chat">
-    <v-timeline-item v-for="n in 4" :key="n" large>
+  <v-timeline dense light class="chat">
+    <v-timeline-item reverse v-for="n in 9" :key="n" large>
       <template v-slot:icon>
         <v-avatar>
           <img src="http://i.pravatar.cc/64" />
@@ -10,15 +10,17 @@
         <span>Tus eu perfecto</span>
       </template>
       <v-card class="elevation-24">
-        <v-card-title class="headline">Lorem ipsum</v-card-title>
-        <v-card-text>Lorem ipsum dolor sit amet, no nam oblique veritus. Commune scaevola imperdiet nec ut, sed euismod convenire principes at. Est et nobis iisque percipit, an vim zril disputando voluptatibus, vix an salutandi sententiae.</v-card-text>
+        <v-card-text class="body-2 overline">{{ userinfo.email }}</v-card-text>
       </v-card>
     </v-timeline-item>
+    <Chatinput />
   </v-timeline>
 </template>
 <script>
+import Chatinput from "./Chatinput";
 export default {
-  components: {}
+  props: ["userinfo"],
+  components: { Chatinput }
 };
 </script>
 <style scoped>

@@ -1,15 +1,15 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import vuetify from './plugins/vuetify';
-import { firestorePlugin } from 'vuefire'
-import Firebase from './firebase'
-import './registerServiceWorker'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import vuetify from "./plugins/vuetify";
+import { firestorePlugin } from "vuefire";
+import Firebase from "./firebase";
+import "./registerServiceWorker";
 
 Vue.use(firestorePlugin);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Firebase.init();
 
 new Vue({
@@ -17,4 +17,4 @@ new Vue({
   store,
   vuetify,
   render: h => h(App)
-}).$mount('#app')
+}).$mount("#app");
