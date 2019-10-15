@@ -112,11 +112,35 @@ export default {
   }),
   props: ["selectedPost"],
   computed: {},
+  mounted: function() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .onSnapshot(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          var docData = doc.data();
+          docData.id = doc.id;
+          if (docData.email === loginUser.email) {
+            console.log("find user " + docData.id);
+            self.userData = docData;
+          }
+        });
+      });
+  },
   methods: {
     joinPost: function(postID) {
       var loginUser = firebase.auth().currentUser;
       if (this.selectedPost.ownerEmail === loginUser.email) {
         alert("自分の投稿には参加希望を出せません");
+        return;
+      } else if (this.userData === null) {
+        alert(
+          "冒険者情報が登録されていません！プロフィールから登録してください"
+        );
         return;
       }
       var self = this;
