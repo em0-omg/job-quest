@@ -6,7 +6,7 @@
           <v-icon>mdi-format-list-bulleted</v-icon>
         </v-btn>
       </template>
-      <Chatlist :userInfo="userInfo" />
+      <Chatlist :userinfo="userInfo" />
     </v-menu>
   </div>
 </template>
