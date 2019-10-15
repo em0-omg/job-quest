@@ -59,8 +59,8 @@ export default {
   computed: {},
   mounted: function() {
     var self = this;
-    self.updateUser.displayName = this.userProfile.displayName;
-    self.updateUser.profile = this.userProfile.profile;
+    self.updateUser.displayName = self.userProfile.displayName;
+    self.updateUser.profile = self.userProfile.profile;
   },
   methods: {
     saveUserProfile: function() {
