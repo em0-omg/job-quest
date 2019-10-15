@@ -114,9 +114,13 @@ export default {
   computed: {},
   methods: {
     joinPost: function(postID) {
+      var loginUser = firebase.auth().currentUser;
+      if (this.selectedPost.ownerEmail === loginUser.email) {
+        alert("自分の投稿には参加希望を出せません");
+        return;
+      }
       var self = this;
       var nowDate = Date.now();
-      var loginUser = firebase.auth().currentUser;
       var postRef = firebase
         .firestore()
         .collection("users")
