@@ -56,18 +56,6 @@ export default {
     },
     nowTimeline: function() {
       return this.$store.getters.nowTimeline;
-    },
-    color() {
-      switch (this.bottomNav) {
-        case 0:
-          return "blue-grey";
-        case 1:
-          return "teal";
-        case 2:
-          return "brown";
-        case 3:
-          return "indigo";
-      }
     }
   },
   methods: {

@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import { firestorePlugin } from 'vuefire'
 import Firebase from './firebase'
+import './registerServiceWorker'
 
 Vue.use(firestorePlugin);
 

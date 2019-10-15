@@ -20,7 +20,6 @@
   </v-card>
 </template>
 <script>
-import firebase from "firebase";
 import OpenChat from "./OpenChat";
 export default {
   props: ["userInfo"],

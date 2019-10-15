@@ -17,11 +17,8 @@
   </v-timeline>
 </template>
 <script>
-import ChatInput from "./ChatInput";
 export default {
-  components: {
-    ChatInput
-  }
+  components: {}
 };
 </script>
 <style scoped>
