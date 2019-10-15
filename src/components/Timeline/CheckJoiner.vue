@@ -125,11 +125,16 @@ export default {
             .catch(function() {
               console.log("chatroom failed");
             });
+
           // 自分にも設定
+          var chatInfoMyself = {
+            with: joiner.email,
+            postID: postID
+          };
           firestoreUserRef
             .doc(loginUser.email)
             .update({
-              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
+              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfoMyself)
             })
             .then(function() {
               console.log("create myself chatroom");
@@ -157,15 +162,19 @@ export default {
               console.log("chatroom failed");
             });
           // 自分
+          var chatInfoRemoveMyself = {
+            with: joiner.email,
+            postID: postID
+          };
           firestoreUserRef
             .doc(loginUser.email)
             .update({
               ChatWith: firebase.firestore.FieldValue.arrayRemove(
-                chatInfoRemove
+                chatInfoRemoveMyself
               )
             })
             .then(function() {
-              console.log("delete chatroom");
+              console.log("delete myself chatroom");
             })
             .catch(function() {
               console.log("chatroom failed");
