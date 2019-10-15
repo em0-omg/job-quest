@@ -119,7 +119,8 @@ export default {
   },
   methods: {
     isFavorite: function(fromList) {
-      if (fromList.indexOf(this.user.email) >= 0) return true;
+      var loginUser = firebase.auth().currentUser;
+      if (fromList.indexOf(loginUser.email) >= 0) return true;
       else return false;
     },
     favorite: function(id) {

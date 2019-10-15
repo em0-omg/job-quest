@@ -6,7 +6,7 @@
         <v-col cols="12" md="6">
           <v-text-field label="メッセージを入力" outlined v-model="message"></v-text-field>
           <div class="text-right">
-            <v-btn small color="primary" @click="sendMessage()">送信</v-btn>
+            <v-btn small color="primary" @click="sendMessage()" id="scrollTarget">送信</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -28,6 +28,9 @@ export default {
       roomKey: ""
     };
   },
+  updated() {
+    this.scrollToEnd();
+  },
   methods: {
     createRoomKey: function() {
       var keyArray = [];
@@ -37,6 +40,7 @@ export default {
       return keyArray.sort().join("+" + this.postid + "+");
     },
     sendMessage: function() {
+      var self = this;
       this.roomKey = this.createRoomKey();
       var loginUser = firebase.auth().currentUser;
       var nowDate = Date.now();
@@ -52,16 +56,27 @@ export default {
             sendBy: loginUser.displayName,
             content: this.message,
             createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+            //TODO めっちゃ早く投稿されたらうまくいかないかも
+            orderCreatedAt: moment(nowDate).format("YYYY/MM/DD HH:mm:ss"),
             photoURL: loginUser.photoURL
           },
           { merge: true }
         )
         .then(function() {
+          self.message = "";
           console.log("send message success!");
+          setTimeout(() => console.log(this.message), 1200);
         })
         .catch(function(error) {
-          console.log("send failed");
+          console.log(error);
         });
+    },
+    scrollToEnd() {
+      this.$netxTick(() => {
+        const chatLog = document.getElementById("scrollTarget");
+        if (!chatLog) return;
+        chatLog.scrollTop = chatLog.scrollHeight;
+      });
     }
   }
 };
