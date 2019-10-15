@@ -1,7 +1,7 @@
 <template>
   <v-card max-width="500" class="mx-auto">
     <v-card-title>Chat List</v-card-title>
-    <v-list two-line>
+    <v-list two-line v-if="userInfo.ChatWith">
       <v-list-item v-for="item in userInfo.ChatWith" :key="item.postID">
         <v-list-item-icon>
           <OpenChat :info="item.with" :postid="item.postID" />
@@ -17,6 +17,9 @@
           <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
         </v-list-item-avatar>
       </v-list-item>
+    </v-list>
+    <v-list v-else>
+      <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;チャット相手がいません</span>
     </v-list>
   </v-card>
 </template>
