@@ -10,10 +10,10 @@
         <span>Tus eu perfecto</span>
       </template>
       <v-card class="elevation-24">
-        <v-card-text class="body-2 overline">{{ userinfo.email }}</v-card-text>
+        <v-card-text class="body-2 overline">{{ userinfo }}</v-card-text>
       </v-card>
     </v-timeline-item>
-    <Chatinput />
+    <Chatinput :info="userinfo" />
   </v-timeline>
 </template>
 <script>

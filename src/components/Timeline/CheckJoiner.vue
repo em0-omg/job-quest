@@ -6,7 +6,7 @@
       </template>
       <v-card>
         <v-list three-line v-for="(item,id) in joinersList" :key="id">
-          <v-list-item>
+          <v-list-item v-if="item.email!=myself">
             <v-list-item-avatar>
               <img v-if="item.photoURL" :src="item.photoURL" :alt="item.email" />
               <img v-else src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
@@ -20,7 +20,7 @@
               </v-list-item-action-text>
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
+          <v-list-item v-if="item.email!=myself">
             <v-list-item-action>
               <v-switch v-model="item.isJoin" color="purple"></v-switch>
             </v-list-item-action>
@@ -55,7 +55,9 @@ export default {
     joinersList: [],
     rating: 3,
     menu: false,
-    isJoin: false
+    isJoin: false,
+
+    myself: firebase.auth().currentUser.email
   }),
   methods: {
     createJoiner: function() {
@@ -111,13 +113,26 @@ export default {
             with: loginUser.email,
             postID: postID
           };
+          // 相手に設定
           firestoreUserRef
             .doc(joiner.email)
             .update({
               ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
             })
             .then(function() {
-              console.log("create chatroom");
+              console.log("create with chatroom");
+            })
+            .catch(function() {
+              console.log("chatroom failed");
+            });
+          // 自分にも設定
+          firestoreUserRef
+            .doc(loginUser.email)
+            .update({
+              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
+            })
+            .then(function() {
+              console.log("create myself chatroom");
             })
             .catch(function() {
               console.log("chatroom failed");
@@ -127,8 +142,23 @@ export default {
             with: loginUser.email,
             postID: postID
           };
+          // 相手
           firestoreUserRef
             .doc(joiner.email)
+            .update({
+              ChatWith: firebase.firestore.FieldValue.arrayRemove(
+                chatInfoRemove
+              )
+            })
+            .then(function() {
+              console.log("delete chatroom");
+            })
+            .catch(function() {
+              console.log("chatroom failed");
+            });
+          // 自分
+          firestoreUserRef
+            .doc(loginUser.email)
             .update({
               ChatWith: firebase.firestore.FieldValue.arrayRemove(
                 chatInfoRemove
