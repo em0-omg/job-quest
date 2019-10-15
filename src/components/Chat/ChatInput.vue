@@ -4,9 +4,9 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
-          <v-text-field label="Outlined" outlined></v-text-field>
+          <v-text-field label="メッセージを入力" outlined v-model="message"></v-text-field>
           <div class="text-right">
-            <v-btn small color="primary" @click="sendMessage()">send</v-btn>
+            <v-btn small color="primary" @click="sendMessage()">送信</v-btn>
           </div>
         </v-col>
       </v-row>
@@ -15,24 +15,48 @@
 </template>
 <script>
 import firebase from "firebase";
+import moment from "moment";
 
 export default {
   props: ["info"],
   data() {
     return {
+      message: "",
       roomKey: ""
     };
   },
   methods: {
     createRoomKey: function() {
-      console.log("chatwith:" + this.info);
+      var keyArray = [];
+      var loginUser = firebase.auth().currentUser;
+      keyArray.push(loginUser.email);
+      keyArray.push(this.info);
+      return keyArray.sort().join("+KEYJOIN+");
     },
     sendMessage: function() {
-      this.createRoomKey();
+      this.roomKey = this.createRoomKey();
+      var loginUser = firebase.auth().currentUser;
+      var nowDate = Date.now();
       var messageRef = firebase
         .firestore()
         .collection("chatroom")
-        .doc();
+        .doc(this.roomKey)
+        .collection("messages");
+      messageRef
+        .set(
+          {
+            content: this.message,
+            createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+            photoURL: loginUser.photoURL
+          },
+          { merge: true }
+        )
+        .then(function() {
+          console.log("send message success!");
+        })
+        .catch(function(error) {
+          console.log("send failed");
+        });
     }
   }
 };
