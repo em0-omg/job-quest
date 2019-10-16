@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="600">
     <v-card-title class="blue-grey white--text">
-      <span class="title">チャット</span>
+      <span class="title">ポャット</span>
       <v-spacer></v-spacer>
       <!--
       <v-btn icon @click="tmp()">
@@ -34,7 +34,7 @@
   </v-card>
 </template>
 <script>
-import Chatinput from "./Chatinput";
+import Chatinput from "./ChatInput";
 import firebase from "firebase";
 
 export default {
