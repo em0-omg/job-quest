@@ -29,8 +29,9 @@
         </v-list-item>
         <v-divider></v-divider>
         <v-list three-line subheader>
-          <v-subheader>Other content</v-subheader>
-          <CheckJoiner :id="selectedPost.id" />
+          <v-subheader>参加者を編集</v-subheader>
+          <!-- <CheckJoiner :id="selectedPost.id" /> -->
+          <Editjoiner :id="selectedPost.id" />
         </v-list>
         <br />
         <v-divider></v-divider>
@@ -53,11 +54,13 @@
 </template>
 <script>
 import CheckJoiner from "./CheckJoiner";
+import Editjoiner from "./Editjoiner";
 import firebase from "firebase";
 
 export default {
   components: {
-    CheckJoiner
+    CheckJoiner,
+    Editjoiner
   },
   props: ["selectedPost"],
   mounted: () => {},

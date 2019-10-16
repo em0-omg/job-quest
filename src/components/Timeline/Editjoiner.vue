@@ -1,6 +1,6 @@
 <template>
-  <div class="text-center">
-    <v-menu scrollable v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" scrollable max-width="100%">
       <template v-slot:activator="{ on }">
         <v-btn color="indigo" dark v-on="on" @click="createJoiner()">参加者を編集する</v-btn>
       </template>
@@ -24,7 +24,7 @@
             <v-list-item-action>
               <v-switch v-model="item.isJoin" color="purple"></v-switch>
             </v-list-item-action>
-            <v-list-item-title>参加者に設定</v-list-item-title>
+            <v-list-item-title>参加承認</v-list-item-title>
             <v-list-item-action>
               <v-btn icon>
                 <v-icon>mdi-information</v-icon>
@@ -42,8 +42,8 @@
           <v-btn color="primary" text @click="saveJoinerEdit(id)">Save</v-btn>
         </v-card-actions>
       </v-card>
-    </v-menu>
-  </div>
+    </v-dialog>
+  </v-row>
 </template>
 <script>
 import firebase from "firebase";
@@ -52,6 +52,7 @@ export default {
   props: ["id"],
   mounted: () => {},
   data: () => ({
+    dialog: false,
     joinersList: [],
     rating: 3,
     menu: false,
