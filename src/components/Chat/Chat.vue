@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="600">
     <v-card-title class="blue-grey white--text">
-      <span class="title">ポャット</span>
+      <span class="title">チャット</span>
       <v-spacer></v-spacer>
       <!--
       <v-btn icon @click="tmp()">
@@ -50,6 +50,7 @@ export default {
   },
   mounted: function() {
     var self = this;
+    self.scrollToEnd();
     var docKey = this.createRoomKey();
     console.log("docKey:" + docKey);
     firebase
@@ -67,6 +68,9 @@ export default {
         });
       });
   },
+  updated() {
+    this.scrollToEnd();
+  },
   methods: {
     createRoomKey: function() {
       var keyArray = [];
@@ -74,6 +78,13 @@ export default {
       keyArray.push(loginUser.email);
       keyArray.push(this.userinfo);
       return keyArray.sort().join("+" + this.pid + "+");
+    },
+    scrollToEnd() {
+      this.$netxTick(() => {
+        const chatLog = document.getElementById("scrollTarget");
+        if (!chatLog) return;
+        chatLog.scrollTop = chatLog.scrollHeight;
+      });
     }
   }
 };

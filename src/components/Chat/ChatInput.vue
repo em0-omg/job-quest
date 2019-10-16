@@ -28,12 +28,7 @@ export default {
       roomKey: ""
     };
   },
-  mounted() {
-    this.scrollToEnd();
-  },
-  updated() {
-    this.scrollToEnd();
-  },
+  mounted() {},
   methods: {
     createRoomKey: function() {
       var keyArray = [];
@@ -43,7 +38,6 @@ export default {
       return keyArray.sort().join("+" + this.postid + "+");
     },
     sendMessage: function() {
-      var self = this;
       this.roomKey = this.createRoomKey();
       var loginUser = firebase.auth().currentUser;
       var nowDate = Date.now();
@@ -66,20 +60,13 @@ export default {
           { merge: true }
         )
         .then(function() {
-          self.message = "";
           console.log("send message success!");
           setTimeout(() => console.log(this.message), 1200);
         })
         .catch(function(error) {
           console.log(error);
         });
-    },
-    scrollToEnd() {
-      this.$netxTick(() => {
-        const chatLog = document.getElementById("scrollTarget");
-        if (!chatLog) return;
-        chatLog.scrollTop = chatLog.scrollHeight;
-      });
+      this.message = "";
     }
   }
 };
