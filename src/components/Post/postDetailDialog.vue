@@ -46,15 +46,12 @@
               <v-list-item-subtitle>
                 <p>
                   投稿者：{{ selectedPost.ownerName }}
-                  <showprofile />
+                  <showprofile :post="selectedPost" />
                 </p>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon>mdi-message-text</v-icon>
-            </v-list-item-icon>
           </v-list-item>
           <div class="text-center">
             <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">

@@ -39,7 +39,7 @@
                 <EditPost :selectedPost="item" />
               </v-btn>
               <v-btn icon v-if="nowTimeline!='mypost'">
-                <showprofile :postid="item.id" />
+                <showprofile :post="item" />
               </v-btn>
             </v-layout>
           </v-list-item-content>
