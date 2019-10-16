@@ -14,6 +14,7 @@
             <div class="flex-grow-1"></div>
             <v-card-title class="white--text pl-12 pt-12">
               <div class="display-1 pl-12 pt-12 text-truncate">{{ selectedPost.ownerName }}&nbsp;</div>
+              <showprofile/>
             </v-card-title>
             -->
           </v-row>
@@ -35,9 +36,7 @@
               </p>
               <br />
               <br />
-              <div class="text-center">
-                <showprofile />
-              </div>
+              <div></div>
               <br />
               <v-layout justify-center>
                 <v-alert dense text type="success" v-show="joinAlert">参加申請が完了しました</v-alert>
@@ -45,15 +44,17 @@
               <br />
               <br />
               <v-list-item-subtitle>
+                <p>
+                  投稿者：{{ selectedPost.ownerName }}
+                  <showprofile />
+                </p>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
             </v-list-item-content>
-            <!--
             <v-list-item-icon>
               <v-icon>mdi-message-text</v-icon>
             </v-list-item-icon>
-            -->
           </v-list-item>
           <div class="text-center">
             <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">

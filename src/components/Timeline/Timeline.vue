@@ -4,13 +4,15 @@
       <template v-for="(item, index) in showPosts">
         <v-divider :key="index"></v-divider>
 
-        <v-list-item :key="item.id" @click="selectId(item.id)">
+        <v-list-item :key="item.id">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
           </v-list-item-avatar>
-          <v-list-item-avatar v-else>
-            <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
-          </v-list-item-avatar>
+          <v-btn v-else>
+            <v-list-item-avatar>
+              <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+            </v-list-item-avatar>
+          </v-btn>
 
           <v-list-item-content>
             <!-- 折り返してくれない -->
@@ -36,6 +38,9 @@
               <v-btn icon v-if="nowTimeline==='mypost'">
                 <EditPost :selectedPost="item" />
               </v-btn>
+              <v-btn icon v-if="nowTimeline!='mypost'">
+                <showprofile :postid="item.id" />
+              </v-btn>
             </v-layout>
           </v-list-item-content>
         </v-list-item>
@@ -50,12 +55,14 @@
 import firebase from "firebase";
 import postDetailDialog from "../Post/postDetailDialog";
 import EditPost from "./EditPost";
+import showprofile from "./../Profile/showprofile";
 
 export default {
   name: "timeline",
   components: {
     postDetailDialog,
-    EditPost
+    EditPost,
+    showprofile
   },
   data() {
     return {
