@@ -10,17 +10,12 @@
       <v-card max-width="100%" class="mx-auto">
         <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="200px" dark>
           <v-row class="fill-height">
-            <v-card-title>
-              <v-btn dark icon>
-                <v-icon>mdi-information-variant</v-icon>
-              </v-btn>
-            </v-card-title>
-
+            <!--
             <div class="flex-grow-1"></div>
-
             <v-card-title class="white--text pl-12 pt-12">
               <div class="display-1 pl-12 pt-12 text-truncate">{{ selectedPost.ownerName }}&nbsp;</div>
             </v-card-title>
+            -->
           </v-row>
         </v-img>
 
@@ -39,11 +34,10 @@
                 {{ selectedPost.content }}
               </p>
               <br />
-              <v-layout justify-center>
-                <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
-                  <v-icon left>mdi-hand</v-icon>参加を希望する
-                </v-btn>
-              </v-layout>
+              <br />
+              <div class="text-center">
+                <showprofile />
+              </div>
               <br />
               <v-layout justify-center>
                 <v-alert dense text type="success" v-show="joinAlert">参加申請が完了しました</v-alert>
@@ -52,7 +46,6 @@
               <br />
               <v-list-item-subtitle>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
-                <p>現在の参加者：</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
             </v-list-item-content>
@@ -62,8 +55,13 @@
             </v-list-item-icon>
             -->
           </v-list-item>
-
-          <v-divider inset></v-divider>
+          <div class="text-center">
+            <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
+              <v-icon left>mdi-hand</v-icon>参加を希望する
+            </v-btn>
+          </div>
+          <br />
+          <v-divider></v-divider>
 
           <v-list-item @click="tmp()">
             <v-list-item-icon>
@@ -102,9 +100,12 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
+import showprofile from "./../Profile/showprofile";
 
 export default {
-  components: {},
+  components: {
+    showprofile
+  },
   data: () => ({
     dialog: false,
     joinAlert: false,

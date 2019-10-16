@@ -30,7 +30,6 @@
         <v-divider></v-divider>
         <v-list three-line subheader>
           <v-subheader>参加者を編集</v-subheader>
-          <!-- <CheckJoiner :id="selectedPost.id" /> -->
           <Editjoiner :id="selectedPost.id" />
         </v-list>
         <br />
