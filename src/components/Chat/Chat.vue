@@ -57,7 +57,7 @@ export default {
       .collection("chatroom")
       .doc(docKey)
       .collection("messages")
-      .orderBy("createdAt")
+      .orderBy("orderCreatedAt")
       .onSnapshot(function(querySnapshot) {
         self.messages = [];
         querySnapshot.forEach(function(doc) {
