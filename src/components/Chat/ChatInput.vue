@@ -28,6 +28,9 @@ export default {
       roomKey: ""
     };
   },
+  mounted() {
+    this.scrollToEnd();
+  },
   updated() {
     this.scrollToEnd();
   },
