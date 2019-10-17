@@ -2,7 +2,10 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
-        <v-btn color="red lighten-2" dark v-on="on">変更</v-btn>
+        <v-btn class="ma-2" v-on="on">
+          プロフィール画像を変更
+          <v-icon dark right>mdi-settings-outline</v-icon>
+        </v-btn>
       </template>
 
       <v-card>

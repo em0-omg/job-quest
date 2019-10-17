@@ -14,48 +14,44 @@
             <v-list-item color="rgba(0, 0, 0, .4)" dark>
               <v-list-item-content>
                 <v-list-item-title class="title">{{ user.displayName }}</v-list-item-title>
-                <v-list-item-subtitle>{{ user.email }}</v-list-item-subtitle>
+                <v-list-item-subtitle>
+                  <p v-if="showUserProfile.photoURL"></p>
+                  <p v-else>プロフィール画像を設定してください</p>
+                  <imageUploadDialog :uid="showUserProfile.id" />
+                </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-col>
         </v-row>
       </v-img>
-      <v-row>
-        <v-col>
-          <v-card color="#385f73" dark>
-            <v-card-text class="white--text">
-              <div class="headline mb-2">プロフィール</div>
-              <p v-if="showUserProfile.photoURL">プロフィール画像を変更する</p>
-              <p v-else>プロフィール画像を設定してください</p>
-              <v-layout justify-center>
-                <imageUploadDialog :uid="showUserProfile.id" />
-              </v-layout>
-              <br />
-              <p>ユーザ名：{{ showUserProfile.displayName }}</p>
-              <p>メールアドレス：{{ showUserProfile.email }}</p>
-              <br />
-              <hr />
-              <br />
-              <div v-if="showUserProfile">
-                <p>
-                  プロフィール文:
-                  <br />
-                  {{ showUserProfile.profile }}
-                </p>
-                <p>ランク: {{ showUserProfile.Rank }}</p>
-              </div>
-              <div v-else>
-                <p>追加情報を設定しましょう！</p>
-              </div>
-            </v-card-text>
+      <div class="container">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              <span>プロフィール</span>
+              <v-icon color="primary">mdi-account-card-details</v-icon>
+            </v-list-item-title>
+            <v-list-item-subtitle v-if="showUserProfile">{{ showUserProfile.profile }}</v-list-item-subtitle>
+            <br />
+            <v-list-item-title class="title">
+              <span>メールアドレス</span>
+              <v-icon color="primary">mdi-email</v-icon>
+            </v-list-item-title>
+            <v-list-item-subtitle>{{ showUserProfile.email }}</v-list-item-subtitle>
+            <br />
+            <v-list-item-title class="title">
+              <span>星獲得数</span>
+              <v-icon color="primary">mdi-account-star</v-icon>
+            </v-list-item-title>
+            <v-list-item-subtitle v-if="showUserProfile">{{ showUserProfile.Rank }}</v-list-item-subtitle>
             <v-card-actions>
               <v-layout justify-center>
-                <profileDialog :userProfile="showUserProfile"/>
+                <profileDialog :userProfile="showUserProfile" />
               </v-layout>
             </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+          </v-list-item-content>
+        </v-list-item>
+      </div>
     </v-card>
   </v-container>
 </template>
