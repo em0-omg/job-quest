@@ -64,6 +64,7 @@ export default {
   },
   mounted: function() {
     var self = this;
+    var joinedpost = [];
     // post取得
     firebase
       .firestore()
@@ -76,9 +77,10 @@ export default {
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
-          self.userPost.push(docData);
+          joinedpost.push(docData);
         });
       });
+    self.userPost = joinedpost.filter(p => p.isActive === true);
   },
   methods: {
     isFavorite: function(fromList) {
