@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="600">
+  <v-card class="mx-auto" max-width="400">
     <v-card-title class="blue-grey white--text">
       <span class="title">チャット</span>
       <v-spacer></v-spacer>
@@ -9,8 +9,8 @@
       </v-btn>
       -->
     </v-card-title>
-    <v-card-text class="py-0">
-      <v-timeline dense light class="chat">
+    <v-card-text class="py-0" ref="scroll">
+      <v-timeline dense light class="chat" ref="scroll">
         <v-timeline-item reverse v-for="item in messages" :key="item.id" large>
           <template v-slot:icon>
             <v-avatar :key="item.id" v-if="item.photoURL">
@@ -29,6 +29,10 @@
           </v-row>
         </v-timeline-item>
         <Chatinput :info="userinfo" :postid="pid" />
+        <div class="text-center">
+          <br />
+          <img src="./../../assets/jwlogo.png" width="32" />
+        </div>
       </v-timeline>
     </v-card-text>
   </v-card>
@@ -49,8 +53,8 @@ export default {
     };
   },
   mounted: function() {
+    this.$nextTick(() => this.scrollToEnd());
     var self = this;
-    self.scrollToEnd();
     var docKey = this.createRoomKey();
     console.log("docKey:" + docKey);
     firebase
@@ -69,7 +73,7 @@ export default {
       });
   },
   updated() {
-    this.scrollToEnd();
+    this.$nextTick(() => this.scrollToEnd());
   },
   methods: {
     createRoomKey: function() {
@@ -79,12 +83,22 @@ export default {
       keyArray.push(this.userinfo);
       return keyArray.sort().join("+" + this.pid + "+");
     },
+    /*
     scrollToEnd() {
-      this.$netxTick(() => {
-        const chatLog = document.getElementById("scrollTarget");
+      this.$nextTick(() => {
+        var chatLog = document.getElementById("targetto");
+        console.log(chatLog);
         if (!chatLog) return;
         chatLog.scrollTop = chatLog.scrollHeight;
+        console.log(chatLog.scrollTop);
       });
+    },
+    */
+    scrollToEnd: function() {
+      var container = this.$refs.scroll;
+      console.log("before:" + container.scrollTop);
+      container.scrollTop = container.scrollHeight;
+      console.log("after:" + container.scrollTop);
     }
   }
 };

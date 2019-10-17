@@ -31,7 +31,34 @@
               </v-col>
             </v-row>
           </v-img>
+          <div class="container">
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="title">
+                  <span>プロフィール</span>
+                  <v-icon color="primary">mdi-account-card-details</v-icon>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ userInfo.profile }}</v-list-item-subtitle>
+                <br />
+                <v-list-item-title class="title">
+                  <span>メールアドレス</span>
+                  <v-icon color="primary">mdi-email</v-icon>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ userInfo.email }}</v-list-item-subtitle>
+                <br />
+                <v-list-item-title class="title">
+                  <span>星獲得数</span>
+                  <v-icon color="primary">mdi-account-star</v-icon>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ userInfo.Rank }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </div>
         </v-card>
+        <v-tabs centered grow>
+          <v-tab>Item One</v-tab>
+          <v-tab>Item Two</v-tab>
+        </v-tabs>
       </v-card>
     </v-dialog>
   </v-row>
