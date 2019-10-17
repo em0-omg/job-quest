@@ -18,7 +18,8 @@
             <v-row align="end" class="fill-height">
               <v-col align-self="start" class="pa-0" cols="12">
                 <v-avatar class="profile" color="grey" size="164" tile>
-                  <v-img src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+                  <v-img v-if="userInfo.photoURL" :src="userInfo.photoURL"></v-img>
+                  <v-img v-else src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
                 </v-avatar>
               </v-col>
               <v-col class="py-0">
@@ -55,9 +56,29 @@
             </v-list-item>
           </div>
         </v-card>
-        <v-tabs centered grow>
-          <v-tab>Item One</v-tab>
-          <v-tab>Item Two</v-tab>
+        <v-tabs background-color="primary" centered dark grow icons-and-text>
+          <v-tab>
+            投稿履歴
+            <v-icon>mdi-post</v-icon>
+          </v-tab>
+          <v-tab>
+            参加履歴
+            <v-icon>mdi-hand</v-icon>
+          </v-tab>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <p>Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.</p>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <p>Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.</p>
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
         </v-tabs>
       </v-card>
     </v-dialog>
@@ -69,6 +90,8 @@ export default {
   props: ["post"],
   data() {
     return {
+      tab: null,
+
       dialog: false,
       notifications: false,
       sound: true,
