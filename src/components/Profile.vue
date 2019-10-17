@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-card>
     <v-card class="mx-auto" max-width="434" tile>
       <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
         <!-- sample src="" -->
@@ -53,10 +53,36 @@
         </v-list-item>
       </div>
     </v-card>
-  </v-container>
+    <v-tabs background-color="primary" centered dark grow icons-and-text>
+      <v-tab>
+        投稿履歴
+        <v-icon>mdi-post</v-icon>
+      </v-tab>
+      <v-tab>
+        参加履歴
+        <v-icon>mdi-hand</v-icon>
+      </v-tab>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <profilemypost :email="loginUser.email" />
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <joinedpost :email="loginUser.email" />
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+    </v-tabs>
+  </v-card>
 </template>
 <script>
 import profileDialog from "./Profile/profileDialog";
+import profilemypost from "./Profile/Profilemypost";
+import joinedpost from "./Profile/Joinedpost";
 import imageUploadDialog from "./Profile/imageUploadDialog";
 import firebase from "firebase";
 import Firebase from "./../firebase";
@@ -64,7 +90,9 @@ import Firebase from "./../firebase";
 export default {
   components: {
     profileDialog,
-    imageUploadDialog
+    imageUploadDialog,
+    profilemypost,
+    joinedpost
   },
   created: function() {
     Firebase.onAuth();
@@ -103,7 +131,8 @@ export default {
         artist: "Ellie Goulding"
       }
     ],
-    showUserProfile: {}
+    showUserProfile: {},
+    loginUser: firebase.auth().currentUser
   }),
   computed: {
     user() {
