@@ -68,7 +68,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <p>Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.</p>
+                <profilemypost :email="userInfo.email" />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -86,8 +86,13 @@
 </template>
 <script>
 import firebase from "firebase";
+import profilemypost from "./Profilemypost";
+
 export default {
   props: ["post"],
+  components: {
+    profilemypost
+  },
   data() {
     return {
       tab: null,
@@ -97,7 +102,9 @@ export default {
       sound: true,
       widgets: false,
 
-      userInfo: {}
+      userInfo: {},
+      userPost: [],
+      userJoin: []
     };
   },
   mounted: function() {
