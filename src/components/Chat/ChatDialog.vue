@@ -1,14 +1,21 @@
 <template>
-  <div class="text-center">
-    <v-menu v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
+  <v-row justify="center">
+    <v-dialog v-model="dialog" fullscreen hide-overlay transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" @click="getChatWithList()">
           <v-icon>mdi-format-list-bulleted</v-icon>
         </v-btn>
       </template>
+      <v-toolbar dark color="primary">
+        <v-btn icon dark @click="dialog = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-toolbar-title>チャットリスト</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
       <Chatlist :userinfo="userInfo" />
-    </v-menu>
-  </div>
+    </v-dialog>
+  </v-row>
 </template>
 <script>
 import firebase from "firebase";
@@ -23,7 +30,8 @@ export default {
     menu: false,
     message: false,
     hints: true,
-    userInfo: null
+    userInfo: null,
+    dialog: false
   }),
   methods: {
     getChatWithList: function() {

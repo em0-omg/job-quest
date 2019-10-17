@@ -1,6 +1,5 @@
 <template>
   <v-card max-width="500" class="mx-auto">
-    <v-card-title>Chat List</v-card-title>
     <v-list two-line v-if="userinfo.ChatWith">
       <v-list-item v-for="item in userinfo.ChatWith" :key="item.postID+item.with">
         <v-list-item-icon>
