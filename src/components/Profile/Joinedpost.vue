@@ -26,7 +26,9 @@
             <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
-              <opendetail :selectedPost="item" />&nbsp;
+              <v-btn icon>
+                <postdetaildialog :selectedPost="item"></postdetaildialog>&nbsp;
+              </v-btn>
               <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
                 <v-icon>mdi-heart-multiple-outline</v-icon>
               </v-btn>
@@ -45,12 +47,12 @@
 </template>
 <script>
 import firebase from "firebase";
-import opendetail from "./../Post/postDetailDialog";
+import postdetaildialog from "./postDetailDialog";
 
 export default {
   props: ["email"],
   components: {
-    opendetail
+    postdetaildialog
   },
   data() {
     return {
@@ -76,9 +78,6 @@ export default {
           docData.id = doc.id;
           self.userPost.push(docData);
         });
-      })
-      .catch(function(err) {
-        console.log("get mypost error:", err);
       });
   },
   methods: {
