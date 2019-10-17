@@ -75,7 +75,7 @@
           <v-tab-item>
             <v-card flat>
               <v-card-text>
-                <p>Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.</p>
+                <joinedpost :email="userInfo.email" />
               </v-card-text>
             </v-card>
           </v-tab-item>
@@ -87,11 +87,13 @@
 <script>
 import firebase from "firebase";
 import profilemypost from "./Profilemypost";
+import joinedpost from "./Joinedpost";
 
 export default {
   props: ["post"],
   components: {
-    profilemypost
+    profilemypost,
+    joinedpost
   },
   data() {
     return {

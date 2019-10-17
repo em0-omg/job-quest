@@ -38,7 +38,7 @@
         <v-card-actions>
           <div class="flex-grow-1"></div>
 
-          <v-btn text @click="menu = false">Cancel</v-btn>
+          <v-btn text @click="dialog = false">Cancel</v-btn>
           <v-btn color="primary" text @click="saveJoinerEdit(id)">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -54,8 +54,8 @@ export default {
   data: () => ({
     dialog: false,
     joinersList: [],
+    mailList: [],
     rating: 3,
-    menu: false,
     isJoin: false,
 
     myself: firebase.auth().currentUser.email
@@ -63,6 +63,7 @@ export default {
   methods: {
     createJoiner: function() {
       var joiners = [];
+      var mails = [];
       var joinerRef = firebase
         .firestore()
         .collection("users")
@@ -74,13 +75,22 @@ export default {
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
+          mails.push(doc.id);
           joiners.push(docData);
         });
       });
       this.joinersList = joiners;
+      this.mailList = mails;
     },
     saveJoinerEdit: function(postID) {
       var loginUser = firebase.auth().currentUser;
+      var postRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(this.id);
+
       var joinerRef = firebase
         .firestore()
         .collection("users")
@@ -88,11 +98,21 @@ export default {
         .collection("posts")
         .doc(this.id)
         .collection("joinUsers");
+
       var firestoreUserRef = firebase
         .firestore()
         .collection("users")
         .doc("company")
         .collection("user");
+
+      // postにも情報追加
+      postRef.set(
+        {
+          joiners: this.mailList
+        },
+        { merge: true }
+      );
+
       this.joinersList.forEach(function(joiner) {
         // ratingと参加情報を設定
         joinerRef
@@ -182,8 +202,7 @@ export default {
             });
         }
       });
-      this.menu = false;
-      console.log("menuoff");
+      this.dialog = false;
     }
   }
 };
