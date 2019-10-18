@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on }">
         <v-btn color="indigo" dark v-on="on" @click="createJoiner()">参加者を編集する</v-btn>
       </template>
-      <v-card>
+      <v-card v-if="joinersList.length > 0">
         <v-list three-line v-for="(item,id) in joinersList" :key="id">
           <v-list-item v-if="item.email!=myself">
             <v-list-item-avatar>
@@ -41,6 +41,10 @@
           <v-btn text @click="dialog = false">Cancel</v-btn>
           <v-btn color="primary" text @click="saveJoinerEdit(id)">Save</v-btn>
         </v-card-actions>
+      </v-card>
+      <v-card v-else>
+        <br />
+        <v-card-text>まだ参加者はいません</v-card-text>
       </v-card>
     </v-dialog>
   </v-row>

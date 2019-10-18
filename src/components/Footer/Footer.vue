@@ -14,9 +14,9 @@
       <v-icon>mdi-home</v-icon>
     </v-btn>
 
-    <v-btn @click="toMyPost()">
-      <span>my post</span>
-      <v-icon>mdi-account-clock</v-icon>
+    <v-btn @click="toNote()">
+      <span>notification</span>
+      <v-icon>mdi-bell-ring</v-icon>
     </v-btn>
 
     <v-btn @click="toSetting()">
@@ -67,8 +67,8 @@ export default {
       store.commit("nowTimelineChanged", "setting");
       this.$router.push("/");
     },
-    toMyPost: function() {
-      store.commit("nowTimelineChanged", "mypost");
+    toNote: function() {
+      store.commit("nowTimelineChanged", "notification");
       this.$router.push("/");
     },
     toFavorite: function() {

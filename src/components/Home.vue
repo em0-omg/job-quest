@@ -5,8 +5,11 @@
     </v-layout>
     <br />
     <!-- <v-divider></v-divider> -->
-    <v-layout justify-center v-show="!isTimeline()">
+    <v-layout justify-center v-show="nowTimeline==='setting'">
       <Profile />
+    </v-layout>
+    <v-layout justify-center v-show="nowTimeline==='notification'">
+      <Notification />
     </v-layout>
     <v-layout justify-center v-show="isTimeline()">
       <Timeline />
@@ -26,12 +29,14 @@
 import Firebase from "./../firebase";
 import Timeline from "./Timeline/Timeline";
 import Profile from "./Profile";
+import Notification from "./Notification";
 
 export default {
   name: "Home",
   components: {
     Timeline,
-    Profile
+    Profile,
+    Notification
   },
   created: function() {
     Firebase.onAuth();
@@ -50,6 +55,7 @@ export default {
   methods: {
     isTimeline: function() {
       if (this.nowTimeline === "setting") return false;
+      else if (this.nowTimeline === "notification") return false;
       else return true;
     }
   }

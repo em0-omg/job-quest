@@ -26,7 +26,7 @@
                 <v-list-item color="rgba(0, 0, 0, .4)" dark>
                   <v-list-item-content>
                     <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
-                    <v-list-item-subtitle>{{ post.id }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>Company name</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-col>

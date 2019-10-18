@@ -14,8 +14,6 @@
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <!-- 折り返してくれない -->
-            <!-- <v-list-item-title v-html="'<h4>'+item.title+'</h4>'"></v-list-item-title> -->
             <v-list-item-content v-if="!item.isActive">
               <span style="color: red;">非公開設定中</span>
             </v-list-item-content>
