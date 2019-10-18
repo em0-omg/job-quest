@@ -13,9 +13,6 @@
           </v-btn>
           <v-toolbar-title>投稿を編集</v-toolbar-title>
           <div class="flex-grow-1"></div>
-          <v-toolbar-items>
-            <v-btn dark text @click="dialog = false">Save</v-btn>
-          </v-toolbar-items>
         </v-toolbar>
         <v-list three-line subheader>
           <v-subheader>内容を編集</v-subheader>

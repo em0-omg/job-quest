@@ -8,12 +8,13 @@
 
         <v-list-item-content>
           <v-list-item-title v-text="item.with"></v-list-item-title>
-          <v-list-item-subtitle v-text="item.postID"></v-list-item-subtitle>
-          <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle>
+          <v-list-item-subtitle>投稿タイトル「{{item.postTitle}}」</v-list-item-subtitle>
+          <!-- <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle> -->
         </v-list-item-content>
 
         <v-list-item-avatar>
-          <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+          <v-img v-if="item.photoURL" :src="item.photoURL"></v-img>
+          <v-img v-else src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
         </v-list-item-avatar>
       </v-list-item>
     </v-list>
@@ -33,12 +34,12 @@ export default {
   mounted: function() {
     var self = this;
     self.chatlist = [];
-    this.userinfo.ChatWith.forEach(function(uw) {
+    self.userinfo.ChatWith.forEach(function(uw) {
       var chatlistItem = {
         with: uw.with,
-        postID: uw.postID
-        // postName: this.getPostTitle(uw.postID),
-        //userIcon: self.getIcon(uw.with)
+        postID: uw.postID,
+        postTitle: uw.postTitle,
+        photoURL: uw.photoURL
       };
       self.chatlist.push(chatlistItem);
     });
@@ -69,35 +70,28 @@ export default {
   },
   methods: {
     getIcon: function(emailKey) {
-      var self = this;
-      firebase
+      var docRef = firebase
         .firestore()
         .collection("users")
         .doc("company")
         .collection("user")
-        .onSnapshot(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            var docData = doc.data();
-            if (docData.email === emailKey) {
-              console.log("set:" + self.setIconURL);
-            }
-          });
-        });
+        .doc(emailKey);
+      docRef.get().then(function(doc) {
+        console.log(doc.data().photoURL);
+        return doc.data().photoURL;
+      });
     },
     getPostTitle: function(postKey) {
-      firebase
+      var docRef = firebase
         .firestore()
         .collection("users")
         .doc("company")
         .collection("posts")
-        .onSnapshot(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            var docData = doc.data();
-            if (docData.id === postKey) {
-              console.log("find post " + docData.id);
-            }
-          });
-        });
+        .doc(postKey);
+      docRef.get().then(function(doc) {
+        console.log(doc.data().title);
+        return doc.data().title;
+      });
     }
   }
 };

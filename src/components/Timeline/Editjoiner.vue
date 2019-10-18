@@ -132,7 +132,9 @@ export default {
         if (joiner.isJoin) {
           var chatInfo = {
             with: loginUser.email,
-            postID: postID
+            postID: postID,
+            postTitle: joiner.postTitle,
+            photoURL: loginUser.photoURL
           };
           // 相手に設定
           firestoreUserRef
@@ -150,8 +152,11 @@ export default {
           // 自分にも設定
           var chatInfoMyself = {
             with: joiner.email,
-            postID: postID
+            postID: postID,
+            postTitle: joiner.postTitle,
+            photoURL: joiner.photoURL
           };
+          console.table(chatInfoMyself);
           firestoreUserRef
             .doc(loginUser.email)
             .update({

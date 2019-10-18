@@ -51,7 +51,7 @@
             </v-list-item-content>
           </v-list-item>
           <div class="text-center">
-            <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
+            <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost)">
               <v-icon left>mdi-hand</v-icon>参加を希望する
             </v-btn>
           </div>
@@ -95,12 +95,9 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
-import showprofile from "./../Profile/showprofile";
 
 export default {
-  components: {
-    showprofile
-  },
+  components: {},
   data: () => ({
     dialog: false,
     joinAlert: false,
@@ -128,7 +125,7 @@ export default {
       });
   },
   methods: {
-    joinPost: function(postID) {
+    joinPost: function(post) {
       var loginUser = firebase.auth().currentUser;
       if (this.selectedPost.ownerEmail === loginUser.email) {
         alert("自分の投稿には参加希望を出せません");
@@ -146,12 +143,13 @@ export default {
         .collection("users")
         .doc("company")
         .collection("posts")
-        .doc(postID)
+        .doc(post.id)
         .collection("joinUsers")
         .doc(loginUser.email);
       return postRef
         .set(
           {
+            postTitle: post.title,
             photoURL: loginUser.photoURL,
             email: loginUser.email,
             isJoin: false,
