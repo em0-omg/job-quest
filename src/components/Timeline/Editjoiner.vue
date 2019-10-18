@@ -27,7 +27,7 @@
             <v-list-item-title>参加承認</v-list-item-title>
             <v-list-item-action>
               <v-btn icon>
-                <v-icon>mdi-information</v-icon>
+                <showprofile :post="item" />
               </v-btn>
             </v-list-item-action>
             <v-list-item-title>詳細</v-list-item-title>
@@ -51,10 +51,13 @@
 </template>
 <script>
 import firebase from "firebase";
+import showprofile from "./../Profile/showprofile";
 
 export default {
   props: ["id"],
-  mounted: () => {},
+  components: {
+    showprofile
+  },
   data: () => ({
     dialog: false,
     joinersList: [],

@@ -1,5 +1,8 @@
 <template>
-  <v-container>
+  <v-container v-if="loading">
+    <vue-loading type="spin" color="#333" :size="{ width: '50px', height: '50px' }"></vue-loading>
+  </v-container>
+  <v-container v-else>
     <div class="signup">
       <h2>Sign up</h2>
       <input type="text" placeholder="Email" v-model="username" />
@@ -19,11 +22,16 @@
 
 <script>
 import firebase from "firebase";
+import { VueLoading } from "vue-loading-template";
 
 export default {
   name: "Signup",
+  components: {
+    VueLoading
+  },
   data() {
     return {
+      loading: false,
       username: "",
       password: "",
       password2: ""
@@ -35,16 +43,19 @@ export default {
         alert("passwordが一致していません");
         return;
       }
+      this.loading = true;
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.username, this.password)
         .then(user => {
+          this.loading = false;
           alert("Create account: ", user.email);
           this.$router.push("/signin").catch(err => {
             alert(err.message);
           });
         })
         .catch(error => {
+          this.loading = false;
           alert(error.message);
         });
     }
