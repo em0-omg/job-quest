@@ -49,8 +49,8 @@
       </template>
     </v-list>
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
-      <div slot="no-more">もう読み込めないときのメッセージ</div>
-      <div slot="no-results">結果がないときのメッセージ</div>
+      <div slot="no-more">:( No more data...</div>
+      <div slot="no-results">:( No results</div>
     </infinite-loading>
   </v-container>
 </template>
