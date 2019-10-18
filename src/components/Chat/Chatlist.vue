@@ -85,7 +85,6 @@ export default {
         });
     },
     getPostTitle: function(postKey) {
-      var self = this;
       firebase
         .firestore()
         .collection("users")

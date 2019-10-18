@@ -52,13 +52,11 @@
   </v-row>
 </template>
 <script>
-import CheckJoiner from "./CheckJoiner";
 import Editjoiner from "./Editjoiner";
 import firebase from "firebase";
 
 export default {
   components: {
-    CheckJoiner,
     Editjoiner
   },
   props: ["selectedPost"],

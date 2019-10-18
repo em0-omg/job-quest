@@ -24,6 +24,8 @@
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
             <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
+            <v-list-item-subtitle v-html="isFavorite(item.favoriteFrom)"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -140,9 +142,11 @@ export default {
       // showPosts再生成 結局いらなかったけどやり方はメモ
       // var newArray = this.showPosts.filter(p => p.id !== id);
       // this.showPosts = newArray;
-      return favRef
+      favRef
         .update({
-          favoriteFrom: ["tmp", this.user.email]
+          favoriteFrom: firebase.firestore.FieldValue.arrayUnion(
+            this.user.email
+          )
         })
         .then(function() {
           console.log("favorite add!");
@@ -158,9 +162,11 @@ export default {
         .doc("company")
         .collection("posts")
         .doc(id);
-      return favRef
+      favRef
         .update({
-          favoriteFrom: ["tmp"]
+          favoriteFrom: firebase.firestore.FieldValue.arrayRemove(
+            this.user.email
+          )
         })
         .then(function() {
           console.log("favorite remove");
@@ -168,9 +174,6 @@ export default {
         .catch(function(error) {
           console.log(error);
         });
-    },
-    selectId: function(id) {
-      this.selectedId = id;
     },
     switchTimeline: function(now) {
       if (now === "favorite") {
