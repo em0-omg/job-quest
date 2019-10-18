@@ -144,6 +144,26 @@ export default {
       }
       var self = this;
       var nowDate = Date.now();
+      // joinersに追加
+      /*
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(postID)
+        .update({
+          joiners: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
+        })
+        .then(function() {
+          console.log("joiner ok" + loginUser.email);
+        })
+        .catch(function(eee) {
+          console.log("error: " + eee);
+        });
+        */
+      console.log(loginUser.email);
+
       var postRef = firebase
         .firestore()
         .collection("users")
@@ -152,7 +172,8 @@ export default {
         .doc(postID)
         .collection("joinUsers")
         .doc(loginUser.email);
-      return postRef
+
+      postRef
         .set(
           {
             photoURL: loginUser.photoURL,
@@ -164,7 +185,7 @@ export default {
           { merge: true }
         )
         .then(function() {
-          console.log("join!");
+          console.log("join!OK");
           self.joinAlert = true;
           setTimeout(() => (self.joinAlert = false), 2000);
         })

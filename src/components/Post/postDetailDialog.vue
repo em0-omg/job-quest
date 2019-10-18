@@ -138,6 +138,23 @@ export default {
       }
       var self = this;
       var nowDate = Date.now();
+
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(post.id)
+        .update({
+          joiners: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
+        })
+        .then(function() {
+          console.log("joiners add");
+        })
+        .catch(function(eee) {
+          console.log(eee);
+        });
+
       var postRef = firebase
         .firestore()
         .collection("users")

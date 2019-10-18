@@ -132,7 +132,9 @@ export default {
       // this.showPosts = newArray;
       return favRef
         .update({
-          favoriteFrom: ["tmp", this.user.email]
+          favoriteFrom: firebase.firestore.FieldValue.arrayUnion(
+            this.user.email
+          )
         })
         .then(function() {
           console.log("favorite add!");
@@ -150,7 +152,9 @@ export default {
         .doc(id);
       return favRef
         .update({
-          favoriteFrom: ["tmp"]
+          favoriteFrom: firebase.firestore.FieldValue.arrayRemove(
+            this.user.email
+          )
         })
         .then(function() {
           console.log("favorite remove");

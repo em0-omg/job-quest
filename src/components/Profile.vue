@@ -27,26 +27,38 @@
       <div class="container">
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="title">
+            <v-list-item-title class="subtitle-2">
               <span>プロフィール</span>
               <v-icon color="primary">mdi-account-card-details</v-icon>
             </v-list-item-title>
-            <v-list-item-subtitle v-if="showUserProfile">{{ showUserProfile.profile }}</v-list-item-subtitle>
+            <v-list-item-content v-if="showUserProfile" class="body-2">{{ showUserProfile.profile }}</v-list-item-content>
             <br />
-            <v-list-item-title class="title">
+            <v-list-item-title class="subtitle-2">
               <span>メールアドレス</span>
               <v-icon color="primary">mdi-email</v-icon>
             </v-list-item-title>
             <v-list-item-subtitle>{{ showUserProfile.email }}</v-list-item-subtitle>
             <br />
-            <v-list-item-title class="title">
+            <v-list-item-title class="subtitle-2">
+              <span>電話番号</span>
+              <v-icon color="primary">mdi-phone</v-icon>
+            </v-list-item-title>
+            <v-list-item-subtitle>{{ showUserProfile.phone }}</v-list-item-subtitle>
+            <br />
+            <v-list-item-title class="subtitle-2">
+              <span>所属</span>
+              <v-icon color="primary">mdi-office-building</v-icon>
+            </v-list-item-title>
+            <v-list-item-subtitle>{{ showUserProfile.belongTo }}</v-list-item-subtitle>
+            <br />
+            <v-list-item-title class="subtitle-2">
               <span>星獲得数</span>
               <v-icon color="primary">mdi-account-star</v-icon>
             </v-list-item-title>
             <v-list-item-subtitle v-if="showUserProfile">{{ showUserProfile.Rank }}</v-list-item-subtitle>
             <v-card-actions>
               <v-layout justify-center>
-                <profileDialog :userProfile="showUserProfile" />
+                <profileDialog :userprofile="showUserProfile" />
               </v-layout>
             </v-card-actions>
           </v-list-item-content>

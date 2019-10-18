@@ -178,7 +178,9 @@ export default {
         } else {
           var chatInfoRemove = {
             with: loginUser.email,
-            postID: postID
+            postID: postID,
+            postTitle: joiner.postTitle,
+            photoURL: joiner.photoURL
           };
           // 相手
           firestoreUserRef
@@ -197,7 +199,9 @@ export default {
           // 自分
           var chatInfoRemoveMyself = {
             with: joiner.email,
-            postID: postID
+            postID: postID,
+            postTitle: joiner.postTitle,
+            photoURL: joiner.photoURL
           };
           firestoreUserRef
             .doc(loginUser.email)
