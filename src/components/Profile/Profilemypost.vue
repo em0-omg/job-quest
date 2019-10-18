@@ -1,18 +1,17 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in iposts">
+      <template v-for="(item, index) in userPost">
+        <!-- <template v-for="(item, index) in iposts"> -->
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
           </v-list-item-avatar>
-          <v-btn v-else>
-            <v-list-item-avatar>
-              <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
-            </v-list-item-avatar>
-          </v-btn>
+          <v-list-item-avatar v-else>
+            <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+          </v-list-item-avatar>
 
           <v-list-item-content>
             <!-- 折り返してくれない -->
@@ -35,26 +34,33 @@
               <v-btn icon v-else @click="unfavorite(item.id)">
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
+              <v-btn icon>
+                <postdelete :postid="item.id" />&nbsp;
+              </v-btn>
             </v-layout>
           </v-list-item-content>
         </v-list-item>
       </template>
     </v-list>
+    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-more">:( No more data...</div>
       <div slot="no-results">:( No results</div>
     </infinite-loading>
+    -->
   </v-container>
 </template>
 <script>
 import firebase from "firebase";
 import postdetaildialog from "./postDetailDialog";
+import postdelete from "./../Post/Postdelete";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
   props: ["email"],
   components: {
     postdetaildialog,
+    postdelete,
     InfiniteLoading
   },
   data() {
@@ -102,6 +108,9 @@ export default {
           this.$refs.infiniteLoading.stateChanger.complete();
         }
       }, 1000);
+    },
+    deletePost: function(id) {
+      console.log("delete");
     },
     isFavorite: function(fromList) {
       var loginUser = firebase.auth().currentUser;

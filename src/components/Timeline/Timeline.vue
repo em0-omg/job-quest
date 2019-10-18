@@ -1,18 +1,17 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in iposts">
+      <template v-for="(item, index) in showPosts">
+        <!-- <template v-for="(item, index) in iposts"> -->
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
           </v-list-item-avatar>
-          <v-btn v-else>
-            <v-list-item-avatar>
-              <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
-            </v-list-item-avatar>
-          </v-btn>
+          <v-list-item-avatar v-else>
+            <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+          </v-list-item-avatar>
 
           <v-list-item-content>
             <!-- 折り返してくれない -->
@@ -24,8 +23,6 @@
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
             <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.favoriteFrom"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="isFavorite(item.favoriteFrom)"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -48,10 +45,12 @@
         </v-list-item>
       </template>
     </v-list>
+    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-more">:( No more data...</div>
       <div slot="no-results">:( No results</div>
     </infinite-loading>
+    -->
   </v-container>
 </template>
 <script>
