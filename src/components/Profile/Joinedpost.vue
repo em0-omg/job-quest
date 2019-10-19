@@ -67,7 +67,6 @@ export default {
   },
   mounted: function() {
     var self = this;
-    var joinedpost = [];
     // post取得
     firebase
       .firestore()
@@ -80,11 +79,10 @@ export default {
         querySnapshot.forEach(function(doc) {
           var docData = doc.data();
           docData.id = doc.id;
-          joinedpost.push(docData);
+          self.userPost.push(docData);
         });
       });
-    self.userPost = joinedpost.filter(p => p.isActive === true);
-  },
+ },
   methods: {
     infiniteHandler() {
       setTimeout(() => {
@@ -95,7 +93,7 @@ export default {
         } else {
           this.$refs.infiniteLoading.stateChanger.complete();
         }
-      }, 1000);
+      }, 500);
     },
     isFavorite: function(fromList) {
       var loginUser = firebase.auth().currentUser;
