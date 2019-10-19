@@ -1,8 +1,7 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in userPost">
-        <!-- <template v-for="(item, index) in iposts"> -->
+      <template v-for="(item, index) in userPost.slice(0,count)">
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id">
@@ -45,12 +44,10 @@
         </v-list-item>
       </template>
     </v-list>
-    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-more">:( No more data...</div>
       <div slot="no-results">:( No results</div>
     </infinite-loading>
-    -->
   </v-container>
 </template>
 <script>
@@ -101,12 +98,14 @@ export default {
       setTimeout(() => {
         var self = this;
         if (self.userPost.length >= this.count) {
+          /*
           this.userPost
             .slice(this.count, this.count + 5)
             .filter(function(item) {
               self.iposts.push(item);
               return item;
             });
+            */
           this.count += 5;
           this.$refs.infiniteLoading.stateChanger.loaded();
         } else {
