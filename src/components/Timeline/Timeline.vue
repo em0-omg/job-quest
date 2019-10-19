@@ -32,9 +32,6 @@
               <v-btn icon v-else @click="unfavorite(item.id)">
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
-              <v-btn icon v-if="nowTimeline==='mypost'">
-                <EditPost :selectedPost="item" />
-              </v-btn>
               <v-btn icon v-if="nowTimeline!='mypost'">
                 <showprofile :post="item" />
               </v-btn>
@@ -55,14 +52,12 @@
 import firebase from "firebase";
 import InfiniteLoading from "vue-infinite-loading";
 import postDetailDialog from "../Post/postDetailDialog";
-import EditPost from "./EditPost";
 import showprofile from "./../Profile/showprofile";
 
 export default {
   name: "timeline",
   components: {
     postDetailDialog,
-    EditPost,
     showprofile,
     InfiniteLoading
   },

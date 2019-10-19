@@ -35,7 +35,7 @@
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
               <v-btn v-if="item.ownerEmail===user.email" icon>
-                <EditPost :selectedPost="item" />
+                <editpost :selectedPost="item" />
               </v-btn>
               <v-btn icon v-if="item.ownerEmail===user.email">
                 <postdelete :postid="item.id" />&nbsp;
@@ -57,7 +57,7 @@
 import firebase from "firebase";
 import postdetaildialog from "./postDetailDialog";
 import postdelete from "./../Post/Postdelete";
-import EditPost from "./../Timeline/EditPost";
+import editpost from "./../Timeline/EditPost";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
@@ -65,7 +65,7 @@ export default {
   components: {
     postdetaildialog,
     postdelete,
-    EditPost,
+    editpost,
     InfiniteLoading
   },
   data() {
