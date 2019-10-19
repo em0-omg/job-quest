@@ -11,9 +11,23 @@
     <v-layout justify-center v-show="nowTimeline==='notification'">
       <Notification />
     </v-layout>
+    <v-layout justify-center v-show="nowTimeline==='contact'">
+      <ContactForm />
+    </v-layout>
     <v-layout justify-center v-show="isTimeline()">
       <Timeline />
     </v-layout>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <br />
     <v-layout justify-center>
       {{ new Date().getFullYear() }} —
@@ -30,13 +44,15 @@ import Firebase from "./../firebase";
 import Timeline from "./Timeline/Timeline";
 import Profile from "./Profile";
 import Notification from "./Notification";
+import ContactForm from "./ContactForm";
 
 export default {
   name: "Home",
   components: {
     Timeline,
     Profile,
-    Notification
+    Notification,
+    ContactForm
   },
   created: function() {
     Firebase.onAuth();
@@ -56,6 +72,7 @@ export default {
     isTimeline: function() {
       if (this.nowTimeline === "setting") return false;
       else if (this.nowTimeline === "notification") return false;
+      else if (this.nowTimeline === "contact") return false;
       else return true;
     }
   }

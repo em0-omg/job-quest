@@ -1,8 +1,8 @@
 <template>
   <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed>
-    <v-btn>
+    <v-btn @click="toContact()">
       <span>contact</span>
-      <v-icon>mdi-phone-forward</v-icon>
+      <v-icon>mdi-email-send</v-icon>
     </v-btn>
     <v-btn @click="toFavorite()">
       <span>favorite</span>
@@ -73,6 +73,10 @@ export default {
     },
     toFavorite: function() {
       store.commit("nowTimelineChanged", "favorite");
+      this.$router.push("/");
+    },
+    toContact: function() {
+      store.commit("nowTimelineChanged", "contact");
       this.$router.push("/");
     }
   }
