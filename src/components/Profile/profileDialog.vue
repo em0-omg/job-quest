@@ -77,12 +77,14 @@ export default {
   }),
   computed: {},
   mounted: function() {
-    var self = this;
-    self.updateUser.displayName = self.userprofile.displayName;
-    self.updateUser.profile = self.userprofile.profile;
-    self.updateUser.phone = self.userprofile.phone;
-    self.updateUser.belongTo = self.userprofile.belongTo;
-  },
+    this.$nextTick(function(){
+       var self = this;
+       self.updateUser.displayName = self.userprofile.displayName;
+       self.updateUser.profile = self.userprofile.profile;
+       self.updateUser.phone = self.userprofile.phone;
+       self.updateUser.belongTo = self.userprofile.belongTo;
+    })
+ },
   methods: {
     saveUserProfile: function() {
       var self = this;
