@@ -5,7 +5,7 @@
       <v-icon>mdi-email-send</v-icon>
     </v-btn>
     <v-btn @click="toFavorite()">
-      <span>favorite</span>
+      <span>like user</span>
       <v-icon>mdi-account-heart</v-icon>
     </v-btn>
 

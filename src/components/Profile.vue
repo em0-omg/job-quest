@@ -71,6 +71,10 @@
         <v-icon>mdi-post</v-icon>
       </v-tab>
       <v-tab>
+        お気に入り投稿
+        <v-icon>mdi-heart</v-icon>
+      </v-tab>
+      <v-tab>
         参加履歴
         <v-icon>mdi-hand</v-icon>
       </v-tab>
@@ -78,6 +82,13 @@
         <v-card flat>
           <v-card-text>
             <profilemypost :email="loginUser.email" />
+          </v-card-text>
+        </v-card>
+      </v-tab-item>
+      <v-tab-item>
+        <v-card flat>
+          <v-card-text>
+            <favoritepost :email="loginUser.email" />
           </v-card-text>
         </v-card>
       </v-tab-item>
@@ -95,6 +106,7 @@
 import profileDialog from "./Profile/profileDialog";
 import profilemypost from "./Profile/Profilemypost";
 import joinedpost from "./Profile/Joinedpost";
+import favoritepost from "./Profile/Favoritepost";
 import imageUploadDialog from "./Profile/imageUploadDialog";
 import firebase from "firebase";
 import Firebase from "./../firebase";
@@ -104,7 +116,8 @@ export default {
     profileDialog,
     imageUploadDialog,
     profilemypost,
-    joinedpost
+    joinedpost,
+    favoritepost
   },
   created: function() {
     Firebase.onAuth();
