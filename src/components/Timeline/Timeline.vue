@@ -198,6 +198,7 @@ export default {
         var newFavArray = this.allPosts.filter(p =>
           this.loginUserInfo.favoriteUser.includes(p.ownerEmail)
         );
+        console.log(this.loginUserInfo.favoriteUser);
         this.showPosts = newFavArray.filter(p => p.isActive === true);
       } else if (now === "mypost") {
         var newMyArray = this.allPosts.filter(
