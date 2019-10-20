@@ -24,8 +24,7 @@
             <v-card-text class="body-2 overline">{{ item.content }}</v-card-text>
           </v-card>
           <v-row justify="space-between">
-            <v-col cols="7">&nbsp;</v-col>
-            <v-col class="text-right" cols="5">{{ item.createdAt }}</v-col>
+            <v-col class="text-right" cols="12">{{ item.createdAt }}</v-col>
           </v-row>
         </v-timeline-item>
         <Chatinput :info="userinfo" :postid="pid" />

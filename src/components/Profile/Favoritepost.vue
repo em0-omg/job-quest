@@ -73,7 +73,7 @@ export default {
       .collection("users")
       .doc("company")
       .collection("posts")
-      .where("joiners", "array-contains", self.email)
+      .where("favoriteFrom", "array-contains", self.email)
       .onSnapshot(function(querySnapshot) {
         self.userPost = [];
         querySnapshot.forEach(function(doc) {

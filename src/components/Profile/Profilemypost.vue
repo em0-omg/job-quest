@@ -1,8 +1,7 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in userPost">
-        <!-- <template v-for="(item, index) in iposts"> -->
+      <template v-for="(item, index) in userPost.slice(0,count)">
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id">
@@ -35,7 +34,7 @@
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
               <v-btn v-if="item.ownerEmail===user.email" icon>
-                <EditPost :selectedPost="item" />
+                <editpost :selectedPost="item" />
               </v-btn>
               <v-btn icon v-if="item.ownerEmail===user.email">
                 <postdelete :postid="item.id" />&nbsp;
@@ -45,19 +44,17 @@
         </v-list-item>
       </template>
     </v-list>
-    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-more">:( No more data...</div>
       <div slot="no-results">:( No results</div>
     </infinite-loading>
-    -->
   </v-container>
 </template>
 <script>
 import firebase from "firebase";
 import postdetaildialog from "./postDetailDialog";
 import postdelete from "./../Post/Postdelete";
-import EditPost from "./../Timeline/EditPost";
+import editpost from "./../Timeline/EditPost";
 import InfiniteLoading from "vue-infinite-loading";
 
 export default {
@@ -65,7 +62,7 @@ export default {
   components: {
     postdetaildialog,
     postdelete,
-    EditPost,
+    editpost,
     InfiniteLoading
   },
   data() {
@@ -101,12 +98,14 @@ export default {
       setTimeout(() => {
         var self = this;
         if (self.userPost.length >= this.count) {
+          /*
           this.userPost
             .slice(this.count, this.count + 5)
             .filter(function(item) {
               self.iposts.push(item);
               return item;
             });
+            */
           this.count += 5;
           this.$refs.infiniteLoading.stateChanger.loaded();
         } else {

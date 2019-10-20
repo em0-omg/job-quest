@@ -1,12 +1,12 @@
 <template>
   <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed>
-    <v-btn>
+    <v-btn @click="toContact()">
       <span>contact</span>
-      <v-icon>mdi-phone-forward</v-icon>
+      <v-icon>mdi-email-send</v-icon>
     </v-btn>
     <v-btn @click="toFavorite()">
-      <span>favorite</span>
-      <v-icon>mdi-heart</v-icon>
+      <span>like user</span>
+      <v-icon>mdi-account-heart</v-icon>
     </v-btn>
 
     <v-btn @click="toHome()">
@@ -30,17 +30,34 @@ import store from "./../../store";
 
 export default {
   created: function() {
-    var self = this;
-    var timelineList = {
-      phone: 0,
-      favorite: 1,
-      home: 2,
-      mypost: 3,
-      setting: 4
-    };
-    //TODO なぜか反応しない
-    var selectedFooter = timelineList[self.nowTimeline];
-    self.bottomNav = selectedFooter;
+  },
+  mounted: function() {
+    this.$nextTick(function(){
+      var self = this;
+      var timelineList = {
+        phone: 0,
+        favorite: 1,
+        home: 2,
+        notification: 3,
+        setting: 4
+      };
+      var selectedFooter = timelineList[self.nowTimeline];
+      self.bottomNav = selectedFooter;
+    })
+  },
+  updated: function() {
+    this.$nextTick(function(){
+      var self = this;
+      var timelineList = {
+        phone: 0,
+        favorite: 1,
+        home: 2,
+        notification: 3,
+        setting: 4
+      };
+      var selectedFooter = timelineList[self.nowTimeline];
+      self.bottomNav = selectedFooter;
+    })
   },
   data() {
     return {
@@ -73,6 +90,10 @@ export default {
     },
     toFavorite: function() {
       store.commit("nowTimelineChanged", "favorite");
+      this.$router.push("/");
+    },
+    toContact: function() {
+      store.commit("nowTimelineChanged", "contact");
       this.$router.push("/");
     }
   }

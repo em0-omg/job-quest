@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-list three-line>
-      <template v-for="(item, index) in showPosts">
+      <template v-for="(item, index) in showPosts.slice(0,count)">
         <!-- <template v-for="(item, index) in iposts"> -->
         <v-divider :key="index"></v-divider>
 
@@ -32,9 +32,6 @@
               <v-btn icon v-else @click="unfavorite(item.id)">
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
-              <v-btn icon v-if="nowTimeline==='mypost'">
-                <EditPost :selectedPost="item" />
-              </v-btn>
               <v-btn icon v-if="nowTimeline!='mypost'">
                 <showprofile :post="item" />
               </v-btn>
@@ -43,26 +40,22 @@
         </v-list-item>
       </template>
     </v-list>
-    <!--
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">
       <div slot="no-more">:( No more data...</div>
       <div slot="no-results">:( No results</div>
     </infinite-loading>
-    -->
   </v-container>
 </template>
 <script>
 import firebase from "firebase";
 import InfiniteLoading from "vue-infinite-loading";
 import postDetailDialog from "../Post/postDetailDialog";
-import EditPost from "./EditPost";
 import showprofile from "./../Profile/showprofile";
 
 export default {
   name: "timeline",
   components: {
     postDetailDialog,
-    EditPost,
     showprofile,
     InfiniteLoading
   },
@@ -78,6 +71,7 @@ export default {
       allPosts: [],
       showPosts: [],
       iposts: [],
+      loginUserInfo: null,
 
       selectedId: "",
 
@@ -103,6 +97,8 @@ export default {
   },
   mounted: function() {
     var self = this;
+    var loginUser = firebase.auth().currentUser;
+
     self.db
       .collection("users")
       .doc("company")
@@ -120,7 +116,14 @@ export default {
         });
       });
 
-    console.table(self.showPosts);
+    firebase.firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .doc(loginUser.email)
+      .onSnapshot(function(doc) {
+        self.loginUserInfo = doc.data()
+      });
 
     self.db
       .collection("users")
@@ -135,12 +138,6 @@ export default {
       setTimeout(() => {
         var self = this;
         if (self.showPosts.length >= this.count) {
-          this.showPosts
-            .slice(this.count, this.count + 5)
-            .filter(function(item) {
-              self.iposts.push(item);
-              return item;
-            });
           this.count += 5;
           this.$refs.infiniteLoading.stateChanger.loaded();
         } else {
@@ -199,8 +196,9 @@ export default {
     switchTimeline: function(now) {
       if (now === "favorite") {
         var newFavArray = this.allPosts.filter(p =>
-          p.favoriteFrom.includes(this.user.email)
+          this.loginUserInfo.favoriteUser.includes(p.ownerEmail)
         );
+        console.log(this.loginUserInfo.favoriteUser);
         this.showPosts = newFavArray.filter(p => p.isActive === true);
       } else if (now === "mypost") {
         var newMyArray = this.allPosts.filter(

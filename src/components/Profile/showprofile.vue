@@ -1,5 +1,4 @@
 <template>
-  <v-row justify="center">
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
@@ -26,7 +25,16 @@
                 <v-list-item color="rgba(0, 0, 0, .4)" dark>
                   <v-list-item-content>
                     <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
-                    <v-list-item-subtitle>Company name</v-list-item-subtitle>
+                    <v-list-item-subtitle class="text-center">
+                      <v-btn light @click="removeFavoriteUser()" v-if="userInfo.favoriteFrom.includes(loginUser.email)">
+                        お気に入りユーザから外す
+                        <v-icon>mdi-account-heart</v-icon>
+                      </v-btn>
+                      <v-btn light @click="addFavoriteUser()" v-else>
+                        お気に入りユーザに登録する
+                        <v-icon>mdi-account-heart-outline</v-icon>
+                      </v-btn>
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-col>
@@ -34,20 +42,32 @@
           </v-img>
           <div class="container">
             <v-list-item>
-              <v-list-item-content>
-                <v-list-item-title class="title">
+              <v-list-item-content class="text-left">
+                <v-list-item-title class="subtitle-2">
                   <span>プロフィール</span>
                   <v-icon color="primary">mdi-account-card-details</v-icon>
                 </v-list-item-title>
-                <v-list-item-subtitle>{{ userInfo.profile }}</v-list-item-subtitle>
+                <v-list-item-subtitle class="body-2">{{ userInfo.profile }}</v-list-item-subtitle>
                 <br />
-                <v-list-item-title class="title">
+                <v-list-item-title class="subtitle-2">
                   <span>メールアドレス</span>
                   <v-icon color="primary">mdi-email</v-icon>
                 </v-list-item-title>
                 <v-list-item-subtitle>{{ userInfo.email }}</v-list-item-subtitle>
                 <br />
-                <v-list-item-title class="title">
+                <v-list-item-title class="subtitle-2">
+                  <span>電話番号</span>
+                  <v-icon color="primary">mdi-phone</v-icon>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ userInfo.phone }}</v-list-item-subtitle>
+                <br />
+                <v-list-item-title class="subtitle-2">
+                  <span>所属</span>
+                  <v-icon color="primary">mdi-office-building</v-icon>
+                </v-list-item-title>
+                <v-list-item-subtitle>{{ userInfo.belongTo }}</v-list-item-subtitle>
+                <br />
+                <v-list-item-title class="subtitle-2">
                   <span>星獲得数</span>
                   <v-icon color="primary">mdi-account-star</v-icon>
                 </v-list-item-title>
@@ -82,7 +102,6 @@
         </v-tabs>
       </v-card>
     </v-dialog>
-  </v-row>
 </template>
 <script>
 import firebase from "firebase";
@@ -106,26 +125,67 @@ export default {
 
       userInfo: {},
       userPost: [],
-      userJoin: []
+      userJoin: [],
+      favoriteFrom: [],
+
+      loginUser: firebase.auth().currentUser
     };
   },
   mounted: function() {
-    var self = this;
-    firebase
-      .firestore()
-      .collection("users")
-      .doc("company")
-      .collection("user")
-      .where("email", "==", self.post.ownerEmail)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          self.userInfo = doc.data();
-        });
+    this.$nextTick(function(){
+      var self = this;
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .where("email", "==", self.post.ownerEmail)
+        .onSnapshot(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            self.userInfo = doc.data();
+          });
+        })
       })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
+  },
+  methods: {
+    addFavoriteUser: function() {
+      var loginUser = firebase.auth().currentUser;
+      var userRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(loginUser.email);
+      
+      var toRef = firebase.firestore().collection("users").doc("company").collection("user").doc(this.post.ownerEmail);
+
+      userRef.update({
+        favoriteUser: firebase.firestore.FieldValue.arrayUnion(this.post.ownerEmail)
       });
+
+      toRef.update({
+        favoriteFrom: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
+      });
+    },
+    removeFavoriteUser: function() {
+      var loginUser = firebase.auth().currentUser;
+      var userRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(loginUser.email);
+
+      var toRef = firebase.firestore().collection("users").doc("company").collection("user").doc(this.post.ownerEmail);
+
+      userRef.update({
+        favoriteUser: firebase.firestore.FieldValue.arrayRemove(this.post.ownerEmail)
+      });
+
+      toRef.update({
+        favoriteFrom: firebase.firestore.FieldValue.arrayRemove(loginUser.email)
+      });
+    }
   }
 };
 </script>
