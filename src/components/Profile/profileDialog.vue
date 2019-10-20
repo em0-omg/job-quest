@@ -72,7 +72,8 @@ export default {
       profile: "",
       Rank: 1,
       star: 1,
-      isAdmin: false
+      isAdmin: false,
+      favoriteFrom: [],
     }
   }),
   computed: {},

@@ -6,7 +6,7 @@
     </v-btn>
     <v-btn @click="toFavorite()">
       <span>favorite</span>
-      <v-icon>mdi-heart</v-icon>
+      <v-icon>mdi-account-heart</v-icon>
     </v-btn>
 
     <v-btn @click="toHome()">
