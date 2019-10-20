@@ -71,6 +71,7 @@ export default {
       allPosts: [],
       showPosts: [],
       iposts: [],
+      loginUserInfo: null,
 
       selectedId: "",
 
@@ -96,6 +97,8 @@ export default {
   },
   mounted: function() {
     var self = this;
+    var loginUser = firebase.auth().currentUser;
+
     self.db
       .collection("users")
       .doc("company")
@@ -113,7 +116,14 @@ export default {
         });
       });
 
-    console.table(self.showPosts);
+    firebase.firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .doc(loginUser.email)
+      .onSnapshot(function(doc) {
+        self.loginUserInfo = doc.data()
+      });
 
     self.db
       .collection("users")
@@ -186,7 +196,7 @@ export default {
     switchTimeline: function(now) {
       if (now === "favorite") {
         var newFavArray = this.allPosts.filter(p =>
-          p.favoriteFrom.includes(this.user.email)
+          this.loginUserInfo.favoriteUser.includes(p.ownerEmail)
         );
         this.showPosts = newFavArray.filter(p => p.isActive === true);
       } else if (now === "mypost") {

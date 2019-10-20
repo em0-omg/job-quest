@@ -74,6 +74,7 @@ export default {
       star: 1,
       isAdmin: false,
       favoriteFrom: [],
+      favoriteUser: [],
     }
   }),
   computed: {},

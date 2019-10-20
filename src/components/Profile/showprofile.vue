@@ -26,7 +26,7 @@
                   <v-list-item-content>
                     <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
                     <v-list-item-subtitle class="text-center">
-                      <v-btn light @click="removeFavoriteUser()" v-if="isFavoriteUser(userInfo.favoriteFrom)">
+                      <v-btn light @click="removeFavoriteUser()" v-if="userInfo.favoriteFrom.includes(loginUser.email)">
                         お気に入りユーザから外す
                         <v-icon>mdi-account-heart</v-icon>
                       </v-btn>
@@ -125,33 +125,29 @@ export default {
 
       userInfo: {},
       userPost: [],
-      userJoin: []
+      userJoin: [],
+      favoriteFrom: [],
+
+      loginUser: firebase.auth().currentUser
     };
   },
   mounted: function() {
-    var self = this;
-    firebase
-      .firestore()
-      .collection("users")
-      .doc("company")
-      .collection("user")
-      .where("email", "==", self.post.ownerEmail)
-      .onSnapshot(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          self.userInfo = doc.data();
-        });
+    this.$nextTick(function(){
+      var self = this;
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .where("email", "==", self.post.ownerEmail)
+        .onSnapshot(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            self.userInfo = doc.data();
+          });
+        })
       })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
   },
   methods: {
-    isFavoriteUser: function(favoriteFrom) {
-      var loginUser = firebase.auth().currentUser;
-      if (favoriteFrom.indexOf(loginUser.email)>=0){
-        return true;
-      } else false;
-    },
     addFavoriteUser: function() {
       var loginUser = firebase.auth().currentUser;
       var userRef = firebase
