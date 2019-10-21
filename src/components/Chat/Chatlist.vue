@@ -49,6 +49,7 @@ export default {
     docRef
       .onSnapshot(function(doc) {
         if (doc.exists) {
+          self.chatlist = [];
           doc.data().ChatWith.forEach(function(uw) {
             var chatlistItem = {
               with: uw.with,
