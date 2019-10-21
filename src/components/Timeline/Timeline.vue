@@ -47,10 +47,11 @@
   </v-container>
 </template>
 <script>
-import firebase from "firebase";
+import firebase, { firestore } from "firebase";
 import InfiniteLoading from "vue-infinite-loading";
 import postDetailDialog from "../Post/postDetailDialog";
 import showprofile from "./../Profile/showprofile";
+import moment from "moment";
 
 export default {
   name: "timeline",
@@ -186,6 +187,36 @@ export default {
         })
         .catch(function(error) {
           console.log(error);
+        });
+
+      // 通知を送る
+      favRef
+        .get()
+        .then(function(doc) {
+          if (doc.exists) {
+            var nowDate = Date.now();
+            var postItem = doc.data();
+            firebase
+              .firestore()
+              .collection("users")
+              .doc("company")
+              .collection("user")
+              .doc(postItem.ownerEmail)
+              .collection("notification")
+              .add({
+                content: "投稿がお気に入りに登録されました",
+                createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+                userFrom: firebase.auth().currentUser.email,
+                icon: "mdi-heart",
+                color: "pink",
+                title: "お気に入り"
+              });
+          } else {
+            console.log("no doc");
+          }
+        })
+        .catch(function(e) {
+          console.log("error", e);
         });
     },
     unfavorite: function(id) {
