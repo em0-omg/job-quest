@@ -158,9 +158,21 @@ export default {
 
         // チャットルーム作成情報を追加
         if (joiner.isJoin) {
-          console.log(joiner.email);
           // 通知を追加
-          this.notification(joiner.email);
+          var nowDate = Date.now();
+          var nRef = firebase
+            .firestore()
+            .collection("users")
+            .doc("company")
+            .collection("user")
+            .doc(joiner.email)
+            .collection("notification")
+            .add({
+              content: "参加が承認されました！ チャットリストをご覧ください",
+              createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+              orderBy: moment(nowDate).format("YYYY/MM/DD HH:mm:ss"),
+              userFrom: firebase.auth().currentUser.email
+            });
 
           var chatInfo = {
             with: loginUser.email,
@@ -244,26 +256,6 @@ export default {
         }
       });
       this.dialog = false;
-    },
-    notification: function(userKey) {
-      console.log("key:" + userKey);
-      /*
-      var nowDate = Date.now();
-      var loginUser = firebase.auth().currentUser;
-      var nRef = firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("user")
-        .doc(userKey)
-        .collection("notification")
-        .add({
-          content: "参加が承認されました！ チャットリストをご覧ください",
-          createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-          orderBy: moment(nowDate).format("YYYY/MM/DD HH:mm:ss"),
-          userKey: loginUser.email
-        });
-        */
     }
   }
 };
