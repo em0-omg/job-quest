@@ -10,7 +10,7 @@
       <v-card :color="item.color" dark>
         <v-card-title class="title">{{ item.title }}</v-card-title>
         <v-card-text class="white text--primary">
-          <p>{{ item.content }}</p>
+          <p>{{ item.userFrom }}から{{ item.content }}</p>
           {{ item.createdAt }}&nbsp;
           <v-btn :color="item.color" icon>
             <v-icon>mdi-open-in-new</v-icon>
@@ -32,7 +32,8 @@ export default {
       .doc("company")
       .collection("user")
       .doc(loginUser.email)
-      .collection("notification");
+      .collection("notification")
+      .orderBy("createdAt", "desc");
 
     nRef.onSnapshot(function(querySnapshot) {
       self.note = [];

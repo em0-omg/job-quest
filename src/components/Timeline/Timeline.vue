@@ -76,7 +76,10 @@ export default {
       selectedId: "",
 
       isFav: false,
-      loading: true
+      loading: true,
+
+      // fav押しすぎ防止用
+      favCounter: 0
     };
   },
   created: function() {
@@ -116,13 +119,14 @@ export default {
         });
       });
 
-    firebase.firestore()
+    firebase
+      .firestore()
       .collection("users")
       .doc("company")
       .collection("user")
       .doc(loginUser.email)
       .onSnapshot(function(doc) {
-        self.loginUserInfo = doc.data()
+        self.loginUserInfo = doc.data();
       });
 
     self.db
@@ -150,7 +154,17 @@ export default {
       if (fromList.indexOf(loginUser.email) >= 0) return true;
       else return false;
     },
+    favCounterLock: function() {
+      var self = this;
+      setTimeout(() => (self.favCounter = 0), 300000);
+    },
     favorite: function(id) {
+      var self = this;
+      if (self.favCounter > 100) {
+        alert("5分間お気に入りが利用できません");
+        this.favCounterLock();
+        return;
+      }
       var favRef = firebase
         .firestore()
         .collection("users")
@@ -167,7 +181,8 @@ export default {
           )
         })
         .then(function() {
-          console.log("favorite add!");
+          self.favCounter += 1;
+          console.log(self.favCounter);
         })
         .catch(function(error) {
           console.log(error);
