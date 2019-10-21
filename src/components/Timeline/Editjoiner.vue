@@ -171,7 +171,10 @@ export default {
               content: "参加が承認されました！ チャットリストをご覧ください",
               createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
               orderBy: moment(nowDate).format("YYYY/MM/DD HH:mm:ss"),
-              userFrom: firebase.auth().currentUser.email
+              userFrom: firebase.auth().currentUser.email,
+              icon: "mdi-human-handsup",
+              color: "success",
+              title: "参加承認"
             });
 
           var chatInfo = {

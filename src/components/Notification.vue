@@ -1,35 +1,50 @@
 <template>
-  <v-card>
-    <v-card class="mx-auto" max-width="434" tile>
-      <v-list two-line>
-        <v-list-item-group v-model="selected" multiple active-class="pink--text">
-          <template v-for="(item, index) in items">
-            <v-list-item :key="item.title">
-              <template v-slot:default="{ active, toggle }">
-                <v-list-item-content>
-                  <v-list-item-title v-text="item.title"></v-list-item-title>
-                  <v-list-item-subtitle class="text--primary" v-text="item.headline"></v-list-item-subtitle>
-                  <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
-                </v-list-item-content>
-
-                <v-list-item-action>
-                  <v-list-item-action-text v-text="item.action"></v-list-item-action-text>
-                  <!-- <v-icon v-if="!active" color="grey lighten-1">star_border</v-icon> -->
-                </v-list-item-action>
-              </template>
-            </v-list-item>
-
-            <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
-          </template>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-  </v-card>
+  <v-timeline align-top dense>
+    <v-timeline-item
+      v-for="(item, i) in note"
+      :key="i"
+      :color="item.color"
+      :icon="item.icon"
+      fill-dot
+    >
+      <v-card :color="item.color" dark>
+        <v-card-title class="title">{{ item.title }}</v-card-title>
+        <v-card-text class="white text--primary">
+          <p>{{ item.content }}</p>
+          {{ item.createdAt }}&nbsp;
+          <v-btn :color="item.color" icon>
+            <v-icon>mdi-open-in-new</v-icon>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+    </v-timeline-item>
+  </v-timeline>
 </template>
 <script>
+import firebase from "firebase";
 export default {
+  mounted: function() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    var nRef = firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .doc(loginUser.email)
+      .collection("notification");
+
+    nRef.onSnapshot(function(querySnapshot) {
+      self.note = [];
+      querySnapshot.forEach(function(doc) {
+        var docData = doc.data();
+        docData.id = doc.id;
+        self.note.push(docData);
+      });
+    });
+  },
   data: () => ({
-    selected: [2],
+    note: [],
     items: [
       {
         action: "15 min",
