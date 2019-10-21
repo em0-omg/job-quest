@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     status: false,
-    timeline: ""
+    timeline: "",
+    exist: ""
   },
   mutations: {
     onAuthStateChanged(state, user) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     nowTimelineChanged(state, timeline) {
       state.timeline = timeline; //現在のタイムライン表示
+    },
+    isExistUser(state, isExistUser) {
+      state.exist = isExistUser;
     }
   },
   getters: {
@@ -29,6 +33,9 @@ export default new Vuex.Store({
     },
     nowTimeline(state) {
       return state.timeline;
+    },
+    isExistUser(state) {
+      return state.exist;
     }
   }
 });

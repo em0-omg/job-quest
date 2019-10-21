@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on }">
-        <v-btn class="ma-2" v-on="on">
+        <v-btn class="ma-2" v-on="on" @click="setProfile()">
           設定
           <v-icon dark right>mdi-settings-outline</v-icon>
         </v-btn>
@@ -51,6 +51,7 @@
 <script>
 import firebase from "firebase";
 import { VueLoading } from "vue-loading-template";
+import store from "./../../store";
 
 export default {
   components: { VueLoading },
@@ -74,20 +75,18 @@ export default {
       star: 1,
       isAdmin: false,
       favoriteFrom: [],
-      favoriteUser: [],
+      favoriteUser: []
     }
   }),
-  computed: {},
-  mounted: function() {
-    this.$nextTick(function(){
-       var self = this;
-       self.updateUser.displayName = self.userprofile.displayName;
-       self.updateUser.profile = self.userprofile.profile;
-       self.updateUser.phone = self.userprofile.phone;
-       self.updateUser.belongTo = self.userprofile.belongTo;
-    })
- },
+  updated: function() {},
   methods: {
+    setProfile: function() {
+      var self = this;
+      self.updateUser.displayName = self.userprofile.displayName;
+      self.updateUser.profile = self.userprofile.profile;
+      self.updateUser.phone = self.userprofile.phone;
+      self.updateUser.belongTo = self.userprofile.belongTo;
+    },
     saveUserProfile: function() {
       var self = this;
       this.loading = true;
@@ -118,6 +117,7 @@ export default {
         .doc(newUser.email);
       newUserRef.set(newUser, { merge: true });
       // TODO メールをキーにしてるので、メールを変えたらここのキーも変える
+      store.commit("isExistUser", true);
     }
   }
 };
