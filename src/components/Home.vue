@@ -30,7 +30,7 @@
     <br />
     <br />
     <v-layout justify-center>
-      {{ new Date().getFullYear() }} â€”
+      {{ new Date().getFullYear() }} - &nbsp;
       <strong>Powered By JohnWORKS.</strong>
     </v-layout>
     <br />
@@ -62,7 +62,7 @@
     <br />
     <br />
     <v-layout justify-center>
-      {{ new Date().getFullYear() }} â€”
+      {{ new Date().getFullYear() }} - &nbsp;
       <strong>Powered By JohnWORKS.</strong>
     </v-layout>
     <br />

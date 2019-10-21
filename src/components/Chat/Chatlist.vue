@@ -1,6 +1,6 @@
 <template>
   <v-card max-width="500" class="mx-auto">
-    <v-list two-line v-if="chatlist">
+    <v-list two-line v-if="chatlist.length">
       <v-list-item v-for="item in chatlist" :key="item.postID+item.with">
         <v-list-item-icon>
           <OpenChat :info="item.with" :postid="item.postID" />
@@ -45,9 +45,9 @@ export default {
       .doc("company")
       .collection("user")
       .doc(loginUser.email);
+
     docRef
-      .get()
-      .then(function(doc) {
+      .onSnapshot(function(doc) {
         if (doc.exists) {
           doc.data().ChatWith.forEach(function(uw) {
             var chatlistItem = {

@@ -27,7 +27,7 @@
             <v-list-item-title>参加承認</v-list-item-title>
             <v-list-item-action>
               <v-btn icon>
-                <showprofile :post="item" />
+                <showprofile :post="post" />
               </v-btn>
             </v-list-item-action>
             <v-list-item-title>詳細</v-list-item-title>
@@ -51,7 +51,8 @@
 </template>
 <script>
 import firebase from "firebase";
-import showprofile from "./../Profile/showprofile";
+import showprofile from "../Profile/showprofile";
+import moment from "moment";
 
 export default {
   props: ["id"],
@@ -67,6 +68,26 @@ export default {
 
     myself: firebase.auth().currentUser.email
   }),
+  mounted: function() {
+    var self = this;
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("posts")
+      .doc(this.id)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          self.post = doc.data();
+        } else {
+          console.log("computed: no such post");
+        }
+      })
+      .catch(function(er) {
+        console.log("error: " + er);
+      });
+  },
   methods: {
     createJoiner: function() {
       var joiners = [];
@@ -137,6 +158,10 @@ export default {
 
         // チャットルーム作成情報を追加
         if (joiner.isJoin) {
+          console.log(joiner.email);
+          // 通知を追加
+          this.notification(joiner.email);
+
           var chatInfo = {
             with: loginUser.email,
             postID: postID,
@@ -219,6 +244,26 @@ export default {
         }
       });
       this.dialog = false;
+    },
+    notification: function(userKey) {
+      console.log("key:" + userKey);
+      /*
+      var nowDate = Date.now();
+      var loginUser = firebase.auth().currentUser;
+      var nRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(userKey)
+        .collection("notification")
+        .add({
+          content: "参加が承認されました！ チャットリストをご覧ください",
+          createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+          orderBy: moment(nowDate).format("YYYY/MM/DD HH:mm:ss"),
+          userKey: loginUser.email
+        });
+        */
     }
   }
 };

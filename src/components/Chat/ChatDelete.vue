@@ -1,13 +1,13 @@
 <template>
   <v-row justify="center">
     <v-btn icon @click="dialog = true">
-      <v-icon>mdi-delete</v-icon>
+      <v-icon>mdi-alpha-x-circle-outline</v-icon>
     </v-btn>
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
         <v-card-title class="headline">チャット削除確認</v-card-title>
 
-        <v-card-text>本当に削除してよろしいですか？</v-card-text>
+        <v-card-text>一覧から削除しますか？</v-card-text>
 
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -35,7 +35,6 @@ export default {
       var userKey = this.chatinfo.with;
       var postKey = this.chatinfo.postID;
       var loginUser = firebase.auth().currentUser;
-      console.log(userKey + ":" + postKey);
 
       var chatRef = firebase
         .firestore()
@@ -43,6 +42,7 @@ export default {
         .doc("company")
         .collection("user")
         .doc(loginUser.email);
+
       chatRef
         .get()
         .then(function(doc) {
@@ -54,6 +54,8 @@ export default {
                   ChatWith: firebase.firestore.FieldValue.arrayRemove(info)
                 });
                 console.log("delete target");
+              } else {
+                console.log("not found");
               }
             });
           } else {
