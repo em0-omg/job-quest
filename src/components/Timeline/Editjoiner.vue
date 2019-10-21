@@ -51,7 +51,7 @@
 </template>
 <script>
 import firebase from "firebase";
-import showprofile from "../Profile/showprofile";
+import showprofile from "@/components/Profile/showprofile";
 import moment from "moment";
 
 export default {
