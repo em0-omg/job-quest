@@ -13,7 +13,7 @@
         <v-toolbar-title>チャットリスト</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
-      <Chatlist :userinfo="userInfo" />
+      <Chatlist />
     </v-dialog>
   </v-row>
 </template>
