@@ -44,10 +44,7 @@
               <br />
               <br />
               <v-list-item-subtitle>
-                <p>
-                  投稿者：{{ selectedPost.ownerName }}
-                  <showprofile :post="selectedPost" />
-                </p>
+                <p>投稿者：{{ selectedPost.ownerName }}</p>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
@@ -98,12 +95,9 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
-import showprofile from "./../Profile/showprofile";
 
 export default {
-  components: {
-    showprofile
-  },
+  components: {},
   data: () => ({
     dialog: false,
     joinAlert: false,

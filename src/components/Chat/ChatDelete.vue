@@ -22,7 +22,6 @@
 </template>
 <script>
 import firebase from "firebase";
-import { log } from "util";
 export default {
   props: ["chatinfo"],
   data() {

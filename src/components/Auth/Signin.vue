@@ -83,7 +83,7 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.username, this.password)
         .then(
-          user => {
+          function() {
             this.loading = false;
             this.$router.push("/");
           },
@@ -100,7 +100,7 @@ export default {
       firebase
         .auth()
         .signInWithPopup(provider)
-        .then(result => {
+        .then(function() {
           this.loading = false;
           this.$router.push("/");
         })

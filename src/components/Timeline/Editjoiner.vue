@@ -27,7 +27,7 @@
             <v-list-item-title>参加承認</v-list-item-title>
             <v-list-item-action>
               <v-btn icon>
-                <showprofile :post="post" />
+                <ShowProfile :post="post" />
               </v-btn>
             </v-list-item-action>
             <v-list-item-title>詳細</v-list-item-title>
@@ -51,14 +51,11 @@
 </template>
 <script>
 import firebase from "firebase";
-import showprofile from "@/components/Profile/showprofile";
 import moment from "moment";
 
 export default {
   props: ["id"],
-  components: {
-    showprofile
-  },
+  components: {},
   data: () => ({
     dialog: false,
     joinersList: [],
@@ -160,7 +157,7 @@ export default {
         if (joiner.isJoin) {
           // 通知を追加
           var nowDate = Date.now();
-          var nRef = firebase
+          firebase
             .firestore()
             .collection("users")
             .doc("company")

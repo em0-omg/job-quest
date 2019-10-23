@@ -95,7 +95,6 @@ export default {
     Firebase.onAuth();
   },
   mounted: function() {
-    var self = this;
     var loginUser = firebase.auth().currentUser;
     var docRef = firebase
       .firestore()

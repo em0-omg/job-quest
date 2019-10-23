@@ -12,7 +12,7 @@
         </v-btn>
         <div class="flex-grow-1"></div>
       </v-toolbar>
-      <v-card class="mx-auto" max-width="434" tile>
+      <v-card class="mx-auto" max-width="434" tile v-if="userInfo">
         <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
           <v-row align="end" class="fill-height">
             <v-col align-self="start" class="pa-0" cols="12">
@@ -25,7 +25,7 @@
               <v-list-item color="rgba(0, 0, 0, .4)" dark>
                 <v-list-item-content>
                   <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
-                  <v-list-item-subtitle class="text-center">
+                  <v-list-item-subtitle class="text-center" v-if="userInfo.favoriteFrom">
                     <v-btn
                       light
                       @click="removeFavoriteUser()"
@@ -80,7 +80,7 @@
           </v-list-item>
         </div>
       </v-card>
-      <v-tabs background-color="primary" centered dark grow icons-and-text>
+      <v-tabs background-color="primary" centered dark grow icons-and-text v-if="userInfo">
         <v-tab>
           投稿履歴
           <v-icon>mdi-post</v-icon>
@@ -113,7 +113,7 @@ import profilemypost from "./Profilemypost";
 import joinedpost from "./Joinedpost";
 
 export default {
-  name: "showprofile",
+  name: "ShowProfile",
   props: ["post"],
   components: {
     profilemypost,

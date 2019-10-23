@@ -33,7 +33,7 @@
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
               <v-btn icon v-if="nowTimeline!='mypost'">
-                <showprofile :post="item" />
+                <ShowProfile :post="item" />
               </v-btn>
             </v-layout>
           </v-list-item-content>
@@ -47,17 +47,17 @@
   </v-container>
 </template>
 <script>
-import firebase, { firestore } from "firebase";
+import firebase from "firebase";
 import InfiniteLoading from "vue-infinite-loading";
 import postDetailDialog from "../Post/postDetailDialog";
-import showprofile from "./../Profile/showprofile";
+import ShowProfile from "./../Profile/ShowProfile";
 import moment from "moment";
 
 export default {
   name: "timeline",
   components: {
     postDetailDialog,
-    showprofile,
+    ShowProfile,
     InfiniteLoading
   },
   data() {
