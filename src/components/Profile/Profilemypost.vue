@@ -36,9 +36,11 @@
               <v-btn v-if="item.ownerEmail===user.email" icon>
                 <editpost :selectedPost="item" />
               </v-btn>
+              <!--
               <v-btn icon v-if="item.ownerEmail===user.email">
                 <postdelete :postid="item.id" />&nbsp;
               </v-btn>
+              -->
             </v-layout>
           </v-list-item-content>
         </v-list-item>
@@ -53,7 +55,6 @@
 <script>
 import firebase from "firebase";
 import postdetaildialog from "./postDetailDialog";
-import postdelete from "./../Post/Postdelete";
 import editpost from "./../Timeline/EditPost";
 import InfiniteLoading from "vue-infinite-loading";
 
@@ -61,7 +62,6 @@ export default {
   props: ["email"],
   components: {
     postdetaildialog,
-    postdelete,
     editpost,
     InfiniteLoading
   },

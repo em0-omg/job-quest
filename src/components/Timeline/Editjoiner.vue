@@ -165,6 +165,7 @@ export default {
             .doc(joiner.email)
             .collection("notification")
             .add({
+              noteType: "join",
               content: "参加が承認されました！ チャットリストをご覧ください",
               createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
               userFrom: firebase.auth().currentUser.email,

@@ -2,7 +2,6 @@
   <v-container>
     <v-list three-line>
       <template v-for="(item, index) in showPosts.slice(0,count)">
-        <!-- <template v-for="(item, index) in iposts"> -->
         <v-divider :key="index"></v-divider>
 
         <v-list-item :key="item.id">
@@ -80,7 +79,10 @@ export default {
       loading: true,
 
       // fav押しすぎ防止用
-      favCounter: 0
+      favCounter: 0,
+
+      // 期限オーバー確認用
+      nowDate: null
     };
   },
   created: function() {
@@ -103,6 +105,8 @@ export default {
     var self = this;
     var loginUser = firebase.auth().currentUser;
 
+    self.nowDateInit();
+
     self.db
       .collection("users")
       .doc("company")
@@ -117,6 +121,7 @@ export default {
           docData.id = doc.id;
           self.allPosts.push(docData);
           self.showPosts.push(docData);
+          self.checkOverlimitPosts(docData);
         });
       });
 
@@ -204,9 +209,12 @@ export default {
               .doc(postItem.ownerEmail)
               .collection("notification")
               .add({
+                noteType: "favorite",
                 content: "投稿がお気に入りに登録されました",
                 createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                 userFrom: firebase.auth().currentUser.email,
+                postTitle: postItem.title,
+                postID: id,
                 icon: "mdi-heart",
                 color: "pink",
                 title: "お気に入り"
@@ -253,6 +261,66 @@ export default {
         this.showPosts = newMyArray;
       } else {
         this.showPosts = this.allPosts.filter(p => p.isActive === true);
+      }
+    },
+    nowDateInit: function() {
+      var dt = new Date();
+      var y = dt.getFullYear();
+      var m = ("00" + (dt.getMonth() + 1)).slice(-2);
+      var d = ("00" + dt.getDate()).slice(-2);
+      var nowDate = new Date(y, m, d, 23, 59, 59);
+      this.nowDate = nowDate;
+    },
+    checkOverlimitPosts: function(item) {
+      var ymd = item.dateLimit.split("-");
+      var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
+      var nowDate = Date.now();
+      console.log("limit:" + postDateLimit);
+
+      if (this.nowDate > postDateLimit) {
+        console.log("通知");
+        // 通知を送る
+        var joinersRef = firebase
+          .firestore()
+          .collection("users")
+          .doc("company")
+          .collection("posts")
+          .doc(item.id)
+          .collection("joinUsers");
+
+        // 各参加者に通知
+        joinersRef.get().then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            // 0はまだ未回答、未回答者のみに送信
+            if (doc.data().returnRating === 0) {
+              var noteRef = firebase
+                .firestore()
+                .collection("users")
+                .doc("company")
+                .collection("user")
+                .doc(doc.id)
+                .collection("notification");
+              console.log(noteRef);
+              noteRef
+                .add({
+                  noteType: "limitAlert",
+                  content: "が募集期限を迎えました！評価を行ってください",
+                  createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+                  postTitle: item.title,
+                  postID: item.id,
+                  icon: "mdi-alert",
+                  color: "warning",
+                  title: "募集終了"
+                })
+                .then(function() {
+                  console.log("note ok");
+                })
+                .catch(function(errr) {
+                  console.log("note error: " + errr);
+                });
+            }
+          });
+        });
       }
     }
   },

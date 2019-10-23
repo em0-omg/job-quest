@@ -7,10 +7,28 @@
       :icon="item.icon"
       fill-dot
     >
-      <v-card :color="item.color" dark>
+      <v-card :color="item.color" dark v-if="item.noteType==='favorite'">
         <v-card-title class="title">{{ item.title }}</v-card-title>
         <v-card-text class="white text--primary">
           <p>{{ item.userFrom }}から{{ item.content }}</p>
+          {{ item.createdAt }}&nbsp;
+          <v-btn :color="item.color" icon>
+            <v-icon>mdi-open-in-new</v-icon>
+          </v-btn>
+        </v-card-text>
+      </v-card>
+      <v-card :color="item.color" dark v-else-if="item.noteType==='limitAlert'">
+        <v-card-title class="title">{{ item.title }}</v-card-title>
+        <v-card-text class="white text--primary">
+          <p>「{{ item.postTitle }}」{{ item.content }}</p>
+          {{ item.createdAt }}&nbsp;
+          <SetOwnerRatio :postid="item.postID" />
+        </v-card-text>
+      </v-card>
+      <v-card :color="item.color" dark v-else-if="item.noteType==='join'">
+        <v-card-title class="title">{{ item.title }}</v-card-title>
+        <v-card-text class="white text--primary">
+          <p>{{ item.content }}</p>
           {{ item.createdAt }}&nbsp;
           <v-btn :color="item.color" icon>
             <v-icon>mdi-open-in-new</v-icon>
@@ -22,7 +40,11 @@
 </template>
 <script>
 import firebase from "firebase";
+import SetOwnerRatio from "./Notification/SetOwnerRatio";
 export default {
+  components: {
+    SetOwnerRatio
+  },
   mounted: function() {
     var self = this;
     var loginUser = firebase.auth().currentUser;

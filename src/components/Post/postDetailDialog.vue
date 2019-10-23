@@ -171,7 +171,8 @@ export default {
             email: loginUser.email,
             isJoin: false,
             joinedAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-            rating: 3
+            rating: 3,
+            returnRating: 0
           },
           { merge: true }
         )

@@ -78,34 +78,36 @@ export default {
   },
   methods: {
     signIn: function() {
-      this.loading = true;
+      var self = this;
+      self.loading = true;
       firebase
         .auth()
         .signInWithEmailAndPassword(this.username, this.password)
         .then(
           function() {
-            this.loading = false;
-            this.$router.push("/");
+            self.loading = false;
+            self.$router.push("/");
           },
           err => {
-            this.loading = false;
+            self.loading = false;
             alert(err.message);
           }
         );
     },
     googleLogin() {
       const provider = new firebase.auth.GoogleAuthProvider();
-      this.loading = true;
+      var self = this;
+      self.loading = true;
 
       firebase
         .auth()
         .signInWithPopup(provider)
         .then(function() {
-          this.loading = false;
-          this.$router.push("/");
+          self.loading = false;
+          self.$router.push("/");
         })
         .catch(error => {
-          this.loading = false;
+          self.loading = false;
           alert(error.message);
         });
     }
