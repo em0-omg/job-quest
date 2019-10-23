@@ -72,10 +72,12 @@
               <v-list-item-subtitle>{{ userInfo.belongTo }}</v-list-item-subtitle>
               <br />
               <v-list-item-title class="subtitle-2">
-                <span>星獲得数</span>
+                <span>レベル</span>
                 <v-icon color="primary">mdi-account-star</v-icon>
               </v-list-item-title>
-              <v-list-item-subtitle>{{ userInfo.Rank }}</v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="userInfo"
+              >{{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }})</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -135,6 +137,20 @@ export default {
 
       loginUser: firebase.auth().currentUser
     };
+  },
+  computed: {
+    level() {
+      var userRank = this.userInfo.Rank;
+      if (userRank > 0 && userRank < 10) return 1;
+      else if (userRank > 10 && userRank < 20) return 2;
+      else return 3;
+    },
+    needRank() {
+      var userRank = this.userInfo.Rank;
+      if (userRank > 0 && userRank < 9) return 10;
+      else if (userRank > 9 && userRank < 19) return 20;
+      else return 30;
+    }
   },
   mounted: function() {
     this.$nextTick(function() {

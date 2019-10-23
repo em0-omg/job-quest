@@ -52,10 +52,12 @@
             <v-list-item-subtitle>{{ showUserProfile.belongTo }}</v-list-item-subtitle>
             <br />
             <v-list-item-title class="subtitle-2">
-              <span>星獲得数</span>
+              <span>レベル</span>
               <v-icon color="primary">mdi-account-star</v-icon>
             </v-list-item-title>
-            <v-list-item-subtitle v-if="showUserProfile">{{ showUserProfile.Rank }}</v-list-item-subtitle>
+            <v-list-item-subtitle
+              v-if="showUserProfile"
+            >{{ level }} &nbsp; (レベルアップまで{{ showUserProfile.Rank }}/{{ needRank }})</v-list-item-subtitle>
             <v-card-actions>
               <v-layout justify-center>
                 <profileDialog :userprofile="showUserProfile" />
@@ -165,6 +167,18 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    level() {
+      var userRank = this.showUserProfile.Rank;
+      if (userRank > 0 && userRank < 10) return 1;
+      else if (userRank > 10 && userRank < 20) return 2;
+      else return 3;
+    },
+    needRank() {
+      var userRank = this.showUserProfile.Rank;
+      if (userRank > 0 && userRank < 9) return 10;
+      else if (userRank > 9 && userRank < 19) return 20;
+      else return 30;
     }
   }
 };
