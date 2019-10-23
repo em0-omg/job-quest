@@ -180,6 +180,7 @@ export default {
             postTitle: joiner.postTitle,
             photoURL: loginUser.photoURL
           };
+          console.table(chatInfo);
           // 相手に設定
           firestoreUserRef
             .doc(joiner.email)

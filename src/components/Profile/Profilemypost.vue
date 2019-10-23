@@ -84,6 +84,7 @@ export default {
       .doc("company")
       .collection("posts")
       .where("ownerEmail", "==", self.email)
+      .orderBy("createdAt", "desc")
       .onSnapshot(function(querySnapshot) {
         self.userPost = [];
         querySnapshot.forEach(function(doc) {

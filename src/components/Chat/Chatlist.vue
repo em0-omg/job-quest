@@ -63,9 +63,6 @@ export default {
           console.log("no such doc");
         }
       })
-      .catch(function(error) {
-        console.log("error: " + error);
-      });
   },
   data() {
     return {
