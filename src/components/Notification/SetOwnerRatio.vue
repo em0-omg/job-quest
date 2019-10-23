@@ -53,7 +53,7 @@ export default {
             if (doc.data().returnRating < 1) {
               ratioRef
                 .update({
-                  returnRating: 0
+                  returnRating: this.rating
                 })
                 .then(function() {
                   console.log("ratio set:" + self.rating);
