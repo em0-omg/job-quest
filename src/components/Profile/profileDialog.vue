@@ -12,7 +12,7 @@
       </v-card>
       <v-card v-else>
         <v-card-title>
-          <span class="headline">User Profile</span>
+          <span class="title">User Profile</span>
         </v-card-title>
         <v-card-text>
           <v-container>

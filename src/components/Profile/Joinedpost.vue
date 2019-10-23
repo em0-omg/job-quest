@@ -33,6 +33,9 @@
               <v-btn icon v-else @click="unfavorite(item.id)">
                 <v-icon>mdi-heart-multiple</v-icon>
               </v-btn>&nbsp;
+              <v-btn icon v-if="nowTimeline!='mypost'">
+                <ShowProfile :post="item" />
+              </v-btn>
             </v-layout>
           </v-list-item-content>
         </v-list-item>
@@ -82,7 +85,7 @@ export default {
           self.userPost.push(docData);
         });
       });
- },
+  },
   methods: {
     infiniteHandler() {
       setTimeout(() => {
