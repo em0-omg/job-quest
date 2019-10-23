@@ -87,6 +87,7 @@ export default {
       var newPost = {
         joiners: [],
         isActive: true,
+        isClose: false,
         dateLimit: this.dateLimit,
         howMany: this.howMany,
         content: this.content,

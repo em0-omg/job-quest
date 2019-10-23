@@ -53,10 +53,11 @@ export default {
             if (doc.data().returnRating < 1) {
               ratioRef
                 .update({
-                  returnRating: self.rating
+                  returnRating: 0
                 })
                 .then(function() {
                   console.log("ratio set:" + self.rating);
+                  self.closePost();
                 })
                 .catch(function(error) {
                   console.log("ratio set error:" + error);
@@ -71,6 +72,77 @@ export default {
         })
         .catch(function(er) {
           console.log("error: " + er);
+        });
+    },
+    closePost: function() {
+      var postRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(this.postid);
+
+      var userRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user");
+
+      // post close
+      postRef
+        .update({
+          isClose: true
+        })
+        .then(function() {
+          console.log("post close ok");
+        })
+        .catch(function(err) {
+          console.log("post close error:" + err);
+        });
+
+      // 投稿者にratio追加
+      var self = this;
+      postRef.get().then(function(doc) {
+        if (doc.exists) {
+          var owner = doc.data().ownerEmail;
+          userRef
+            .doc(owner)
+            .get()
+            .then(function(userDoc) {
+              if (userDoc.exists) {
+                var newRank = userDoc.data().Rank + self.rating;
+                userRef.doc(owner).update({
+                  Rank: newRank
+                });
+              }
+            });
+        } else {
+          console.log("no doc");
+        }
+      });
+
+      //参加者にratio追加
+      postRef
+        .collection("joinUsers")
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            console.log(doc.id);
+            var userKey = doc.id;
+            var addRank = self.rating;
+            userRef
+              .doc(userKey)
+              .get()
+              .then(function(userDoc) {
+                var newRank = userDoc.data().Rank + addRank;
+                userRef.doc(userKey).update({
+                  Rank: newRank
+                });
+              })
+              .catch(function(uer) {
+                console.log("uer:" + uer);
+              });
+          });
         });
     }
   }

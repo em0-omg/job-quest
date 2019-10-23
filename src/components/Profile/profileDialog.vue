@@ -72,7 +72,6 @@ export default {
       // advanced
       profile: "",
       Rank: 1,
-      star: 1,
       isAdmin: false,
       favoriteFrom: [],
       favoriteUser: []
