@@ -35,6 +35,10 @@
         </v-list>
 
         <v-divider></v-divider>
+        <br />
+        <v-layout justify-center>
+          <v-alert dense text type="success" v-show="joinAlert">更新しました</v-alert>
+        </v-layout>
         <v-card-actions>
           <div class="flex-grow-1"></div>
 
@@ -63,7 +67,9 @@ export default {
     rating: 3,
     isJoin: false,
 
-    myself: firebase.auth().currentUser.email
+    myself: firebase.auth().currentUser.email,
+
+    joinAlert: false
   }),
   mounted: function() {
     var self = this;
@@ -256,7 +262,9 @@ export default {
             });
         }
       });
-      this.dialog = false;
+      this.joinAlert = true;
+      setTimeout(() => (this.joinAlert = false), 2000);
+      // this.dialog = false;
     }
   }
 };

@@ -53,7 +53,7 @@ export default {
             if (doc.data().returnRating < 1) {
               ratioRef
                 .update({
-                  returnRating: this.rating
+                  returnRating: self.rating
                 })
                 .then(function() {
                   console.log("ratio set:" + self.rating);
@@ -71,7 +71,7 @@ export default {
           }
         })
         .catch(function(er) {
-          console.log("error: " + er);
+          console.log("error setReturnRatio: " + er);
         });
     },
     closePost: function() {
