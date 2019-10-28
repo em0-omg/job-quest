@@ -213,8 +213,7 @@ export default {
                 content: "投稿がお気に入りに登録されました",
                 createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                 userFrom: firebase.auth().currentUser.email,
-                postTitle: postItem.title,
-                postID: id,
+                post: postItem,
                 icon: "mdi-heart",
                 color: "pink",
                 title: "お気に入り"

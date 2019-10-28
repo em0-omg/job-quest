@@ -4,19 +4,59 @@
       <v-app-bar-nav-icon>
         <ChatDialog />
       </v-app-bar-nav-icon>
-
       <v-spacer></v-spacer>
-      <v-toolbar-title class="white--text"></v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-toolbar-title justify="center" class="display-1">JobQuest</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
 
       <div class="flex-grow-1"></div>
 
+      <!--
       <v-btn icon>
         <postDialog />
       </v-btn>
+      -->
 
-      <v-btn icon @click="signOut()">
-        <v-icon>mdi-account-off</v-icon>
+      <!--
+      <v-btn icon color="white" @click="toSetting()">
+        <v-avatar size="32px" v-if="loginUser">
+          <img :src="loginUser.photoURL" :alt="loginUser.displayName" />
+        </v-avatar>
+        <v-avatar size="32px" v-else>
+          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+        </v-avatar>
       </v-btn>
+      -->
+      <v-menu bottom left dark>
+        <template v-slot:activator="{ on }">
+          <v-btn icon color="white" v-on="on">
+            <v-avatar size="32px" v-if="loginUser">
+              <img :src="loginUser.photoURL" :alt="loginUser.displayName" />
+            </v-avatar>
+            <v-avatar size="32px" v-else>
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            </v-avatar>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item @click="toSetting()">
+            プロフィール
+            <v-icon>mdi-account-box</v-icon>
+          </v-list-item>
+          <v-list-item @click="signOut()">
+            ログオフ
+            <v-icon>mdi-account-off</v-icon>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-toolbar>
     <v-layout justify-center v-else>
       <h1>JobQuest</h1>
@@ -37,7 +77,14 @@ export default {
     ChatDialog
   },
   data() {
-    return {};
+    return {
+      items: [
+        { title: "Click Me" },
+        { title: "Click Me" },
+        { title: "Click Me" },
+        { title: "Click Me 2" }
+      ]
+    };
   },
   computed: {
     user() {
@@ -45,6 +92,9 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    loginUser() {
+      return firebase.auth().currentUser;
     }
   },
   methods: {
@@ -58,6 +108,10 @@ export default {
           Store.commit("onUserStatusChanged", user.uid ? true : false);
           this.$router.push("/signin");
         });
+    },
+    toSetting: function() {
+      Store.commit("nowTimelineChanged", "setting");
+      this.$router.push("/");
     }
   }
 };

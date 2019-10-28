@@ -29,10 +29,9 @@
 import store from "./../../store";
 
 export default {
-  created: function() {
-  },
+  created: function() {},
   mounted: function() {
-    this.$nextTick(function(){
+    this.$nextTick(function() {
       var self = this;
       var timelineList = {
         phone: 0,
@@ -43,10 +42,10 @@ export default {
       };
       var selectedFooter = timelineList[self.nowTimeline];
       self.bottomNav = selectedFooter;
-    })
+    });
   },
   updated: function() {
-    this.$nextTick(function(){
+    this.$nextTick(function() {
       var self = this;
       var timelineList = {
         phone: 0,
@@ -57,7 +56,7 @@ export default {
       };
       var selectedFooter = timelineList[self.nowTimeline];
       self.bottomNav = selectedFooter;
-    })
+    });
   },
   data() {
     return {
@@ -95,6 +94,11 @@ export default {
     toContact: function() {
       store.commit("nowTimelineChanged", "contact");
       this.$router.push("/");
+    }
+  },
+  watch: {
+    nowTimeline: function(newVal, oldVal) {
+      if (newVal === "setting") this.bottomNav = 4;
     }
   }
 };

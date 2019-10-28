@@ -1,10 +1,11 @@
 <template>
   <v-container v-if="isExistUser">
+    <!--
     <v-layout justify-center>
       <h1>JobQuest</h1>
     </v-layout>
+    -->
     <br />
-    <!-- <v-divider></v-divider> -->
     <v-layout justify-center v-show="nowTimeline==='setting'">
       <Profile />
     </v-layout>
