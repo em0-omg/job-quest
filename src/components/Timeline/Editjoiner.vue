@@ -15,7 +15,7 @@
             <v-list-item-content>
               <v-list-item-title>{{item.email}}</v-list-item-title>
               <v-list-item-subtitle>{{item.joinedAt}}に参加希望</v-list-item-subtitle>
-              <v-list-item-action-text>
+              <v-list-item-action-text v-show="item.isJoin">
                 <v-rating v-model="item.rating"></v-rating>
               </v-list-item-action-text>
             </v-list-item-content>
@@ -159,6 +159,7 @@ export default {
             console.log(error);
           });
 
+        /*
         // チャットルーム作成情報を追加
         if (joiner.isJoin) {
           // 通知を追加
@@ -261,6 +262,7 @@ export default {
               console.log("chatroom failed");
             });
         }
+        */
       });
       this.joinAlert = true;
       setTimeout(() => (this.joinAlert = false), 2000);

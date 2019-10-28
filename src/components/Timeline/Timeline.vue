@@ -275,10 +275,10 @@ export default {
       var ymd = item.dateLimit.split("-");
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
       var nowDate = Date.now();
+      var loginUser = firebase.auth().currentUser;
       console.log("limit:" + postDateLimit);
 
       if (this.nowDate > postDateLimit) {
-        console.log("通知");
         // 通知を送る
         var joinersRef = firebase
           .firestore()
@@ -292,7 +292,11 @@ export default {
         joinersRef.get().then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             // 0はまだ未回答、未回答者のみに送信
-            if (doc.data().returnRating === 0) {
+            // 自身がログインしたときのみ通知
+            if (
+              doc.data().returnRating === 0 &&
+              loginUser.email === doc.data().email
+            ) {
               var noteRef = firebase
                 .firestore()
                 .collection("users")
@@ -300,7 +304,6 @@ export default {
                 .collection("user")
                 .doc(doc.id)
                 .collection("notification");
-              console.log(noteRef);
               noteRef
                 .add({
                   noteType: "limitAlert",

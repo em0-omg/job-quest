@@ -118,7 +118,6 @@ export default {
           var docData = doc.data();
           docData.id = doc.id;
           if (docData.email === loginUser.email) {
-            console.log("find user " + docData.id);
             self.userData = docData;
           }
         });

@@ -78,21 +78,40 @@ export default {
   mounted: function() {
     var self = this;
     // post取得
-    firebase
-      .firestore()
-      .collection("users")
-      .doc("company")
-      .collection("posts")
-      .where("ownerEmail", "==", self.email)
-      .orderBy("createdAt", "desc")
-      .onSnapshot(function(querySnapshot) {
-        self.userPost = [];
-        querySnapshot.forEach(function(doc) {
-          var docData = doc.data();
-          docData.id = doc.id;
-          self.userPost.push(docData);
+    if (self.email === self.user.email) {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .where("ownerEmail", "==", self.email)
+        .orderBy("createdAt", "desc")
+        .onSnapshot(function(querySnapshot) {
+          self.userPost = [];
+          querySnapshot.forEach(function(doc) {
+            var docData = doc.data();
+            docData.id = doc.id;
+            self.userPost.push(docData);
+          });
         });
-      });
+    } else {
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .where("ownerEmail", "==", self.email)
+        .where("isActive", "==", true)
+        .orderBy("createdAt", "desc")
+        .onSnapshot(function(querySnapshot) {
+          self.userPost = [];
+          querySnapshot.forEach(function(doc) {
+            var docData = doc.data();
+            docData.id = doc.id;
+            self.userPost.push(docData);
+          });
+        });
+    }
   },
   methods: {
     infiniteHandler() {
