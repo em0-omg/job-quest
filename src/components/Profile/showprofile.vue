@@ -23,7 +23,7 @@
             </v-col>
             <v-col class="py-0">
               <v-list-item color="rgba(0, 0, 0, .4)" dark>
-                <v-list-item-content>
+                <v-list-item-content v-if="loginUser.email!=userInfo.email">
                   <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
                   <v-list-item-subtitle class="text-center" v-if="userInfo.favoriteFrom">
                     <v-btn
@@ -39,11 +39,18 @@
                       <v-icon>mdi-account-heart-outline</v-icon>
                     </v-btn>
                   </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-center">
+                    <v-btn light @click="createChatRoom()">
+                      <v-icon color="success" v-show="createChatAlert">mdi-check-bold</v-icon>チャットルームを作成する
+                      <v-icon>mdi-chat-processing</v-icon>
+                    </v-btn>
+                  </v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
           </v-row>
         </v-img>
+        <br />
         <div class="container">
           <v-list-item>
             <v-list-item-content class="text-left">
@@ -135,7 +142,8 @@ export default {
       userJoin: [],
       favoriteFrom: [],
 
-      loginUser: firebase.auth().currentUser
+      loginUser: firebase.auth().currentUser,
+      createChatAlert: false
     };
   },
   computed: {
@@ -220,6 +228,56 @@ export default {
       toRef.update({
         favoriteFrom: firebase.firestore.FieldValue.arrayRemove(loginUser.email)
       });
+    },
+    createChatRoom: function() {
+      var nowDate = Date.now();
+      var self = this;
+
+      var firestoreUserRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user");
+
+      var chatInfo = {
+        with: self.loginUser.email,
+        photoURL: self.loginUser.photoURL
+      };
+
+      console.table(chatInfo);
+
+      // 相手に設定
+      firestoreUserRef
+        .doc(self.userInfo.email)
+        .update({
+          ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
+        })
+        .then(function() {
+          console.log("create with chatroom");
+        })
+        .catch(function() {
+          console.log("chatroom failed");
+        });
+
+      // 自分にも設定
+      var chatInfoMyself = {
+        with: self.userInfo.email,
+        photoURL: self.userInfo.photoURL
+      };
+      console.table(chatInfoMyself);
+      firestoreUserRef
+        .doc(self.loginUser.email)
+        .update({
+          ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfoMyself)
+        })
+        .then(function() {
+          console.log("create myself chatroom");
+        })
+        .catch(function() {
+          console.log("chatroom failed");
+        });
+      this.createChatAlert = true;
+      setTimeout(() => (this.createChatAlert = false), 2000);
     }
   }
 };

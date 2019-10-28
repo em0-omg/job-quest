@@ -27,7 +27,7 @@
             <v-col class="text-right" cols="12">{{ item.createdAt }}</v-col>
           </v-row>
         </v-timeline-item>
-        <Chatinput :info="userinfo" :postid="pid" />
+        <Chatinput :info="userinfo" />
         <div class="text-center">
           <br />
           <img src="./../../assets/jwlogo.png" width="32" />
@@ -42,8 +42,7 @@ import firebase from "firebase";
 
 export default {
   props: {
-    userinfo: String,
-    pid: String
+    userinfo: String
   },
   components: { Chatinput },
   data() {
@@ -80,19 +79,8 @@ export default {
       var loginUser = firebase.auth().currentUser;
       keyArray.push(loginUser.email);
       keyArray.push(this.userinfo);
-      return keyArray.sort().join("+" + this.pid + "+");
+      return keyArray.sort().join("+");
     },
-    /*
-    scrollToEnd() {
-      this.$nextTick(() => {
-        var chatLog = document.getElementById("targetto");
-        console.log(chatLog);
-        if (!chatLog) return;
-        chatLog.scrollTop = chatLog.scrollHeight;
-        console.log(chatLog.scrollTop);
-      });
-    },
-    */
     scrollToEnd: function() {
       var container = this.$refs.scroll;
       console.log("before:" + container.scrollTop);

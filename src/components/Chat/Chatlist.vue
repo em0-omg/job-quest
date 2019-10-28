@@ -1,14 +1,14 @@
 <template>
   <v-card max-width="500" class="mx-auto">
     <v-list two-line v-if="chatlist.length">
-      <v-list-item v-for="item in chatlist" :key="item.postID+item.with">
+      <v-list-item v-for="item in chatlist" :key="item.with">
         <v-list-item-icon>
-          <OpenChat :info="item.with" :postid="item.postID" />
+          <OpenChat :info="item.with" />
         </v-list-item-icon>
 
         <v-list-item-content>
           <v-list-item-title v-text="item.with"></v-list-item-title>
-          <v-list-item-subtitle>投稿「{{item.postTitle}}」について</v-list-item-subtitle>
+          <!-- <v-list-item-subtitle>投稿「{{item.postTitle}}」について</v-list-item-subtitle> -->
           <!-- <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle> -->
         </v-list-item-content>
 
@@ -46,23 +46,20 @@ export default {
       .collection("user")
       .doc(loginUser.email);
 
-    docRef
-      .onSnapshot(function(doc) {
-        if (doc.exists) {
-          self.chatlist = [];
-          doc.data().ChatWith.forEach(function(uw) {
-            var chatlistItem = {
-              with: uw.with,
-              postID: uw.postID,
-              postTitle: uw.postTitle,
-              photoURL: uw.photoURL
-            };
-            self.chatlist.push(chatlistItem);
-          });
-        } else {
-          console.log("no such doc");
-        }
-      })
+    docRef.onSnapshot(function(doc) {
+      if (doc.exists) {
+        self.chatlist = [];
+        doc.data().ChatWith.forEach(function(uw) {
+          var chatlistItem = {
+            with: uw.with,
+            photoURL: uw.photoURL
+          };
+          self.chatlist.push(chatlistItem);
+        });
+      } else {
+        console.log("no such doc");
+      }
+    });
   },
   data() {
     return {
@@ -88,31 +85,6 @@ export default {
       ]
     };
   },
-  methods: {
-    getIcon: function(emailKey) {
-      var docRef = firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("user")
-        .doc(emailKey);
-      docRef.get().then(function(doc) {
-        console.log(doc.data().photoURL);
-        return doc.data().photoURL;
-      });
-    },
-    getPostTitle: function(postKey) {
-      var docRef = firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("posts")
-        .doc(postKey);
-      docRef.get().then(function(doc) {
-        console.log(doc.data().title);
-        return doc.data().title;
-      });
-    }
-  }
+  methods: {}
 };
 </script>

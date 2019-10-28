@@ -19,13 +19,11 @@ import moment from "moment";
 
 export default {
   props: {
-    info: String,
-    postid: String
+    info: String
   },
   data() {
     return {
-      message: "",
-      roomKey: ""
+      message: ""
     };
   },
   mounted() {},
@@ -35,7 +33,7 @@ export default {
       var loginUser = firebase.auth().currentUser;
       keyArray.push(loginUser.email);
       keyArray.push(this.info);
-      return keyArray.sort().join("+" + this.postid + "+");
+      return keyArray.sort().join("+");
     },
     sendMessage: function() {
       this.roomKey = this.createRoomKey();
