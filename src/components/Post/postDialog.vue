@@ -8,17 +8,16 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>
-          <span class="headline">募集する{{ dateLimit }}</span>
-        </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
+              <!--
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="締め切り*" type="date" required v-model="dateLimit"></v-text-field>
               </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="募集人数*" type="number" v-model="howMany"></v-text-field>
+              -->
+              <v-col cols="12" sm="6">
+                <v-select :items="region" label="地域*" required v-model="region"></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="タイトル*" required v-model="title"></v-text-field>
@@ -26,18 +25,11 @@
               <v-col cols="12">
                 <v-textarea label="内容*" required v-model="content"></v-textarea>
               </v-col>
-              <!--
-                <v-col cols="12" sm="6">
-                    <v-select :items="['0-17', '18-29', '30-54', '54+']" label="Age*" required></v-select>
-                </v-col>
-                <v-col cols="12" sm="6">
-                <v-autocomplete
-                    :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
-                    label="Interests"
-                    multiple
-                ></v-autocomplete>
-                </v-col>
-              -->
+            </v-row>
+            <v-card-subtitle>締め切り*</v-card-subtitle>
+            <br />
+            <v-row justify="center">
+              <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
@@ -67,11 +59,61 @@ export default {
 
     db: null,
 
-    dateLimit: "",
-    howMany: 0,
+    dateLimit: new Date().toISOString().substr(0, 10),
     title: "",
     content: "",
-    tags: ""
+    region: "",
+    tags: "",
+
+    region: [
+      "北海道",
+      "青森県",
+      "岩手県",
+      "宮城県",
+      "秋田県",
+      "山形県",
+      "福島県",
+      "茨城県",
+      "栃木県",
+      "群馬県",
+      "埼玉県",
+      "千葉県",
+      "東京都",
+      "神奈川県",
+      "新潟県",
+      "富山県",
+      "石川県",
+      "福井県",
+      "山梨県",
+      "長野県",
+      "岐阜県",
+      "静岡県",
+      "愛知県",
+      "三重県",
+      "滋賀県",
+      "京都府",
+      "大阪府",
+      "兵庫県",
+      "奈良県",
+      "和歌山県",
+      "鳥取県",
+      "島根県",
+      "岡山県",
+      "広島県",
+      "山口県",
+      "徳島県",
+      "香川県",
+      "愛媛県",
+      "高知県",
+      "福岡県",
+      "佐賀県",
+      "長崎県",
+      "熊本県",
+      "大分県",
+      "宮崎県",
+      "鹿児島県",
+      "沖縄県"
+    ]
   }),
   computed: {
     user() {
@@ -82,6 +124,19 @@ export default {
     }
   },
   methods: {
+    allowedDate: function(val) {
+      // 今日～100日後までを選べるようにする
+      let today = new Date();
+      today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      let maxAllowedDay = new Date();
+      maxAllowedDay.setDate(today.getDate() + 100);
+      maxAllowedDay = new Date(
+        maxAllowedDay.getFullYear(),
+        maxAllowedDay.getMonth(),
+        maxAllowedDay.getDate()
+      );
+      return today <= new Date(val) && new Date(val) <= maxAllowedDay;
+    },
     post: function() {
       var nowDate = Date.now();
       var newPost = {
@@ -89,7 +144,6 @@ export default {
         isActive: true,
         isClose: false,
         dateLimit: this.dateLimit,
-        howMany: this.howMany,
         content: this.content,
         createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
         // image: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
@@ -99,6 +153,7 @@ export default {
         // TODO 空白考慮
         tags: this.tags.split(","),
         title: this.title,
+        region: this.region,
         favoriteFrom: []
       };
       var newPostRef = this.db

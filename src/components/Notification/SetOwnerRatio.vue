@@ -6,7 +6,7 @@
 
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
-        <v-card-title class="headline">評価{{ postid }}</v-card-title>
+        <v-card-title class="headline">評価</v-card-title>
 
         <v-card-text>オーナーの評価をお願いします</v-card-text>
         <v-layout justify-center>
