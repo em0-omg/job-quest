@@ -168,12 +168,25 @@ export default {
         .collection("users")
         .doc("company")
         .collection("user")
+        .doc(self.post.ownerEmail)
+        .get()
+        .then(function(doc) {
+          self.userInfo = doc.data();
+        });
+      /*
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
         .where("email", "==", self.post.ownerEmail)
+        .doc(self.post.ownerEmail)
         .onSnapshot(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
             self.userInfo = doc.data();
           });
         });
+        */
     });
   },
   methods: {
@@ -230,7 +243,6 @@ export default {
       });
     },
     createChatRoom: function() {
-      var nowDate = Date.now();
       var self = this;
 
       var firestoreUserRef = firebase

@@ -274,7 +274,6 @@ export default {
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
       var nowDate = Date.now();
       var loginUser = firebase.auth().currentUser;
-      console.log("limit:" + postDateLimit);
 
       if (this.nowDate > postDateLimit) {
         // 通知を送る

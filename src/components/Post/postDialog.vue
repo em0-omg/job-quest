@@ -63,7 +63,6 @@ export default {
     dateLimit: new Date().toISOString().substr(0, 10),
     title: "",
     content: "",
-    region: "",
     tags: "",
 
     region: [

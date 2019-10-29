@@ -35,10 +35,10 @@
       <v-menu bottom left dark>
         <template v-slot:activator="{ on }">
           <v-btn icon color="white" v-on="on">
-            <v-avatar size="28px" v-if="loginUser">
-              <img :src="loginUser.photoURL" :alt="loginUser.displayName" />
+            <v-avatar size="32px" v-if="user">
+              <img :src="user.photoURL" />
             </v-avatar>
-            <v-avatar size="28px" v-else>
+            <v-avatar size="32px" v-else>
               <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
             </v-avatar>
           </v-btn>
@@ -56,6 +56,9 @@
         </v-list>
       </v-menu>
     </v-toolbar>
+    <v-layout justify-center v-else>
+      <h1>JobQuest</h1>
+    </v-layout>
   </v-card>
 </template>
 
@@ -78,8 +81,12 @@ export default {
         { title: "Click Me" },
         { title: "Click Me" },
         { title: "Click Me 2" }
-      ]
+      ],
+      url: ""
     };
+  },
+  created: function() {
+    Firebase.onAuth();
   },
   computed: {
     user() {
@@ -87,10 +94,13 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
-    },
-    loginUser() {
-      return firebase.auth().currentUser;
     }
+    /*
+    photoURL() {
+      var loginUser = firebase.auth().currentUser;
+      return loginUser.photoURL;
+    }
+    */
   },
   methods: {
     signOut: function() {
