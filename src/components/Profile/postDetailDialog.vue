@@ -35,9 +35,6 @@
                 {{ selectedPost.content }}
               </p>
               <br />
-              <br />
-              <div></div>
-              <br />
               <v-layout justify-center>
                 <v-alert dense text type="success" v-show="joinAlert">参加申請が完了しました</v-alert>
               </v-layout>
@@ -45,6 +42,7 @@
               <br />
               <v-list-item-subtitle>
                 <p>投稿者：{{ selectedPost.ownerName }}</p>
+                <p>場所：{{ selectedPost.region }}</p>
                 <p>募集人数：{{ selectedPost.howMany }}</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
@@ -52,26 +50,12 @@
           </v-list-item>
           <div class="text-center">
             <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
-              <v-icon left>mdi-hand</v-icon>参加を希望する
+              <v-icon left>mdi-hand</v-icon>参加を希望する！
             </v-btn>
           </div>
           <br />
+          <!--
           <v-divider></v-divider>
-
-          <v-list-item @click="tmp()">
-            <v-list-item-icon>
-              <v-icon color="indigo">mdi-phone</v-icon>
-            </v-list-item-icon>
-
-            <v-list-item-content>
-              <v-list-item-title>(650) 555-1234</v-list-item-title>
-            </v-list-item-content>
-            <!--
-            <v-list-item-icon>
-              <v-icon>mdi-message-text</v-icon>
-            </v-list-item-icon>
-            -->
-          </v-list-item>
 
           <v-divider inset></v-divider>
 
@@ -86,6 +70,7 @@
           </v-list-item>
 
           <v-divider inset></v-divider>
+          -->
         </v-list>
       </v-card>
     </v-dialog>

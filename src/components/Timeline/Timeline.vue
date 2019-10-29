@@ -30,7 +30,7 @@
             <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
+            <v-list-item-subtitle>投稿者 {{ item.ownerName }} {{ item.region}}</v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -82,7 +82,6 @@ export default {
 
       allPosts: [],
       showPosts: [],
-      iposts: [],
       loginUserInfo: null,
 
       selectedId: "",
@@ -247,7 +246,7 @@ export default {
                 noteType: "favorite",
                 content: "投稿がお気に入りに登録されました",
                 createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-                userFrom: firebase.auth().currentUser.email,
+                userFrom: firebase.auth().currentUser.displayName,
                 post: postItem,
                 icon: "mdi-heart",
                 color: "pink",
