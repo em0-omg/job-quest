@@ -27,7 +27,7 @@
             <v-list-item-title>参加承認</v-list-item-title>
             <v-list-item-action>
               <v-btn icon>
-                <ShowProfile :post="post" />
+                <ShowJoinerProfile :email="item.email" />
               </v-btn>
             </v-list-item-action>
             <v-list-item-title>詳細</v-list-item-title>

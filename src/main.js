@@ -7,12 +7,14 @@ import VueChatScroll from "vue-chat-scroll";
 import { firestorePlugin } from "vuefire";
 import Firebase from "./firebase";
 import ShowProfile from "./components/Profile/ShowProfile";
+import ShowJoinerProfile from "./components/Profile/ShowJoinerProfile";
 import "./registerServiceWorker";
 
 Vue.use(firestorePlugin);
 Vue.use(VueChatScroll);
 
 Vue.component("ShowProfile", ShowProfile);
+Vue.component("ShowJoinerProfile", ShowJoinerProfile);
 
 Vue.config.productionTip = false;
 Firebase.init();
