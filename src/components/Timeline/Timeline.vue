@@ -9,9 +9,6 @@
           v-model="searchWords"
         ></v-text-field>
       </v-col>
-      <v-col cols="12" sm="6">
-        <p>{{ searchWords }}</p>
-      </v-col>
     </v-row>
     <v-list three-line>
       <template v-for="(item, index) in searchedPosts.slice(0,count)">
@@ -339,7 +336,7 @@ export default {
               noteRef
                 .add({
                   noteType: "limitAlert",
-                  content: "が募集期限を迎えました！評価を行ってください",
+                  content: "が期限を迎えました！評価を行ってください",
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
                   postID: item.id,

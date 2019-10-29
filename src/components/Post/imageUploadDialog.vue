@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
         <v-btn class="ma-2" v-on="on">
-          画像を変更
+          背景画像を設定
           <v-icon dark right>mdi-settings-outline</v-icon>
         </v-btn>
       </template>

@@ -18,12 +18,48 @@
           <v-subheader>内容を編集</v-subheader>
         </v-list>
         <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>{{ selectedPost.title }}</v-list-item-title>
-            <br />
-            <v-list-item-subtitle>{{ selectedPost.content }}</v-list-item-subtitle>
-          </v-list-item-content>
+          <v-card>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <!--
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field label="締め切り*" type="date" required v-model="dateLimit"></v-text-field>
+              </v-col>
+                  -->
+                  <v-col cols="12" sm="6">
+                    <v-select :items="region" label="地域*" required v-model="initRegion"></v-select>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field label="タイトル*" required v-model="title"></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-textarea label="内容*" required v-model="content"></v-textarea>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4">
+                    <v-text-field label="締め切り*" type="date" required v-model="dateLimit" disabled></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row justify="center">
+                  <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
+                </v-row>
+              </v-container>
+              <!-- <imageUploadDialog /> -->
+              <!-- <imageUpload /> -->
+              <small>*indicates required field</small>
+              <br />
+              <br />
+              <v-layout justify-center>
+                <v-alert dense text type="success" v-show="updateAlert">更新しました</v-alert>
+              </v-layout>
+            </v-card-text>
+            <v-card-actions>
+              <div class="flex-grow-1"></div>
+              <v-btn color="blue darken-1" text @click="post">Save</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-list-item>
+        <br />
         <v-divider></v-divider>
         <v-list three-line subheader>
           <v-subheader>参加者を編集</v-subheader>
@@ -44,6 +80,9 @@
             </v-list-item-action>
           </v-list-item>
         </v-list>
+        <br />
+        <br />
+        <br />
       </v-card>
     </v-dialog>
   </v-row>
@@ -63,10 +102,124 @@ export default {
       dialog: false,
       notifications: false,
       sound: true,
-      widgets: false
+      widgets: false,
+      updateAlert: false,
+      title: "",
+      content: "",
+      dateLimit: new Date().toISOString().substr(0, 10),
+      initRegion: "",
+      region: [
+        "北海道",
+        "青森県",
+        "岩手県",
+        "宮城県",
+        "秋田県",
+        "山形県",
+        "福島県",
+        "茨城県",
+        "栃木県",
+        "群馬県",
+        "埼玉県",
+        "千葉県",
+        "東京都",
+        "神奈川県",
+        "新潟県",
+        "富山県",
+        "石川県",
+        "福井県",
+        "山梨県",
+        "長野県",
+        "岐阜県",
+        "静岡県",
+        "愛知県",
+        "三重県",
+        "滋賀県",
+        "京都府",
+        "大阪府",
+        "兵庫県",
+        "奈良県",
+        "和歌山県",
+        "鳥取県",
+        "島根県",
+        "岡山県",
+        "広島県",
+        "山口県",
+        "徳島県",
+        "香川県",
+        "愛媛県",
+        "高知県",
+        "福岡県",
+        "佐賀県",
+        "長崎県",
+        "熊本県",
+        "大分県",
+        "宮崎県",
+        "鹿児島県",
+        "沖縄県"
+      ]
     };
   },
+  /*
+  computed: {
+    title: function() {
+      return this.selectedPost.title;
+    },
+    region: function() {
+      return this.selectedPost.region;
+    },
+    content: function() {
+      return this.selectedPost.content;
+    },
+    dateLimit: function() {
+      return this.selectedPost.dateLimit;
+    }
+  },
+  */
+  mounted() {
+    this.title = this.selectedPost.title;
+    this.initRegion = this.selectedPost.region;
+    this.content = this.selectedPost.content;
+    this.dateLimit = this.selectedPost.dateLimit;
+  },
   methods: {
+    allowedDate: function(val) {
+      // 今日～100日後までを選べるようにする
+      let today = new Date();
+      today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      let maxAllowedDay = new Date();
+      maxAllowedDay.setDate(today.getDate() + 100);
+      maxAllowedDay = new Date(
+        maxAllowedDay.getFullYear(),
+        maxAllowedDay.getMonth(),
+        maxAllowedDay.getDate()
+      );
+      return today <= new Date(val) && new Date(val) <= maxAllowedDay;
+    },
+    post: function() {
+      var self = this;
+      var newPost = {
+        dateLimit: this.dateLimit,
+        content: this.content,
+        title: this.title,
+        region: this.initRegion
+      };
+      var newPostRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("posts")
+        .doc(this.selectedPost.id);
+      newPostRef
+        .set(newPost, { merge: true })
+        .then(function() {
+          console.log("update ok");
+          self.updateAlert = true;
+          setTimeout(() => (self.updateAlert = false), 2000);
+        })
+        .catch(function(error) {
+          console.log("error:" + error);
+        });
+    },
     deleteThisPost: function(post) {
       var id = post.id;
       firebase

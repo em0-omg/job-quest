@@ -33,12 +33,14 @@
               <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>
           </v-container>
+          <!-- <imageUploadDialog /> -->
+          <!-- <imageUpload /> -->
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="post">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">キャンセル</v-btn>
+          <v-btn color="blue darken-1" text @click="post">投稿</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -48,8 +50,14 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
+import imageUploadDialog from "./imageUploadDialog";
+import imageUpload from "./imageUpload";
 
 export default {
+  components: {
+    imageUploadDialog,
+    imageUpload
+  },
   created: function() {
     var db = firebase.firestore();
     var _this = this;
