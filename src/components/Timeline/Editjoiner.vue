@@ -43,7 +43,7 @@
           <div class="flex-grow-1"></div>
 
           <v-btn text @click="dialog = false">Cancel</v-btn>
-          <v-btn color="primary" text @click="saveJoinerEdit(id)">Save</v-btn>
+          <v-btn color="primary" text @click="saveJoinerEdit()">Save</v-btn>
         </v-card-actions>
       </v-card>
       <v-card v-else>
@@ -55,7 +55,6 @@
 </template>
 <script>
 import firebase from "firebase";
-import moment from "moment";
 
 export default {
   props: ["id"],
@@ -113,8 +112,7 @@ export default {
       this.joinersList = joiners;
       this.mailList = mails;
     },
-    saveJoinerEdit: function(postID) {
-      var loginUser = firebase.auth().currentUser;
+    saveJoinerEdit: function() {
       var postRef = firebase
         .firestore()
         .collection("users")
@@ -129,12 +127,6 @@ export default {
         .collection("posts")
         .doc(this.id)
         .collection("joinUsers");
-
-      var firestoreUserRef = firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("user");
 
       // postにも情報追加
       postRef.set(
@@ -158,111 +150,6 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-
-        /*
-        // チャットルーム作成情報を追加
-        if (joiner.isJoin) {
-          // 通知を追加
-          var nowDate = Date.now();
-          firebase
-            .firestore()
-            .collection("users")
-            .doc("company")
-            .collection("user")
-            .doc(joiner.email)
-            .collection("notification")
-            .add({
-              noteType: "join",
-              content: "参加が承認されました！ チャットリストをご覧ください",
-              createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-              userFrom: firebase.auth().currentUser.email,
-              icon: "mdi-human-handsup",
-              color: "success",
-              title: "参加承認"
-            });
-
-          var chatInfo = {
-            with: loginUser.email,
-            postID: postID,
-            postTitle: joiner.postTitle,
-            photoURL: loginUser.photoURL
-          };
-          console.table(chatInfo);
-          // 相手に設定
-          firestoreUserRef
-            .doc(joiner.email)
-            .update({
-              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfo)
-            })
-            .then(function() {
-              console.log("create with chatroom");
-            })
-            .catch(function() {
-              console.log("chatroom failed");
-            });
-
-          // 自分にも設定
-          var chatInfoMyself = {
-            with: joiner.email,
-            postID: postID,
-            postTitle: joiner.postTitle,
-            photoURL: joiner.photoURL
-          };
-          console.table(chatInfoMyself);
-          firestoreUserRef
-            .doc(loginUser.email)
-            .update({
-              ChatWith: firebase.firestore.FieldValue.arrayUnion(chatInfoMyself)
-            })
-            .then(function() {
-              console.log("create myself chatroom");
-            })
-            .catch(function() {
-              console.log("chatroom failed");
-            });
-        } else {
-          var chatInfoRemove = {
-            with: loginUser.email,
-            postID: postID,
-            postTitle: joiner.postTitle,
-            photoURL: joiner.photoURL
-          };
-          // 相手
-          firestoreUserRef
-            .doc(joiner.email)
-            .update({
-              ChatWith: firebase.firestore.FieldValue.arrayRemove(
-                chatInfoRemove
-              )
-            })
-            .then(function() {
-              console.log("delete chatroom");
-            })
-            .catch(function() {
-              console.log("chatroom failed");
-            });
-          // 自分
-          var chatInfoRemoveMyself = {
-            with: joiner.email,
-            postID: postID,
-            postTitle: joiner.postTitle,
-            photoURL: joiner.photoURL
-          };
-          firestoreUserRef
-            .doc(loginUser.email)
-            .update({
-              ChatWith: firebase.firestore.FieldValue.arrayRemove(
-                chatInfoRemoveMyself
-              )
-            })
-            .then(function() {
-              console.log("delete myself chatroom");
-            })
-            .catch(function() {
-              console.log("chatroom failed");
-            });
-        }
-        */
       });
       this.joinAlert = true;
       setTimeout(() => (this.joinAlert = false), 2000);

@@ -1,7 +1,20 @@
 <template>
   <v-container>
+    <v-row>
+      <v-col cols="12" sm="6">
+        <v-text-field
+          filled
+          label="検索"
+          prepend-inner-icon="mdi-feature-search-outline"
+          v-model="searchWords"
+        ></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <p>{{ searchWords }}</p>
+      </v-col>
+    </v-row>
     <v-list three-line>
-      <template v-for="(item, index) in showPosts.slice(0,count)">
+      <template v-for="(item, index) in searchedPosts.slice(0,count)">
         <v-list-item :key="item.id">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
@@ -81,7 +94,10 @@ export default {
       favCounter: 0,
 
       // 期限オーバー確認用
-      nowDate: null
+      nowDate: null,
+
+      //検索キーワード
+      searchWords: ""
     };
   },
   created: function() {
@@ -98,6 +114,26 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    searchedPosts() {
+      if (this.searchWords.length === 0) {
+        return this.showPosts;
+      } else {
+        var returnPost = [];
+        var self = this;
+        var keywords = this.searchWords.split(" ");
+        keywords.forEach(function(key) {
+          var newArray = self.showPosts.filter(
+            p =>
+              p.region.includes(key) ||
+              p.title.includes(key) ||
+              p.content.includes(key) ||
+              p.ownerName.includes(key)
+          );
+          returnPost = newArray;
+        });
+        return returnPost;
+      }
     }
   },
   mounted: function() {

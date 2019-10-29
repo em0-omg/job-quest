@@ -85,9 +85,7 @@ export default {
       url: ""
     };
   },
-  created: function() {
-    Firebase.onAuth();
-  },
+  created: function() {},
   computed: {
     user() {
       return this.$store.getters.user;
