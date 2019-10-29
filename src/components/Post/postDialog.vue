@@ -25,9 +25,10 @@
               <v-col cols="12">
                 <v-textarea label="内容*" required v-model="content"></v-textarea>
               </v-col>
+              <v-col cols="12" sm="6" md="4">
+                <v-text-field label="締め切り*" type="date" required v-model="dateLimit" disabled></v-text-field>
+              </v-col>
             </v-row>
-            <v-card-subtitle>締め切り*</v-card-subtitle>
-            <br />
             <v-row justify="center">
               <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>

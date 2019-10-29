@@ -2,8 +2,6 @@
   <v-container>
     <v-list three-line>
       <template v-for="(item, index) in showPosts.slice(0,count)">
-        <v-divider :key="index"></v-divider>
-
         <v-list-item :key="item.id">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
@@ -37,6 +35,7 @@
             </v-layout>
           </v-list-item-content>
         </v-list-item>
+        <v-divider :key="index"></v-divider>
       </template>
     </v-list>
     <infinite-loading ref="infiniteLoading" @infinite="infiniteHandler">

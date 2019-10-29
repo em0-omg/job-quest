@@ -10,19 +10,17 @@
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
-      <v-toolbar-title justify="center" class="display-1">JobQuest</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
+      <v-toolbar-title justify="center" class="title">JobQuest</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
 
       <div class="flex-grow-1"></div>
 
-      <!--
       <v-btn icon>
         <postDialog />
       </v-btn>
-      -->
 
       <!--
       <v-btn icon color="white" @click="toSetting()">
@@ -37,10 +35,10 @@
       <v-menu bottom left dark>
         <template v-slot:activator="{ on }">
           <v-btn icon color="white" v-on="on">
-            <v-avatar size="32px" v-if="loginUser">
+            <v-avatar size="28px" v-if="loginUser">
               <img :src="loginUser.photoURL" :alt="loginUser.displayName" />
             </v-avatar>
-            <v-avatar size="32px" v-else>
+            <v-avatar size="28px" v-else>
               <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
             </v-avatar>
           </v-btn>
@@ -58,9 +56,6 @@
         </v-list>
       </v-menu>
     </v-toolbar>
-    <v-layout justify-center v-else>
-      <h1>JobQuest</h1>
-    </v-layout>
   </v-card>
 </template>
 
