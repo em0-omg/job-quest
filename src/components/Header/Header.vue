@@ -38,6 +38,10 @@
             プロフィール
             <v-icon>mdi-account-box</v-icon>
           </v-list-item>
+          <v-list-item @click="changePassword()">
+            パスワードの変更
+            <v-icon>mdi-onepassword</v-icon>
+          </v-list-item>
           <v-list-item @click="signOut()">
             ログオフ
             <v-icon>mdi-account-off</v-icon>
@@ -90,6 +94,22 @@ export default {
     }
   },
   methods: {
+    changePassword: function() {
+      var auth = firebase.auth();
+      var loginUser = firebase.auth().currentUser;
+      var emailAddress = loginUser.email;
+
+      auth
+        .sendPasswordResetEmail(emailAddress)
+        .then(function() {
+          // Email sent.
+          alert("パスワード再設定のメールを送りました");
+        })
+        .catch(function(error) {
+          // An error happened.
+          console.log("mail error: " + error);
+        });
+    },
     signOut: function() {
       firebase
         .auth()

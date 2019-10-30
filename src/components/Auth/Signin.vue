@@ -3,12 +3,10 @@
     <vue-loading type="spin" color="#333" :size="{ width: '50px', height: '50px' }"></vue-loading>
   </v-container>
   <v-container v-else>
-    <br />
     <v-layout justify-center>
-      <h2>Sign in</h2>
+      <span class="title">サインイン</span>
     </v-layout>
     <br />
-    <!-- <button @click="googleLogin">Googleでログイン</button> -->
     <v-layout justify-center>
       <button type="button" class="google-button" @click="googleLogin()">
         <span class="google-button__icon">
@@ -34,27 +32,34 @@
             />
           </svg>
         </span>
-        <span class="google-button__text">Sign in with Google</span>
+        <span class="google-button__text">Googleでサインイン</span>
       </button>
     </v-layout>
     <br />
+    <br />
     <v-divider></v-divider>
     <br />
-    <v-layout justify-center>メールアドレスでログイン</v-layout>
+    <!-- <v-layout justify-center>ログイン</v-layout> -->
     <v-layout justify-center>
-      <input type="text" placeholder="Username" v-model="username" />
+      <span class="subtitle-2">メールアドレスでサインイン</span>
     </v-layout>
     <v-layout justify-center>
-      <input type="password" placeholder="Password" v-model="password" />
+      <input type="text" placeholder="メールアドレス" v-model="username" />
     </v-layout>
     <v-layout justify-center>
-      <v-btn depressed color="primary" @click="signIn()">Signin</v-btn>
+      <input type="password" placeholder="パスワード" v-model="password" />
+    </v-layout>
+    <v-layout justify-center>
+      <v-btn depressed color="primary" @click="signIn()">サインイン</v-btn>
     </v-layout>
     <br />
     <v-layout justify-center>
       <p>
-        You don't have an account?
-        <router-link to="/signup">create account now!!</router-link>
+        アカウントを持っていませんか？
+        <br />
+        <v-layout justify-center>
+          <router-link to="/signup">こちらから作成しましょう！</router-link>
+        </v-layout>
       </p>
     </v-layout>
   </v-container>
