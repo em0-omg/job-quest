@@ -79,12 +79,13 @@
               <v-list-item-subtitle>{{ userInfo.belongTo }}</v-list-item-subtitle>
               <br />
               <v-list-item-title class="subtitle-2">
-                <span>レベル</span>
+                <span>獲得スター数</span>
                 <v-icon color="primary">mdi-account-star</v-icon>
               </v-list-item-title>
-              <v-list-item-subtitle
-                v-if="userInfo"
-              >{{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }})</v-list-item-subtitle>
+              <v-list-item-subtitle v-if="userInfo">
+                <!-- {{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }})</v-list-item-subtitle> -->
+                {{ userInfo.Rank }}
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -179,30 +180,30 @@ export default {
   mounted: function() {
     this.$nextTick(function() {
       var self = this;
-      firebase
-        .firestore()
-        .collection("users")
-        .doc("company")
-        .collection("user")
-        .doc(self.post.ownerEmail)
-        .get()
-        .then(function(doc) {
-          self.userInfo = doc.data();
-        });
       /*
       firebase
         .firestore()
         .collection("users")
         .doc("company")
         .collection("user")
-        .where("email", "==", self.post.ownerEmail)
         .doc(self.post.ownerEmail)
-        .onSnapshot(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            self.userInfo = doc.data();
-          });
+        .onShanpshot(function(doc) {
+          self.userInfo = doc.data();
         });
         */
+      if (self.post.ownerEmail) {
+        firebase
+          .firestore()
+          .collection("users")
+          .doc("company")
+          .collection("user")
+          .where("email", "==", self.post.ownerEmail)
+          .onSnapshot(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+              self.userInfo = doc.data();
+            });
+          });
+      }
     });
   },
   methods: {
@@ -222,15 +223,31 @@ export default {
         .collection("user")
         .doc(this.post.ownerEmail);
 
-      userRef.update({
-        favoriteUser: firebase.firestore.FieldValue.arrayUnion(
-          this.post.ownerEmail
-        )
-      });
+      userRef
+        .update({
+          favoriteUser: firebase.firestore.FieldValue.arrayUnion(
+            this.post.ownerEmail
+          )
+        })
+        .then(function() {
+          console.log("userRef update ok");
+        })
+        .catch(function(error) {
+          console.log("error userRef:" + error);
+        });
 
-      toRef.update({
-        favoriteFrom: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
-      });
+      toRef
+        .update({
+          favoriteFrom: firebase.firestore.FieldValue.arrayUnion(
+            loginUser.email
+          )
+        })
+        .then(function() {
+          console.log("toRef update ok");
+        })
+        .catch(function(err) {
+          console.log("error toRef: " + err);
+        });
     },
     removeFavoriteUser: function() {
       var loginUser = firebase.auth().currentUser;

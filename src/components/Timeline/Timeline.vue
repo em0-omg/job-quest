@@ -195,6 +195,9 @@ export default {
       var self = this;
       setTimeout(() => (self.favCounter = 0), 300000);
     },
+    /////////////////
+    //お気に入り登録//
+    /////////////////
     favorite: function(id) {
       var self = this;
       if (self.favCounter > 100) {
@@ -208,9 +211,6 @@ export default {
         .doc("company")
         .collection("posts")
         .doc(id);
-      // showPosts再生成 結局いらなかったけどやり方はメモ
-      // var newArray = this.showPosts.filter(p => p.id !== id);
-      // this.showPosts = newArray;
       favRef
         .update({
           favoriteFrom: firebase.firestore.FieldValue.arrayUnion(
@@ -247,7 +247,8 @@ export default {
                 post: postItem,
                 icon: "mdi-heart",
                 color: "pink",
-                title: "お気に入り"
+                title: "お気に入り",
+                isRead: false
               });
           } else {
             console.log("no doc");

@@ -3,7 +3,10 @@
     <v-dialog v-model="dialog" fullscreen hide-overlay transition="scale-transition">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" @click="getChatWithList()">
-          <v-icon>mdi-format-list-bulleted</v-icon>
+          <v-badge overlap>
+            <template v-slot:badge>0</template>
+            <v-icon>mdi-format-list-bulleted</v-icon>
+          </v-badge>
         </v-btn>
       </template>
       <v-toolbar dark color="primary">

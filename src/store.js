@@ -8,7 +8,8 @@ export default new Vuex.Store({
     user: {},
     status: false,
     timeline: "",
-    exist: true
+    exist: true,
+    unreadNote: 0
   },
   mutations: {
     onAuthStateChanged(state, user) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
     },
     isExistUser(state, isExistUser) {
       state.exist = isExistUser;
+    },
+    setUnreadNote(state, unreadNote) {
+      state.unreadNote = unreadNote;
     }
   },
   getters: {
@@ -36,6 +40,9 @@ export default new Vuex.Store({
     },
     isExistUser(state) {
       return state.exist;
+    },
+    unreadNote(state) {
+      return state.unreadNote;
     }
   }
 });

@@ -12,7 +12,7 @@
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
             <p>{{ item.userFrom }}から{{ item.content }}</p>
-            {{ item.createdAt }}&nbsp;
+            {{ item.createdAt }}&nbsp;{{ item.isRead }}
             <ShowProfile :post="item" />
           </v-card-text>
         </v-card>
@@ -46,6 +46,7 @@
 import firebase from "firebase";
 import SetOwnerRatio from "./Notification/SetOwnerRatio";
 import InfiniteLoading from "vue-infinite-loading";
+import store from "./../store";
 
 export default {
   components: {
@@ -53,8 +54,36 @@ export default {
     InfiniteLoading
   },
   mounted: function() {
-    var self = this;
     var loginUser = firebase.auth().currentUser;
+    // 既読をつける
+    var kidokuRef = firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .doc(loginUser.email)
+      .collection("notification");
+
+    kidokuRef
+      .where("isRead", "==", false)
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          kidokuRef
+            .doc(doc.id)
+            .update({
+              isRead: true
+            })
+            .then(function() {
+              console.log("既読");
+            })
+            .catch(function() {
+              console.log("既読 失敗");
+            });
+        });
+      });
+
+    var self = this;
     var nRef = firebase
       .firestore()
       .collection("users")
@@ -69,14 +98,25 @@ export default {
       querySnapshot.forEach(function(doc) {
         var docData = doc.data();
         docData.id = doc.id;
+        if (!docData.isRead) {
+          self.unreadNote += 1;
+          console.log("unreadnote count:" + self.unreadNote);
+        }
         self.note.push(docData);
       });
+      store.commit("setUnreadNote", self.unreadNote);
     });
   },
   data: () => ({
     note: [],
-    count: 0
+    count: 3,
+    unreadNote: 0
   }),
+  computed: {
+    unreadNoteNum: function() {
+      return this.$store.getters.unreadNote;
+    }
+  },
   methods: {
     infiniteHandler() {
       setTimeout(() => {

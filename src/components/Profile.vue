@@ -52,12 +52,13 @@
             <v-list-item-subtitle>{{ showUserProfile.belongTo }}</v-list-item-subtitle>
             <br />
             <v-list-item-title class="subtitle-2">
-              <span>レベル</span>
+              <span>獲得スター数</span>
               <v-icon color="primary">mdi-account-star</v-icon>
             </v-list-item-title>
-            <v-list-item-subtitle
-              v-if="showUserProfile"
-            >{{ level }} &nbsp; (レベルアップまで{{ showUserProfile.Rank }}/{{ needRank }})</v-list-item-subtitle>
+            <v-list-item-subtitle v-if="showUserProfile">
+              <!-- {{ level }} &nbsp; (レベルアップまで{{ showUserProfile.Rank }}/{{ needRank }})</v-list-item-subtitle> -->
+              {{ showUserProfile.Rank }}
+            </v-list-item-subtitle>
             <v-card-actions>
               <v-layout justify-center>
                 <profileDialog :userprofile="showUserProfile" />
@@ -172,13 +173,30 @@ export default {
       var userRank = this.showUserProfile.Rank;
       if (userRank > 0 && userRank < 10) return 1;
       else if (userRank > 10 && userRank < 20) return 2;
-      else return 3;
+      else if (userRank > 20 && userRank < 30) return 3;
+      else if (userRank > 30 && userRank < 40) return 4;
+      else if (userRank > 40 && userRank < 50) return 5;
+      else if (userRank > 50 && userRank < 60) return 6;
+      else if (userRank > 60 && userRank < 70) return 7;
+      else if (userRank > 70 && userRank < 80) return 8;
+      else if (userRank > 80 && userRank < 90) return 9;
+      else if (userRank > 90 && userRank < 100) return 10;
+      else return 11;
     },
     needRank() {
-      var userRank = this.showUserProfile.Rank;
+      var userRank = this.showUserProfile.Rank - 0;
+      console.log("userRank" + userRank);
       if (userRank > 0 && userRank < 9) return 10;
       else if (userRank > 9 && userRank < 19) return 20;
-      else return 30;
+      else if (userRank > 19 && userRank < 29) return 30;
+      else if (userRank > 29 && userRank < 39) return 40;
+      else if (userRank > 39 && userRank < 49) return 50;
+      else if (userRank > 49 && userRank < 59) return 60;
+      else if (userRank > 59 && userRank < 69) return 70;
+      else if (userRank > 69 && userRank < 79) return 80;
+      else if (userRank > 79 && userRank < 89) return 90;
+      else if (userRank > 89 && userRank < 99) return 100;
+      else return 0;
     }
   }
 };

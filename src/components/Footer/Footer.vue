@@ -1,5 +1,6 @@
 <template>
-  <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed>
+  <!-- <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed> -->
+  <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark fixed height="70">
     <v-btn @click="toContact()">
       <span>contact</span>
       <v-icon>mdi-email-send</v-icon>
@@ -16,7 +17,10 @@
 
     <v-btn @click="toNote()">
       <span>notification</span>
-      <v-icon>mdi-bell-ring</v-icon>
+      <v-badge overlap v-model="unReadNote">
+        <template v-slot:badge>{{ unreadNoteNum }}</template>
+        <v-icon>mdi-bell-ring</v-icon>
+      </v-badge>
     </v-btn>
 
     <v-btn @click="toSetting()">
@@ -60,7 +64,8 @@ export default {
   },
   data() {
     return {
-      bottomNav: 2
+      bottomNav: 2,
+      unReadNote: true
     };
   },
   computed: {
@@ -72,6 +77,9 @@ export default {
     },
     nowTimeline: function() {
       return this.$store.getters.nowTimeline;
+    },
+    unreadNoteNum: function() {
+      return this.$store.getters.unreadNote;
     }
   },
   methods: {
@@ -84,6 +92,7 @@ export default {
       this.$router.push("/");
     },
     toNote: function() {
+      this.unReadNote = false;
       store.commit("nowTimelineChanged", "notification");
       this.$router.push("/");
     },

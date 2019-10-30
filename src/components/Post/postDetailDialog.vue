@@ -43,7 +43,6 @@
               <v-list-item-subtitle>
                 <p>投稿者：{{ selectedPost.ownerName }}</p>
                 <p>場所：{{ selectedPost.region }}</p>
-                <p>募集人数：{{ selectedPost.howMany }}</p>
                 <p>募集期限：{{ selectedPost.dateLimit }}</p>
               </v-list-item-subtitle>
             </v-list-item-content>
