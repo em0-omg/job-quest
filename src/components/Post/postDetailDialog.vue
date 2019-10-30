@@ -14,7 +14,6 @@
             <div class="flex-grow-1"></div>
             <v-card-title class="white--text pl-12 pt-12">
               <div class="display-1 pl-12 pt-12 text-truncate">{{ selectedPost.ownerName }}&nbsp;</div>
-              <showprofile/>
             </v-card-title>
             -->
           </v-row>
