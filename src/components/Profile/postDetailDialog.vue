@@ -49,8 +49,18 @@
             </v-list-item-content>
           </v-list-item>
           <div class="text-center">
-            <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost.id)">
+            <v-btn
+              class="ma-2"
+              tile
+              outlined
+              color="indigo"
+              @click="joinPost(selectedPost)"
+              v-if="!alreadyJoined"
+            >
               <v-icon left>mdi-hand</v-icon>参加を希望する！
+            </v-btn>
+            <v-btn class="ma-2" tile outlined color="success" v-else>
+              <v-icon left>mdi-hand-okay</v-icon>参加を希望済み
             </v-btn>
           </div>
           <br />
@@ -86,11 +96,13 @@ export default {
   data: () => ({
     dialog: false,
     joinAlert: false,
-    userData: null
+    userData: null,
+    alreadyJoined: false
   }),
   props: ["selectedPost"],
   computed: {},
   mounted: function() {
+    console.log("Mount");
     var self = this;
     var loginUser = firebase.auth().currentUser;
     firebase
@@ -105,6 +117,25 @@ export default {
           if (docData.email === loginUser.email) {
             console.log("find user " + docData.id);
             self.userData = docData;
+          }
+        });
+      });
+    // すでに応募済みかチェック
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("posts")
+      .doc(this.selectedPost.id)
+      .collection("joinUsers")
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          if (doc.id === loginUser.email) {
+            alert("すでに参加希望済みです");
+            self.alreadyJoined = true;
+          } else {
+            console.log(doc.id + ":" + loginUser.email);
           }
         });
       });
@@ -123,25 +154,21 @@ export default {
       }
       var self = this;
       var nowDate = Date.now();
-      // joinersに追加
-      /*
       firebase
         .firestore()
         .collection("users")
         .doc("company")
         .collection("posts")
-        .doc(postID)
+        .doc(post.id)
         .update({
           joiners: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
         })
         .then(function() {
-          console.log("joiner ok" + loginUser.email);
+          console.log("joiners add");
         })
         .catch(function(eee) {
-          console.log("error: " + eee);
+          console.log(eee);
         });
-        */
-      console.log(loginUser.email);
 
       var postRef = firebase
         .firestore()
@@ -165,6 +192,7 @@ export default {
         )
         .then(function() {
           console.log("join!OK");
+          self.alreadyJoined = true;
           self.joinAlert = true;
           setTimeout(() => (self.joinAlert = false), 2000);
         })

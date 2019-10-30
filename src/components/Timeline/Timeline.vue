@@ -325,6 +325,7 @@ export default {
             // 自身がログインしたときのみ通知
             if (
               doc.data().returnRating === 0 &&
+              doc.data().isJoin === true &&
               loginUser.email === doc.data().email
             ) {
               var noteRef = firebase
@@ -343,7 +344,8 @@ export default {
                   postID: item.id,
                   icon: "mdi-alert",
                   color: "warning",
-                  title: "募集終了"
+                  title: "募集終了",
+                  isRead: false
                 })
                 .then(function() {
                   console.log("note ok");

@@ -48,8 +48,18 @@
             </v-list-item-content>
           </v-list-item>
           <div class="text-center">
-            <v-btn class="ma-2" tile outlined color="indigo" @click="joinPost(selectedPost)">
+            <v-btn
+              class="ma-2"
+              tile
+              outlined
+              color="indigo"
+              @click="joinPost(selectedPost)"
+              v-if="!alreadyJoined"
+            >
               <v-icon left>mdi-hand</v-icon>参加を希望する！
+            </v-btn>
+            <v-btn class="ma-2" tile outlined color="success" v-else>
+              <v-icon left>mdi-hand-okay</v-icon>参加を希望済み
             </v-btn>
           </div>
           <br />
@@ -82,11 +92,13 @@ export default {
   data: () => ({
     dialog: false,
     joinAlert: false,
-    userData: null
+    userData: null,
+    alreadyJoined: false
   }),
   props: ["selectedPost"],
   computed: {},
   mounted: function() {
+    console.log("Mount");
     var self = this;
     var loginUser = firebase.auth().currentUser;
     firebase
@@ -100,6 +112,24 @@ export default {
           docData.id = doc.id;
           if (docData.email === loginUser.email) {
             self.userData = docData;
+          }
+        });
+      });
+    // すでに応募済みかチェック
+    firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("posts")
+      .doc(this.selectedPost.id)
+      .collection("joinUsers")
+      .get()
+      .then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          if (doc.id === loginUser.email) {
+            self.alreadyJoined = true;
+          } else {
+            console.log(doc.id + ":" + loginUser.email);
           }
         });
       });
@@ -158,6 +188,7 @@ export default {
         )
         .then(function() {
           console.log("join!");
+          self.alreadyJoined = true;
           self.joinAlert = true;
           setTimeout(() => (self.joinAlert = false), 2000);
         })
