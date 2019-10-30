@@ -4,7 +4,9 @@
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" @click="getChatWithList()">
           <v-badge overlap>
-            <template v-slot:badge>0</template>
+            <template v-slot:badge>
+              <span v-if="unreadChatNum > 0">!</span>
+            </template>
             <v-icon>mdi-format-list-bulleted</v-icon>
           </v-badge>
         </v-btn>
@@ -23,6 +25,7 @@
 <script>
 import firebase from "firebase";
 import Chatlist from "./Chatlist";
+import store from "./../../store";
 
 export default {
   components: {
@@ -31,11 +34,15 @@ export default {
   data: () => ({
     fav: true,
     menu: false,
-    message: false,
     hints: true,
     userInfo: null,
     dialog: false
   }),
+  computed: {
+    unreadChatNum: function() {
+      return this.$store.getters.unreadChat;
+    }
+  },
   methods: {
     getChatWithList: function() {
       var self = this;

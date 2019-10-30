@@ -5,20 +5,9 @@
         <ChatDialog />
       </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
-      <v-toolbar-title justify="center" class="title">JobQuest</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
 
-      <div class="flex-grow-1"></div>
-
-      <v-btn icon>
+      <v-btn icon v-if="isExistUser">
+        募集
         <postDialog />
       </v-btn>
 
@@ -56,9 +45,6 @@
         </v-list>
       </v-menu>
     </v-toolbar>
-    <v-layout justify-center v-else>
-      <h1>JobQuest</h1>
-    </v-layout>
   </v-card>
 </template>
 
@@ -92,13 +78,16 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
-    }
+    },
     /*
     photoURL() {
       var loginUser = firebase.auth().currentUser;
       return loginUser.photoURL;
     }
     */
+    isExistUser() {
+      return this.$store.getters.isExistUser;
+    }
   },
   methods: {
     signOut: function() {

@@ -1,10 +1,5 @@
 <template>
-  <v-container v-if="isExistUser">
-    <!--
-    <v-layout justify-center>
-      <h1>JobQuest</h1>
-    </v-layout>
-    -->
+  <v-container v-if="isExistUser && isVerified">
     <br />
     <v-layout justify-center v-show="nowTimeline==='setting'">
       <Profile />
@@ -39,12 +34,12 @@
     <br />
   </v-container>
   <v-container v-else>
-    <v-layout justify-center>
-      <h1>JobQuest</h1>
-    </v-layout>
     <br />
-    <v-alert outlined type="warning" prominent border="left">
+    <v-alert outlined type="warning" prominent border="left" v-if="!isProfiled">
       <p>最初にプロフィール情報を設定してください</p>
+    </v-alert>
+    <v-alert outlined type="warning" prominent border="left" v-if="!isVerified">
+      <p>アカウント確認のメールを送りました！メールボックスから認証を行ってください</p>
     </v-alert>
     <!-- <v-divider></v-divider> -->
     <v-layout justify-center>
@@ -84,7 +79,10 @@ import ContactForm from "./ContactForm";
 export default {
   name: "Home",
   data() {
-    return {};
+    return {
+      isVerified: false,
+      isProfiled: false
+    };
   },
   components: {
     Timeline,
@@ -97,6 +95,20 @@ export default {
   },
   mounted: function() {
     var loginUser = firebase.auth().currentUser;
+    var self = this;
+    if (loginUser.emailVerified != true) {
+      loginUser
+        .sendEmailVerification()
+        .then(function() {
+          console.log("email send");
+        })
+        .catch(function(error) {
+          console.log("send mail error: " + error);
+        });
+    } else {
+      console.log("verified user");
+      self.isVerified = true;
+    }
     var docRef = firebase
       .firestore()
       .collection("users")
@@ -108,10 +120,13 @@ export default {
       .get()
       .then(function(doc) {
         if (doc.exists) {
-          console.log("no problem!", doc.data());
-          store.commit("isExistUser", true);
+          self.isProfiled = true;
+          if (self.isVerified) {
+            store.commit("isExistUser", true);
+          } else {
+            store.commit("isExistUser", false);
+          }
         } else {
-          console.log("No such document!");
           store.commit("isExistUser", false);
         }
       })

@@ -60,18 +60,14 @@
               </v-list-item-title>
               <v-list-item-subtitle class="body-2">{{ userInfo.profile }}</v-list-item-subtitle>
               <br />
+              <!--
               <v-list-item-title class="subtitle-2">
                 <span>メールアドレス</span>
                 <v-icon color="primary">mdi-email</v-icon>
               </v-list-item-title>
               <v-list-item-subtitle>{{ userInfo.email }}</v-list-item-subtitle>
               <br />
-              <v-list-item-title class="subtitle-2">
-                <span>電話番号</span>
-                <v-icon color="primary">mdi-phone</v-icon>
-              </v-list-item-title>
-              <v-list-item-subtitle>{{ userInfo.phone }}</v-list-item-subtitle>
-              <br />
+              -->
               <v-list-item-title class="subtitle-2">
                 <span>所属</span>
                 <v-icon color="primary">mdi-office-building</v-icon>
@@ -286,7 +282,8 @@ export default {
 
       var chatInfo = {
         with: self.loginUser.email,
-        photoURL: self.loginUser.photoURL
+        photoURL: self.loginUser.photoURL,
+        isRead: false
       };
 
       console.table(chatInfo);

@@ -40,12 +40,6 @@
             <v-list-item-subtitle>{{ showUserProfile.email }}</v-list-item-subtitle>
             <br />
             <v-list-item-title class="subtitle-2">
-              <span>電話番号</span>
-              <v-icon color="primary">mdi-phone</v-icon>
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ showUserProfile.phone }}</v-list-item-subtitle>
-            <br />
-            <v-list-item-title class="subtitle-2">
               <span>所属</span>
               <v-icon color="primary">mdi-office-building</v-icon>
             </v-list-item-title>

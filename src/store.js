@@ -9,7 +9,8 @@ export default new Vuex.Store({
     status: false,
     timeline: "",
     exist: true,
-    unreadNote: 0
+    unreadNote: 0,
+    unreadChat: 0
   },
   mutations: {
     onAuthStateChanged(state, user) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
     },
     setUnreadNote(state, unreadNote) {
       state.unreadNote = unreadNote;
+    },
+    setUnreadChat(state, unreadChat) {
+      state.unreadChat = unreadChat;
     }
   },
   getters: {
@@ -43,6 +47,9 @@ export default new Vuex.Store({
     },
     unreadNote(state) {
       return state.unreadNote;
+    },
+    unreadChat(state) {
+      return state.unreadChat;
     }
   }
 });

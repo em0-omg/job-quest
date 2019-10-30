@@ -2,6 +2,10 @@
   <v-app>
     <v-content>
       <Header />
+      <br />
+      <v-layout justify-center>
+        <span class="display-1">JobQuest</span>
+      </v-layout>
       <router-view />
       <Footer />
     </v-content>

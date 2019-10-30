@@ -23,11 +23,6 @@
             </v-row>
             <v-row>
               <v-col cols="6" sm="6" md="4">
-                <v-text-field label="電話番号" type="tel" v-model="updateUser.phone"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="6" sm="6" md="4">
                 <v-text-field label="所属" v-model="updateUser.belongTo"></v-text-field>
               </v-col>
             </v-row>
@@ -63,7 +58,6 @@ export default {
     loginUser: firebase.auth().currentUser,
 
     updateUser: {
-      phone: "",
       belongTo: "",
       id: "",
       displayName: "",
@@ -83,7 +77,6 @@ export default {
       var self = this;
       self.updateUser.displayName = self.userprofile.displayName;
       self.updateUser.profile = self.userprofile.profile;
-      self.updateUser.phone = self.userprofile.phone;
       self.updateUser.belongTo = self.userprofile.belongTo;
     },
     saveUserProfile: function() {
