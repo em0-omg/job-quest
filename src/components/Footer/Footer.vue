@@ -17,8 +17,10 @@
 
     <v-btn @click="toNote()">
       <span>notification</span>
-      <v-badge overlap v-model="unReadNote">
-        <template v-slot:badge>{{ unreadNoteNum }}</template>
+      <v-badge overlap>
+        <template v-slot:badge>
+          <span v-if="unreadNoteNum > 0">{{ unreadNoteNum }}</span>
+        </template>
         <v-icon>mdi-bell-ring</v-icon>
       </v-badge>
     </v-btn>
@@ -64,8 +66,7 @@ export default {
   },
   data() {
     return {
-      bottomNav: 2,
-      unReadNote: true
+      bottomNav: 2
     };
   },
   computed: {
@@ -94,6 +95,7 @@ export default {
     toNote: function() {
       this.unReadNote = false;
       store.commit("nowTimelineChanged", "notification");
+      store.commit("setUnreadNote", 0);
       this.$router.push("/");
     },
     toFavorite: function() {

@@ -170,6 +170,31 @@ export default {
           console.log(eee);
         });
 
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(this.selectedPost.ownerEmail)
+        .collection("notification")
+        .add({
+          noteType: "joinAlert",
+          content: loginUser.displayName + "が参加希望を行いました！",
+          createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+          postTitle: this.selectedPost.title,
+          postID: this.selectedPost.id,
+          icon: "mdi-hand",
+          color: "success",
+          title: "参加希望者お知らせ",
+          isRead: false
+        })
+        .then(function() {
+          console.log("note ok");
+        })
+        .catch(function(errr) {
+          console.log("note error: " + errr);
+        });
+
       var postRef = firebase
         .firestore()
         .collection("users")

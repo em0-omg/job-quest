@@ -153,7 +153,6 @@ export default {
       });
       this.joinAlert = true;
       setTimeout(() => (this.joinAlert = false), 2000);
-      // this.dialog = false;
     }
   }
 };

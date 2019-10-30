@@ -309,6 +309,27 @@ export default {
       var loginUser = firebase.auth().currentUser;
 
       if (this.nowDate > postDateLimit) {
+        //非公開に設定
+        var postRef = firebase
+          .firestore()
+          .collection("users")
+          .doc("company")
+          .collection("posts")
+          .doc(item.id);
+
+        // post close
+        postRef
+          .update({
+            isClose: true,
+            isActive: false
+          })
+          .then(function() {
+            console.log("post close ok");
+          })
+          .catch(function(err) {
+            console.log("post close error:" + err);
+          });
+
         // 通知を送る
         var joinersRef = firebase
           .firestore()

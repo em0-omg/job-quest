@@ -24,14 +24,11 @@
             <SetOwnerRatio :postid="item.postID" />
           </v-card-text>
         </v-card>
-        <v-card :color="item.color" dark v-else-if="item.noteType==='join'">
+        <v-card :color="item.color" dark v-else-if="item.noteType==='joinAlert'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
-            <p>{{ item.content }}</p>
+            <p>「{{item.postTitle}}」に{{ item.content }}</p>
             {{ item.createdAt }}&nbsp;
-            <v-btn :color="item.color" icon>
-              <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
           </v-card-text>
         </v-card>
       </v-timeline-item>

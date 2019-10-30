@@ -69,7 +69,18 @@
         <v-divider></v-divider>
         <br />
         <v-list>
-          <v-list-item>
+          <v-list-item v-if="selectedPost.isClose">
+            <v-list-item-title class="red">公開設定 *期限を過ぎています</v-list-item-title>
+            <v-list-item-action>
+              <v-switch
+                v-model="selectedPost.isActive"
+                color="purple"
+                @click="deleteThisPost(selectedPost)"
+                disabled
+              ></v-switch>
+            </v-list-item-action>
+          </v-list-item>
+          <v-list-item v-else>
             <v-list-item-title>公開設定</v-list-item-title>
             <v-list-item-action>
               <v-switch

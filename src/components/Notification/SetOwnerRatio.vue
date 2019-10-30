@@ -31,6 +31,7 @@ export default {
   data() {
     return {
       rating: 3,
+      receiveRating: 0,
       dialog: false
     };
   },
@@ -50,6 +51,7 @@ export default {
         .get()
         .then(function(doc) {
           if (doc.exists) {
+            self.returnRating = doc.rating;
             if (doc.data().returnRating < 1) {
               ratioRef
                 .update({
@@ -88,23 +90,13 @@ export default {
         .doc("company")
         .collection("user");
 
-      // post close
-      postRef
-        .update({
-          isClose: true
-        })
-        .then(function() {
-          console.log("post close ok");
-        })
-        .catch(function(err) {
-          console.log("post close error:" + err);
-        });
-
       // 投稿者にratio追加
       var self = this;
       postRef.get().then(function(doc) {
         if (doc.exists) {
           var owner = doc.data().ownerEmail;
+          var ownerName = doc.data().ownerName;
+          var loginUser = firebase.auth().currentUser;
           userRef
             .doc(owner)
             .get()
@@ -115,6 +107,62 @@ export default {
                   Rank: newRank
                 });
               }
+            });
+          //投稿者に通知
+          firebase
+            .firestore()
+            .collection("users")
+            .doc("company")
+            .collection("user")
+            .doc(owner)
+            .collection("notification")
+            .add({
+              noteType: "ratioAlert",
+              content:
+                loginUser.displayName +
+                "から" +
+                self.rating +
+                "つスターの贈り物です！",
+              createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+              postID: this.postid,
+              icon: "mdi-star-circle",
+              color: "lime",
+              title: "評価通知",
+              isRead: false
+            })
+            .then(function() {
+              console.log("note ok");
+            })
+            .catch(function(errr) {
+              console.log("note error: " + errr);
+            });
+          //参加者に通知
+          firebase
+            .firestore()
+            .collection("users")
+            .doc("company")
+            .collection("user")
+            .doc(loginUser.email)
+            .collection("notification")
+            .add({
+              noteType: "ratioAlert",
+              content:
+                ownerName +
+                "から" +
+                self.receiveRating +
+                "つスターの贈り物です！",
+              createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+              postID: this.postid,
+              icon: "mdi-star-circle",
+              color: "lime",
+              title: "評価通知",
+              isRead: false
+            })
+            .then(function() {
+              console.log("note ok");
+            })
+            .catch(function(errr) {
+              console.log("note error: " + errr);
             });
         } else {
           console.log("no doc");
@@ -129,7 +177,7 @@ export default {
           querySnapshot.forEach(function(doc) {
             console.log(doc.id);
             var userKey = doc.id;
-            var addRank = self.rating;
+            var addRank = self.receiveRating;
             userRef
               .doc(userKey)
               .get()
