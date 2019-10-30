@@ -33,8 +33,6 @@
               <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>
           </v-container>
-          <!-- <imageUploadDialog /> -->
-          <!-- <imageUpload /> -->
           <small>*indicates required field</small>
         </v-card-text>
         <v-card-actions>
@@ -50,14 +48,9 @@
 <script>
 import firebase from "firebase";
 import moment from "moment";
-import imageUploadDialog from "./imageUploadDialog";
-import imageUpload from "./imageUpload";
 
 export default {
-  components: {
-    imageUploadDialog,
-    imageUpload
-  },
+  components: {},
   created: function() {
     var db = firebase.firestore();
     var _this = this;

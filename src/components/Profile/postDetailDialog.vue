@@ -159,7 +159,7 @@ export default {
         .collection("users")
         .doc("company")
         .collection("posts")
-        .doc(post.id)
+        .doc(postID)
         .update({
           joiners: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
         })

@@ -107,7 +107,6 @@ export default {
     Editjoiner
   },
   props: ["selectedPost"],
-  mounted: () => {},
   data() {
     return {
       dialog: false,

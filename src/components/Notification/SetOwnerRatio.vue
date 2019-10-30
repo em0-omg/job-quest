@@ -26,6 +26,7 @@
 </template>
 <script>
 import firebase from "firebase";
+import moment from "moment";
 export default {
   props: ["postid"],
   data() {
@@ -97,6 +98,7 @@ export default {
           var owner = doc.data().ownerEmail;
           var ownerName = doc.data().ownerName;
           var loginUser = firebase.auth().currentUser;
+          var nowDate = Date.now();
           userRef
             .doc(owner)
             .get()

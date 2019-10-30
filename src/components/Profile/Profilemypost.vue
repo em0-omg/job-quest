@@ -49,7 +49,6 @@
 </template>
 <script>
 import firebase from "firebase";
-import postdetaildialog from "./postDetailDialog";
 import editpost from "./../Timeline/EditPost";
 import InfiniteLoading from "vue-infinite-loading";
 import PostDelete from "./../Post/PostDelete";
@@ -58,7 +57,6 @@ export default {
   props: ["email"],
   components: {
     PostDelete,
-    postdetaildialog,
     editpost,
     InfiniteLoading
   },

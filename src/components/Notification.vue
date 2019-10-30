@@ -52,33 +52,6 @@ export default {
   },
   mounted: function() {
     var loginUser = firebase.auth().currentUser;
-    // 既読をつける
-    var kidokuRef = firebase
-      .firestore()
-      .collection("users")
-      .doc("company")
-      .collection("user")
-      .doc(loginUser.email)
-      .collection("notification");
-
-    kidokuRef
-      .where("isRead", "==", false)
-      .get()
-      .then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          kidokuRef
-            .doc(doc.id)
-            .update({
-              isRead: true
-            })
-            .then(function() {
-              console.log("既読");
-            })
-            .catch(function() {
-              console.log("既読 失敗");
-            });
-        });
-      });
 
     var self = this;
     var nRef = firebase
@@ -92,6 +65,7 @@ export default {
 
     nRef.onSnapshot(function(querySnapshot) {
       self.note = [];
+      self.unreadNote = 0;
       querySnapshot.forEach(function(doc) {
         var docData = doc.data();
         docData.id = doc.id;
@@ -112,9 +86,45 @@ export default {
   computed: {
     unreadNoteNum: function() {
       return this.$store.getters.unreadNote;
+    },
+    nowTimeline: function() {
+      return this.$store.getters.nowTimeline;
     }
   },
   methods: {
+    kidoku() {
+      var loginUser = firebase.auth().currentUser;
+      // 既読をつける
+      var kidokuRef = firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(loginUser.email)
+        .collection("notification");
+
+      kidokuRef
+        .where("isRead", "==", false)
+        .get()
+        .then(function(querySnapshot) {
+          querySnapshot.forEach(function(doc) {
+            kidokuRef
+              .doc(doc.id)
+              .update({
+                isRead: true
+              })
+              .then(function() {
+                console.log("既読");
+              })
+              .catch(function() {
+                console.log("既読 失敗");
+              });
+          });
+        })
+        .catch(function(eee) {
+          console.log("kidoku error: " + eee);
+        });
+    },
     infiniteHandler() {
       setTimeout(() => {
         var self = this;
@@ -125,6 +135,15 @@ export default {
           this.$refs.infiniteLoading.stateChanger.complete();
         }
       }, 1000);
+    }
+  },
+  watch: {
+    unreadNoteNum() {
+      this.$nextTick(() => {
+        if (this.nowTimeline === "notification") {
+          this.kidoku();
+        }
+      });
     }
   }
 };
