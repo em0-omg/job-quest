@@ -1,15 +1,13 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          filled
-          label="検索"
-          prepend-inner-icon="mdi-feature-search-outline"
-          v-model="searchWords"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+    <v-layout justify-center>
+      <v-text-field
+        filled
+        label="検索"
+        prepend-inner-icon="mdi-feature-search-outline"
+        v-model="searchWords"
+      ></v-text-field>
+    </v-layout>
     <v-list three-line>
       <template v-for="(item, index) in searchedPosts.slice(0,count)">
         <v-list-item :key="item.id">
@@ -75,7 +73,6 @@ export default {
       count: 0,
 
       postSize: 0,
-      showLimit: 1000,
 
       allPosts: [],
       showPosts: [],
@@ -142,8 +139,8 @@ export default {
       .collection("users")
       .doc("company")
       .collection("posts")
+      .where("isActive", "==", true)
       .orderBy("createdAt", "desc")
-      .limit(this.showLimit)
       .onSnapshot(function(querySnapshot) {
         self.allPosts = [];
         self.showPosts = [];
@@ -241,9 +238,11 @@ export default {
               .collection("notification")
               .add({
                 noteType: "favorite",
-                content: "投稿がお気に入りに登録されました",
+                content: "投稿がお気に入りに登録されました！",
                 createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                 userFrom: firebase.auth().currentUser.displayName,
+                userFromEmail: firebase.auth().currentUser.email,
+                userFromImage: firebase.auth().currentUser.photoURL,
                 post: postItem,
                 icon: "mdi-heart",
                 color: "pink",
@@ -303,8 +302,10 @@ export default {
       this.nowDate = nowDate;
     },
     checkOverlimitPosts: function(item) {
+      var ownerImage = item.image;
       var ymd = item.dateLimit.split("-");
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
+      postDateLimit.setDate(postDateLimit.getDate() + 1);
       var nowDate = Date.now();
       var loginUser = firebase.auth().currentUser;
 
@@ -362,6 +363,7 @@ export default {
                   content: "が期限を迎えました！評価を行ってください",
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
+                  ownerEmail: item.image,
                   postID: item.id,
                   icon: "mdi-alert",
                   color: "warning",

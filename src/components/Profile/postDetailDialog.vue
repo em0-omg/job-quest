@@ -132,7 +132,6 @@ export default {
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           if (doc.id === loginUser.email) {
-            alert("すでに参加希望済みです");
             self.alreadyJoined = true;
           } else {
             console.log(doc.id + ":" + loginUser.email);
@@ -179,6 +178,7 @@ export default {
         .collection("notification")
         .add({
           noteType: "joinAlert",
+          avatarImage: loginUser.photoUR,
           content: loginUser.displayName + "が参加希望を行いました！",
           createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
           postTitle: this.selectedPost.title,

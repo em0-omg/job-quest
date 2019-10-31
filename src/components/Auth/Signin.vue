@@ -53,12 +53,26 @@
       <v-btn depressed color="primary" @click="signIn()">サインイン</v-btn>
     </v-layout>
     <br />
+    <br />
     <v-layout justify-center>
       <p>
         アカウントを持っていませんか？
         <br />
         <v-layout justify-center>
-          <router-link to="/signup">こちらから作成しましょう！</router-link>
+          <router-link to="/signup">
+            <v-btn class="ma-2" tile outlined color="indigo">
+              <v-icon left>mdi-account</v-icon>こちらからサインアップ
+            </v-btn>
+          </router-link>
+        </v-layout>
+      </p>
+    </v-layout>
+    <v-layout justify-center>
+      <p>
+        パスワードを忘れましたか？
+        <br />
+        <v-layout justify-center>
+          <ChangePassword />
         </v-layout>
       </p>
     </v-layout>
@@ -68,11 +82,13 @@
 <script>
 import firebase from "firebase";
 import { VueLoading } from "vue-loading-template";
+import ChangePassword from "./ChangePassword";
 
 export default {
   name: "Signin",
   components: {
-    VueLoading
+    VueLoading,
+    ChangePassword
   },
   data: function() {
     return {

@@ -8,18 +8,51 @@
         :icon="item.icon"
         fill-dot
       >
+        <v-card :color="item.color" dark v-if="item.noteType==='ratioAlert'">
+          <v-card-title class="title">{{ item.title }}</v-card-title>
+          <v-card-text class="white text--primary">
+            <br />
+            <p>
+              <v-btn icon>
+                <v-avatar size="20px">
+                  <img :src="item.avatarImage" />
+                </v-avatar>
+              </v-btn>
+              {{ item.content }}
+            </p>
+            {{ item.createdAt }}&nbsp;
+            <ShowProfile :post="item" />
+          </v-card-text>
+        </v-card>
         <v-card :color="item.color" dark v-if="item.noteType==='favorite'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
-            <p>{{ item.userFrom }}から{{ item.content }}</p>
-            {{ item.createdAt }}&nbsp;{{ item.isRead }}
-            <ShowProfile :post="item" />
+            <br />
+            <p>「{{item.post.title}}」</p>
+            <p>
+              <v-btn icon>
+                <v-avatar size="20px">
+                  <img :src="item.userFromImage" />
+                </v-avatar>
+              </v-btn>
+              {{ item.userFrom }}から{{ item.content }}
+            </p>
+            {{ item.createdAt }}&nbsp;
           </v-card-text>
         </v-card>
         <v-card :color="item.color" dark v-else-if="item.noteType==='limitAlert'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
-            <p>「{{ item.postTitle }}」{{ item.content }}</p>
+            <br />
+            <p>「{{ item.postTitle }}」</p>
+            <p>
+              <v-btn icon>
+                <v-avatar size="20px">
+                  <img :src="item.ownerImage" />
+                </v-avatar>
+              </v-btn>
+              {{ item.content }}
+            </p>
             {{ item.createdAt }}&nbsp;
             <SetOwnerRatio :postid="item.postID" />
           </v-card-text>
@@ -27,7 +60,16 @@
         <v-card :color="item.color" dark v-else-if="item.noteType==='joinAlert'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
-            <p>「{{item.postTitle}}」に{{ item.content }}</p>
+            <br />
+            <p>「{{item.postTitle}}」</p>
+            <p>
+              <v-btn icon>
+                <v-avatar size="20px">
+                  <img :src="item.avatarImage" />
+                </v-avatar>
+              </v-btn>
+              {{ item.content }}
+            </p>
             {{ item.createdAt }}&nbsp;
           </v-card-text>
         </v-card>

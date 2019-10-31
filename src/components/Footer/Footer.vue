@@ -1,22 +1,22 @@
 <template>
   <!-- <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed> -->
-  <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark fixed height="70">
+  <v-bottom-navigation v-if="userStatus && isExistUser" v-model="bottomNav" dark fixed grow>
     <v-btn @click="toContact()">
-      <span>contact</span>
+      <span>問い合わせ</span>
       <v-icon>mdi-email-send</v-icon>
     </v-btn>
     <v-btn @click="toFavorite()">
-      <span>like user</span>
+      <span>お得意様</span>
       <v-icon>mdi-account-heart</v-icon>
     </v-btn>
 
     <v-btn @click="toHome()">
-      <span>home</span>
+      <span>ホーム</span>
       <v-icon>mdi-home</v-icon>
     </v-btn>
 
     <v-btn @click="toNote()">
-      <span>notification</span>
+      <span>通知</span>
       <v-badge overlap>
         <template v-slot:badge>
           <span v-if="unreadNoteNum > 0">{{ unreadNoteNum }}</span>
@@ -26,7 +26,7 @@
     </v-btn>
 
     <v-btn @click="toSetting()">
-      <span>setting</span>
+      <span>設定</span>
       <v-icon>mdi-settings</v-icon>
     </v-btn>
   </v-bottom-navigation>
@@ -81,6 +81,9 @@ export default {
     },
     unreadNoteNum: function() {
       return this.$store.getters.unreadNote;
+    },
+    isExistUser() {
+      return this.$store.getters.isExistUser;
     }
   },
   methods: {

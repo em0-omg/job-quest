@@ -7,7 +7,6 @@
       <v-spacer></v-spacer>
 
       <v-btn icon v-if="isExistUser">
-        募集
         <postDialog />
       </v-btn>
 
@@ -23,18 +22,18 @@
       -->
       <v-menu bottom left dark>
         <template v-slot:activator="{ on }">
-          <v-btn icon color="white" v-on="on">
-            <v-avatar size="32px" v-if="user">
+          <v-btn icon color="white" v-on="on" v-if="user.photoURL">
+            <v-avatar size="32px">
               <img :src="user.photoURL" />
             </v-avatar>
-            <v-avatar size="32px" v-else>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-avatar>
+          </v-btn>
+          <v-btn icon v-on="on" v-else>
+            <v-icon>mdi-account</v-icon>
           </v-btn>
         </template>
 
         <v-list>
-          <v-list-item @click="toSetting()">
+          <v-list-item @click="toSetting()" v-if="isExistUser">
             プロフィール
             <v-icon>mdi-account-box</v-icon>
           </v-list-item>
@@ -97,20 +96,25 @@ export default {
     changePassword: function() {
       var auth = firebase.auth();
       var loginUser = firebase.auth().currentUser;
-      var emailAddress = loginUser.email;
+      if (loginUser) {
+        var emailAddress = loginUser.email;
 
-      auth
-        .sendPasswordResetEmail(emailAddress)
-        .then(function() {
-          // Email sent.
-          alert("パスワード再設定のメールを送りました");
-        })
-        .catch(function(error) {
-          // An error happened.
-          console.log("mail error: " + error);
-        });
+        auth
+          .sendPasswordResetEmail(emailAddress)
+          .then(function() {
+            // Email sent.
+            alert("パスワード再設定のメールを送りました");
+          })
+          .catch(function(error) {
+            // An error happened.
+            console.log("mail error: " + error);
+          });
+      } else {
+        alert("サインインしてください");
+      }
     },
     signOut: function() {
+      // User is signed in.
       firebase
         .auth()
         .signOut()
@@ -118,6 +122,7 @@ export default {
           var user = {};
           Store.commit("onAuthStateChanged", user);
           Store.commit("onUserStatusChanged", user.uid ? true : false);
+          Store.commit("isExistUser", user.uid ? true : false);
           this.$router.push("/signin");
         });
     },

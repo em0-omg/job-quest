@@ -175,6 +175,7 @@ export default {
         .add({
           noteType: "joinAlert",
           content: loginUser.displayName + "が参加希望を行いました！",
+          avatarImage: loginUser.photoURL,
           createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
           postTitle: this.selectedPost.title,
           postID: this.selectedPost.id,

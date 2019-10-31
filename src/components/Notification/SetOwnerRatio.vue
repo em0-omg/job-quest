@@ -53,6 +53,7 @@ export default {
         .then(function(doc) {
           if (doc.exists) {
             self.returnRating = doc.rating;
+            // もしまだ評価未設定ならば評価をおこなう
             if (doc.data().returnRating < 1) {
               ratioRef
                 .update({
@@ -97,6 +98,7 @@ export default {
         if (doc.exists) {
           var owner = doc.data().ownerEmail;
           var ownerName = doc.data().ownerName;
+          var ownerImage = doc.data().image;
           var loginUser = firebase.auth().currentUser;
           var nowDate = Date.now();
           userRef
@@ -108,10 +110,12 @@ export default {
                 userRef.doc(owner).update({
                   Rank: newRank
                 });
+                console.log("投稿者にratio追加");
               }
             });
           //投稿者に通知
-          firebase
+          var _self = self;
+          var ownerRef = firebase
             .firestore()
             .collection("users")
             .doc("company")
@@ -120,23 +124,18 @@ export default {
             .collection("notification")
             .add({
               noteType: "ratioAlert",
+              avatarImage: loginUser.photoURL,
               content:
                 loginUser.displayName +
                 "から" +
-                self.rating +
+                _self.rating +
                 "つスターの贈り物です！",
               createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-              postID: this.postid,
+              postID: _self.postid,
               icon: "mdi-star-circle",
               color: "lime",
               title: "評価通知",
               isRead: false
-            })
-            .then(function() {
-              console.log("note ok");
-            })
-            .catch(function(errr) {
-              console.log("note error: " + errr);
             });
           //参加者に通知
           firebase
@@ -148,13 +147,14 @@ export default {
             .collection("notification")
             .add({
               noteType: "ratioAlert",
+              avatarImage: ownerImage,
               content:
                 ownerName +
                 "から" +
-                self.receiveRating +
+                _self.receiveRating +
                 "つスターの贈り物です！",
               createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
-              postID: this.postid,
+              postID: _self.postid,
               icon: "mdi-star-circle",
               color: "lime",
               title: "評価通知",
@@ -172,12 +172,14 @@ export default {
       });
 
       //参加者にratio追加
+      var targetUser = firebase.auth().currentUser;
       postRef
         .collection("joinUsers")
+        .where("email", "==", targetUser.email)
         .get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
-            console.log(doc.id);
+            console.log("doc id:" + doc.id);
             var userKey = doc.id;
             var addRank = self.receiveRating;
             userRef
@@ -188,6 +190,7 @@ export default {
                 userRef.doc(userKey).update({
                   Rank: newRank
                 });
+                console.log("参加者ratio set ok");
               })
               .catch(function(uer) {
                 console.log("uer:" + uer);
