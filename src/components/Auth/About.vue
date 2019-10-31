@@ -53,6 +53,14 @@ import GuestTimeline from "./GuestTimeline";
 export default {
   components: {
     GuestTimeline
+  },
+  methods: {
+    toSignUp: function() {
+      this.$router.push("/signup");
+    },
+    toSignIn: function() {
+      this.$router.push("/signin");
+    }
   }
 };
 </script>

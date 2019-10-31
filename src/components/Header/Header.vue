@@ -53,6 +53,7 @@
         <v-btn icon @click="toAbout()">
           <v-avatar size="32px">
             <img src="./../../assets/jwlogo.png" />
+            <span class="title">?</span>
           </v-avatar>
         </v-btn>
       </v-toolbar-title>

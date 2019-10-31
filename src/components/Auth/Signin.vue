@@ -4,7 +4,7 @@
   </v-container>
   <v-container v-else>
     <v-layout justify-center>
-      <span class="title">サインイン</span>
+      <span class="title">入場</span>
     </v-layout>
     <br />
     <v-layout justify-center>
@@ -32,7 +32,7 @@
             />
           </svg>
         </span>
-        <span class="google-button__text">Googleでサインイン</span>
+        <span class="google-button__text">Googleアカウントで入場</span>
       </button>
     </v-layout>
     <br />
@@ -41,7 +41,7 @@
     <br />
     <!-- <v-layout justify-center>ログイン</v-layout> -->
     <v-layout justify-center>
-      <span class="subtitle-2">メールアドレスでサインイン</span>
+      <span class="subtitle-2">メールアドレスで入場</span>
     </v-layout>
     <v-layout justify-center>
       <input type="text" placeholder="メールアドレス" v-model="username" />
@@ -50,7 +50,7 @@
       <input type="password" placeholder="パスワード" v-model="password" />
     </v-layout>
     <v-layout justify-center>
-      <v-btn depressed color="primary" @click="signIn()">サインイン</v-btn>
+      <v-btn depressed color="primary" @click="signIn()">入場</v-btn>
     </v-layout>
     <br />
     <br />
@@ -61,7 +61,7 @@
         <v-layout justify-center>
           <router-link to="/signup">
             <v-btn class="ma-2" tile outlined color="indigo">
-              <v-icon left>mdi-account</v-icon>こちらからサインアップ
+              <v-icon left>mdi-account</v-icon>こちらから登録
             </v-btn>
           </router-link>
         </v-layout>
