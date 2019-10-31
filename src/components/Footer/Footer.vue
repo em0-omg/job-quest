@@ -1,12 +1,10 @@
 <template>
   <!-- <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed> -->
   <v-bottom-navigation v-if="userStatus && isExistUser" v-model="bottomNav" dark fixed grow>
-    <!--
     <v-btn @click="toContact()">
       <span>問い合わせ</span>
       <v-icon>mdi-email-send</v-icon>
     </v-btn>
-    -->
     <v-btn @click="toFavorite()">
       <span>お得意様</span>
       <v-icon>mdi-account-heart</v-icon>

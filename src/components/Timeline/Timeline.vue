@@ -238,9 +238,11 @@ export default {
               .collection("notification")
               .add({
                 noteType: "favorite",
-                content: "投稿がお気に入りに登録されました",
+                content: "投稿がお気に入りに登録されました！",
                 createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                 userFrom: firebase.auth().currentUser.displayName,
+                userFromEmail: firebase.auth().currentUser.email,
+                userFromImage: firebase.auth().currentUser.photoURL,
                 post: postItem,
                 icon: "mdi-heart",
                 color: "pink",
@@ -300,6 +302,7 @@ export default {
       this.nowDate = nowDate;
     },
     checkOverlimitPosts: function(item) {
+      var ownerImage = item.image;
       var ymd = item.dateLimit.split("-");
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
       postDateLimit.setDate(postDateLimit.getDate() + 1);
@@ -360,6 +363,7 @@ export default {
                   content: "が期限を迎えました！評価を行ってください",
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
+                  ownerEmail: item.image,
                   postID: item.id,
                   icon: "mdi-alert",
                   color: "warning",

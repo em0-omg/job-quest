@@ -98,6 +98,7 @@ export default {
         if (doc.exists) {
           var owner = doc.data().ownerEmail;
           var ownerName = doc.data().ownerName;
+          var ownerImage = doc.data().image;
           var loginUser = firebase.auth().currentUser;
           var nowDate = Date.now();
           userRef
@@ -123,6 +124,7 @@ export default {
             .collection("notification")
             .add({
               noteType: "ratioAlert",
+              avatarImage: loginUser.photoURL,
               content:
                 loginUser.displayName +
                 "から" +
@@ -145,6 +147,7 @@ export default {
             .collection("notification")
             .add({
               noteType: "ratioAlert",
+              avatarImage: ownerImage,
               content:
                 ownerName +
                 "から" +

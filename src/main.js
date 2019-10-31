@@ -8,6 +8,7 @@ import { firestorePlugin } from "vuefire";
 import Firebase from "./firebase";
 import ShowProfile from "./components/Profile/ShowProfile";
 import ShowJoinerProfile from "./components/Profile/ShowJoinerProfile";
+import ShowAvatarProfile from "./components/Profile/ShowAvatarProfile";
 import "./registerServiceWorker";
 
 Vue.use(firestorePlugin);
@@ -15,6 +16,7 @@ Vue.use(VueChatScroll);
 
 Vue.component("ShowProfile", ShowProfile);
 Vue.component("ShowJoinerProfile", ShowJoinerProfile);
+Vue.component("ShowAvatarProfile", ShowAvatarProfile);
 
 Vue.config.productionTip = false;
 Firebase.init();
