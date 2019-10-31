@@ -1,6 +1,6 @@
 <template>
   <v-card color="grey lighten-4" flat height="50px" tile>
-    <v-toolbar dense>
+    <v-toolbar dense v-if="userStatus">
       <v-app-bar-nav-icon>
         <ChatDialog />
       </v-app-bar-nav-icon>
@@ -97,20 +97,25 @@ export default {
     changePassword: function() {
       var auth = firebase.auth();
       var loginUser = firebase.auth().currentUser;
-      var emailAddress = loginUser.email;
+      if (loginUser) {
+        var emailAddress = loginUser.email;
 
-      auth
-        .sendPasswordResetEmail(emailAddress)
-        .then(function() {
-          // Email sent.
-          alert("パスワード再設定のメールを送りました");
-        })
-        .catch(function(error) {
-          // An error happened.
-          console.log("mail error: " + error);
-        });
+        auth
+          .sendPasswordResetEmail(emailAddress)
+          .then(function() {
+            // Email sent.
+            alert("パスワード再設定のメールを送りました");
+          })
+          .catch(function(error) {
+            // An error happened.
+            console.log("mail error: " + error);
+          });
+      } else {
+        alert("サインインしてください");
+      }
     },
     signOut: function() {
+      // User is signed in.
       firebase
         .auth()
         .signOut()
