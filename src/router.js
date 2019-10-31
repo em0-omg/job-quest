@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Signup from "@/components/Auth/Signup";
 import Signin from "@/components/Auth/Signin";
+import About from "./components/Auth/About";
 import firebase from "firebase";
 
 Vue.use(Router);
@@ -13,7 +14,7 @@ let router = new Router({
   routes: [
     {
       path: "*",
-      redirect: "signin"
+      redirect: "About"
     },
     {
       path: "/",
@@ -23,20 +24,15 @@ let router = new Router({
         requiresAuth: true
       }
     },
-    /*
-    {
-      path: "/profile",
-      name: "profile",
-      component: Profile,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    */
     {
       path: "/signup",
       name: "Signup",
       component: Signup
+    },
+    {
+      path: "/about",
+      name: "About",
+      component: About
     },
     {
       path: "/signin",
@@ -56,7 +52,7 @@ router.beforeEach((to, from, next) => {
         next();
       } else {
         next({
-          path: "/signin",
+          path: "/about",
           query: { redirect: to.fullPath }
         });
       }

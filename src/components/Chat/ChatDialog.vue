@@ -25,7 +25,6 @@
 <script>
 import firebase from "firebase";
 import Chatlist from "./Chatlist";
-import store from "./../../store";
 
 export default {
   components: {

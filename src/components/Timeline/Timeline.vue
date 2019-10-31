@@ -302,7 +302,6 @@ export default {
       this.nowDate = nowDate;
     },
     checkOverlimitPosts: function(item) {
-      var ownerImage = item.image;
       var ymd = item.dateLimit.split("-");
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
       postDateLimit.setDate(postDateLimit.getDate() + 1);
@@ -366,7 +365,7 @@ export default {
                     "の評価を行ってください",
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
-                  ownerEmail: item.image,
+                  ownerImage: item.image,
                   ownerName: item.ownerName,
                   postID: item.id,
                   icon: "mdi-alert",

@@ -115,7 +115,7 @@ export default {
             });
           //投稿者に通知
           var _self = self;
-          var ownerRef = firebase
+          firebase
             .firestore()
             .collection("users")
             .doc("company")

@@ -48,6 +48,31 @@
         </v-list>
       </v-menu>
     </v-toolbar>
+    <v-toolbar dense v-else>
+      <v-toolbar-title>
+        <v-btn icon @click="toAbout()">
+          <v-avatar size="32px">
+            <img src="./../../assets/jwlogo.png" />
+          </v-avatar>
+        </v-btn>
+      </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <template>
+        <v-btn small outlined @click="toSignIn()">
+          <span class="caption">入場</span>
+          <v-icon>mdi-account-arrow-right</v-icon>
+        </v-btn>
+        <v-btn small outlined @click="toSignUp()">
+          <span class="caption">登録</span>
+          <v-icon>mdi-account-plus</v-icon>
+        </v-btn>
+      </template>
+    </v-toolbar>
   </v-card>
 </template>
 
@@ -71,7 +96,8 @@ export default {
         { title: "Click Me" },
         { title: "Click Me 2" }
       ],
-      url: ""
+      url: "",
+      page: ""
     };
   },
   created: function() {},
@@ -93,6 +119,15 @@ export default {
     }
   },
   methods: {
+    toSignUp: function() {
+      this.$router.push("/signup");
+    },
+    toAbout: function() {
+      this.$router.push("/about");
+    },
+    toSignIn: function() {
+      this.$router.push("/signin");
+    },
     changePassword: function() {
       var auth = firebase.auth();
       var loginUser = firebase.auth().currentUser;

@@ -4,9 +4,18 @@
       <Header />
       <br />
       <v-layout justify-center>
-        <span class="display-1">JobQuest</span>
+        <span class="display-2">JobQuest</span>
       </v-layout>
       <router-view />
+      <br />
+      <br />
+      <v-layout justify-center>
+        {{ new Date().getFullYear() }} - &nbsp;
+        <strong>Powered By JohnWORKS.</strong>
+      </v-layout>
+      <br />
+      <br />
+      <br />
       <Footer />
     </v-content>
   </v-app>

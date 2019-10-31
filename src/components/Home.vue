@@ -13,6 +13,7 @@
     <v-layout justify-center v-show="isTimeline()">
       <Timeline />
     </v-layout>
+    <!--
     <br />
     <br />
     <br />
@@ -32,6 +33,7 @@
     <br />
     <br />
     <br />
+    -->
   </v-container>
   <v-container v-else>
     <br />
@@ -45,6 +47,7 @@
     <v-layout justify-center>
       <Profile />
     </v-layout>
+    <!--
     <br />
     <br />
     <br />
@@ -64,6 +67,7 @@
     <br />
     <br />
     <br />
+    -->
   </v-container>
 </template>
 
