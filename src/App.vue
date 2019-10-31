@@ -11,7 +11,10 @@
       <br />
       <v-layout justify-center>
         {{ new Date().getFullYear() }} - &nbsp;
-        <strong>Powered By JohnWORKS.</strong>
+        <strong>
+          Powered By
+          <a href="https://johnworks.jp">JohnWORKS.</a>
+        </strong>
       </v-layout>
       <br />
       <br />
