@@ -7,7 +7,6 @@
       <v-spacer></v-spacer>
 
       <v-btn icon v-if="isExistUser">
-        募集
         <postDialog />
       </v-btn>
 

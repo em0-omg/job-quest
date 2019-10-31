@@ -4,6 +4,7 @@
     <v-dialog v-model="dialog" max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
+          募集
           <v-icon>mdi-pencil-plus</v-icon>
         </v-btn>
       </template>
