@@ -364,6 +364,7 @@ export default {
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
                   ownerEmail: item.image,
+                  ownerName: item.ownerName,
                   postID: item.id,
                   icon: "mdi-alert",
                   color: "warning",
