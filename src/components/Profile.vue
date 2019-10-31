@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card class="mx-auto" max-width="434" tile>
+    <v-card class="mx-auto" tile>
       <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
         <!-- sample src="" -->
         <v-row align="end" class="fill-height">

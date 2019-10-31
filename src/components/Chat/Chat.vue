@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="400">
     <v-card-title class="blue-grey white--text">
-      <span class="title">チャット</span>
+      <span class="title">ポャット</span>
       <v-spacer></v-spacer>
       <!--
       <v-btn icon @click="tmp()">
@@ -30,7 +30,7 @@
         <Chatinput :info="userinfo" />
         <div class="text-center">
           <br />
-          <img src="./../../assets/jwlogo.png" width="32" />
+          <img src="./../../assets/jwlogo.png" width="32" ref="targetRef" />
         </div>
       </v-timeline>
     </v-card-text>
@@ -52,6 +52,7 @@ export default {
   },
   mounted: function() {
     this.$nextTick(() => this.scrollToEnd());
+    this.$refs.targetRef.focus();
     var self = this;
     var docKey = this.createRoomKey();
     console.log("docKey:" + docKey);
@@ -86,6 +87,11 @@ export default {
       console.log("before:" + container.scrollTop);
       container.scrollTop = container.scrollHeight;
       console.log("after:" + container.scrollTop);
+    }
+  },
+  watch: {
+    messages: function() {
+      this.$refs.targetRef.focus();
     }
   }
 };
