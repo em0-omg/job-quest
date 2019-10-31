@@ -132,7 +132,6 @@ export default {
       .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           if (doc.id === loginUser.email) {
-            alert("すでに参加希望済みです");
             self.alreadyJoined = true;
           } else {
             console.log(doc.id + ":" + loginUser.email);

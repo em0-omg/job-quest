@@ -1,6 +1,6 @@
 <template>
   <!-- <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed> -->
-  <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark fixed height="70">
+  <v-bottom-navigation v-if="userStatus && isExistUser" v-model="bottomNav" dark fixed grow>
     <v-btn @click="toContact()">
       <span>contact</span>
       <v-icon>mdi-email-send</v-icon>
@@ -81,6 +81,9 @@ export default {
     },
     unreadNoteNum: function() {
       return this.$store.getters.unreadNote;
+    },
+    isExistUser() {
+      return this.$store.getters.isExistUser;
     }
   },
   methods: {

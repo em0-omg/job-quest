@@ -8,11 +8,19 @@
         :icon="item.icon"
         fill-dot
       >
+        <v-card :color="item.color" dark v-if="item.noteType==='ratioAlert'">
+          <v-card-title class="title">{{ item.title }}</v-card-title>
+          <v-card-text class="white text--primary">
+            <p>{{ item.content }}</p>
+            {{ item.createdAt }}&nbsp;
+            <ShowProfile :post="item" />
+          </v-card-text>
+        </v-card>
         <v-card :color="item.color" dark v-if="item.noteType==='favorite'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">
             <p>{{ item.userFrom }}から{{ item.content }}</p>
-            {{ item.createdAt }}&nbsp;{{ item.isRead }}
+            {{ item.createdAt }}&nbsp;
             <ShowProfile :post="item" />
           </v-card-text>
         </v-card>

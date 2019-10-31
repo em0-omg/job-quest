@@ -1,6 +1,6 @@
 <template>
   <v-card color="grey lighten-4" flat height="50px" tile>
-    <v-toolbar dense v-if="userStatus">
+    <v-toolbar dense>
       <v-app-bar-nav-icon>
         <ChatDialog />
       </v-app-bar-nav-icon>
@@ -23,18 +23,18 @@
       -->
       <v-menu bottom left dark>
         <template v-slot:activator="{ on }">
-          <v-btn icon color="white" v-on="on">
-            <v-avatar size="32px" v-if="user">
+          <v-btn icon color="white" v-on="on" v-if="user.photoURL">
+            <v-avatar size="32px">
               <img :src="user.photoURL" />
             </v-avatar>
-            <v-avatar size="32px" v-else>
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-            </v-avatar>
+          </v-btn>
+          <v-btn icon v-on="on" v-else>
+            <v-icon>mdi-account</v-icon>
           </v-btn>
         </template>
 
         <v-list>
-          <v-list-item @click="toSetting()">
+          <v-list-item @click="toSetting()" v-if="isExistUser">
             プロフィール
             <v-icon>mdi-account-box</v-icon>
           </v-list-item>
@@ -118,6 +118,7 @@ export default {
           var user = {};
           Store.commit("onAuthStateChanged", user);
           Store.commit("onUserStatusChanged", user.uid ? true : false);
+          Store.commit("isExistUser", user.uid ? true : false);
           this.$router.push("/signin");
         });
     },

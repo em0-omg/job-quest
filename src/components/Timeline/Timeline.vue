@@ -1,15 +1,13 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12" sm="6">
-        <v-text-field
-          filled
-          label="検索"
-          prepend-inner-icon="mdi-feature-search-outline"
-          v-model="searchWords"
-        ></v-text-field>
-      </v-col>
-    </v-row>
+    <v-layout justify-center>
+      <v-text-field
+        filled
+        label="検索"
+        prepend-inner-icon="mdi-feature-search-outline"
+        v-model="searchWords"
+      ></v-text-field>
+    </v-layout>
     <v-list three-line>
       <template v-for="(item, index) in searchedPosts.slice(0,count)">
         <v-list-item :key="item.id">
@@ -75,7 +73,6 @@ export default {
       count: 0,
 
       postSize: 0,
-      showLimit: 1000,
 
       allPosts: [],
       showPosts: [],
@@ -142,8 +139,8 @@ export default {
       .collection("users")
       .doc("company")
       .collection("posts")
+      .where("isActive", "==", true)
       .orderBy("createdAt", "desc")
-      .limit(this.showLimit)
       .onSnapshot(function(querySnapshot) {
         self.allPosts = [];
         self.showPosts = [];
@@ -305,6 +302,7 @@ export default {
     checkOverlimitPosts: function(item) {
       var ymd = item.dateLimit.split("-");
       var postDateLimit = new Date(ymd[0], ymd[1], ymd[2], 0, 0, 0);
+      postDateLimit.setDate(postDateLimit.getDate() + 1);
       var nowDate = Date.now();
       var loginUser = firebase.auth().currentUser;
 
