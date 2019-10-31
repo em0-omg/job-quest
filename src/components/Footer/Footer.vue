@@ -2,7 +2,7 @@
   <!-- <v-bottom-navigation v-if="userStatus" v-model="bottomNav" dark shift fixed> -->
   <v-bottom-navigation v-if="userStatus && isExistUser" v-model="bottomNav" dark fixed grow>
     <v-btn @click="toContact()">
-      <span>問い合わせ</span>
+      <span>ヘルプ</span>
       <v-icon>mdi-email-send</v-icon>
     </v-btn>
     <v-btn @click="toFavorite()">

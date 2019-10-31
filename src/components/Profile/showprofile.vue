@@ -13,7 +13,44 @@
         <div class="flex-grow-1"></div>
       </v-toolbar>
       <v-card class="mx-auto" max-width="434" tile v-if="userInfo">
-        <v-img height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
+        <v-img v-if="userInfo.headerURL" height="100%" :src="userInfo.headerURL">
+          <v-row align="end" class="fill-height">
+            <v-col align-self="start" class="pa-0" cols="12">
+              <v-avatar class="profile" color="grey" size="164" tile>
+                <v-img v-if="userInfo.photoURL" :src="userInfo.photoURL"></v-img>
+                <v-img v-else src="https://cdn.vuetifyjs.com/images/profiles/marcus.jpg"></v-img>
+              </v-avatar>
+            </v-col>
+            <v-col class="py-0">
+              <v-list-item color="rgba(0, 0, 0, .4)" dark>
+                <v-list-item-content v-if="loginUser.email!=userInfo.email">
+                  <v-list-item-title class="title">{{ post.ownerName }}</v-list-item-title>
+                  <v-list-item-subtitle class="text-center" v-if="userInfo.favoriteFrom">
+                    <v-btn
+                      light
+                      @click="removeFavoriteUser()"
+                      v-if="userInfo.favoriteFrom.includes(loginUser.email)"
+                    >
+                      お気に入りユーザから外す
+                      <v-icon>mdi-account-heart</v-icon>
+                    </v-btn>
+                    <v-btn light @click="addFavoriteUser()" v-else>
+                      お気に入りユーザに登録する
+                      <v-icon>mdi-account-heart-outline</v-icon>
+                    </v-btn>
+                  </v-list-item-subtitle>
+                  <v-list-item-subtitle class="text-center">
+                    <v-btn light @click="createChatRoom()">
+                      <v-icon color="success" v-show="createChatAlert">mdi-check-bold</v-icon>チャットルームを作成する
+                      <v-icon>mdi-chat-processing</v-icon>
+                    </v-btn>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+          </v-row>
+        </v-img>
+        <v-img v-else height="100%" src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg">
           <v-row align="end" class="fill-height">
             <v-col align-self="start" class="pa-0" cols="12">
               <v-avatar class="profile" color="grey" size="164" tile>

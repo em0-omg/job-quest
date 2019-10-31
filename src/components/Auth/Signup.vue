@@ -15,7 +15,13 @@
       <p class="text-center">
         アカウントをお持ちですか？
         <br />
-        <router-link to="/signin">こちらから入場しましょう！</router-link>
+        <v-layout justify-center>
+          <router-link to="/signin">
+            <v-btn class="ma-2" tile outlined color="indigo">
+              <v-icon left>mdi-account</v-icon>こちらから入場
+            </v-btn>
+          </router-link>
+        </v-layout>
       </p>
     </div>
   </v-container>

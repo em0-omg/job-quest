@@ -5,7 +5,7 @@
     </v-layout>
     <br />
     <v-layout justify-center>
-      <v-card max-width="300">
+      <v-card max-width="90%">
         <v-img src="./../../assets/jq-header1.jpg"></v-img>
         <br />
         <p class="subtitle-2 text-center">
@@ -18,7 +18,7 @@
     </v-layout>
     <br />
     <v-layout justify-center>
-      <v-card max-width="300">
+      <v-card max-width="90%">
         <v-img src="./../../assets/jq-header3.jpg"></v-img>
         <br />
         <p class="subtitle-2 text-center">
@@ -32,7 +32,7 @@
     </v-layout>
     <br />
     <v-layout justify-center>
-      <v-card max-width="333">
+      <v-card max-width="90%">
         <v-img src="./../../assets/jq-header.jpg"></v-img>
         <br />
         <p class="subtitle-2 text-center">
