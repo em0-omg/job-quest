@@ -360,7 +360,10 @@ export default {
               noteRef
                 .add({
                   noteType: "limitAlert",
-                  content: "が期限を迎えました！評価を行ってください",
+                  content:
+                    "が期限を迎えました！" +
+                    item.ownerName +
+                    "の評価を行ってください",
                   createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
                   postTitle: item.title,
                   ownerEmail: item.image,
