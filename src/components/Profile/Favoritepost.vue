@@ -4,7 +4,7 @@
       <template v-for="(item, index) in userPost.slice(0,count)">
         <v-divider :key="index"></v-divider>
 
-        <v-list-item :key="item.id">
+        <v-list-item :key="item.id" v-if="item.isActive">
           <v-list-item-avatar v-if="item.image">
             <v-img :src="item.image"></v-img>
           </v-list-item-avatar>

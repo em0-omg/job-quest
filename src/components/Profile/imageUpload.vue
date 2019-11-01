@@ -83,18 +83,6 @@ export default {
             var photoURL = url;
             var _self = self;
             if (user) {
-              // firebaseAuth更新
-              user
-                .updateProfile({
-                  photoURL: photoURL
-                })
-                .then(function() {
-                  console.log("update:" + photoURL);
-                })
-                .catch(function(err) {
-                  console.log(err);
-                });
-
               // firestore更新
               var userCollectionRef = firebase
                 .firestore()

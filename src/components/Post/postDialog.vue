@@ -18,13 +18,19 @@
               </v-col>
               -->
               <v-col cols="12" sm="6">
-                <v-select :items="region" label="地域*" required v-model="region"></v-select>
+                <v-select autofocus :items="region" label="地域*" required v-model="selectedRegion"></v-select>
               </v-col>
               <v-col cols="12" sm="6" md="4">
-                <v-text-field label="タイトル*" required v-model="title"></v-text-field>
+                <v-text-field
+                  label="タイトル*"
+                  required
+                  v-model="title"
+                  counter="20"
+                  :rules="[rules.required]"
+                ></v-text-field>
               </v-col>
               <v-col cols="12">
-                <v-textarea label="内容*" required v-model="content"></v-textarea>
+                <v-textarea label="内容*" v-model="content" counter="500" :rules="[rules.required]"></v-textarea>
               </v-col>
               <v-col cols="12" sm="6" md="4">
                 <v-text-field label="締め切り*" type="date" required v-model="dateLimit" disabled></v-text-field>
@@ -39,7 +45,8 @@
         <v-card-actions>
           <div class="flex-grow-1"></div>
           <v-btn color="blue darken-1" text @click="dialog = false">キャンセル</v-btn>
-          <v-btn color="blue darken-1" text @click="post">投稿</v-btn>
+          <v-btn color="blue darken-1" text @click="post" v-if="postOK">投稿</v-btn>
+          <v-btn color="blue darken-1" text @click="post" disabled v-else>投稿</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -58,15 +65,19 @@ export default {
     _this.db = db;
   },
   data: () => ({
+    rules: {
+      required: value => !!value || "Required"
+    },
     dialog: false,
 
     db: null,
 
     dateLimit: new Date().toISOString().substr(0, 10),
     title: "",
+    titleOK: true,
     content: "",
-    tags: "",
-
+    contentOK: true,
+    selectedRegion: "北海道",
     region: [
       "北海道",
       "青森県",
@@ -123,8 +134,18 @@ export default {
     },
     userStatus() {
       return this.$store.getters.isSignedIn;
+    },
+    postOK() {
+      var v_titleLength = this.title.length > 20 ? false : true;
+      var v_contentLength = this.content.length > 500 ? false : true;
+      var v_titleExist = this.title ? true : false;
+      var v_contentExist = this.content ? true : false;
+      if (v_titleLength && v_contentLength && v_titleExist && v_contentExist)
+        return true;
+      else return false;
     }
   },
+  mounted() {},
   methods: {
     allowedDate: function(val) {
       // 今日～100日後までを選べるようにする
@@ -153,7 +174,6 @@ export default {
         ownerName: this.user.displayName,
         ownerEmail: this.user.email,
         // TODO 空白考慮
-        tags: this.tags.split(","),
         title: this.title,
         region: this.region,
         favoriteFrom: []

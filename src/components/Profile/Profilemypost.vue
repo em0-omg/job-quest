@@ -24,6 +24,9 @@
             <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
+              <v-btn icon>
+                <postdetaildialog :selectedPost="item"></postdetaildialog>&nbsp;
+              </v-btn>
               <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
                 <v-icon>mdi-heart-multiple-outline</v-icon>
               </v-btn>
@@ -52,13 +55,15 @@ import firebase from "firebase";
 import editpost from "./../Timeline/EditPost";
 import InfiniteLoading from "vue-infinite-loading";
 import PostDelete from "./../Post/PostDelete";
+import postdetaildialog from "./postDetailDialog";
 
 export default {
   props: ["email"],
   components: {
     PostDelete,
     editpost,
-    InfiniteLoading
+    InfiniteLoading,
+    postdetaildialog
   },
   data() {
     return {
