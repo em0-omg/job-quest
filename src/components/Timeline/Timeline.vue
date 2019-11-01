@@ -25,7 +25,8 @@
             <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
             <v-list-item-content v-html="item.content"></v-list-item-content>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle>投稿者 {{ item.ownerName }} {{ item.region}}</v-list-item-subtitle>
+            <v-list-item-subtitle>投稿者: {{ item.ownerName }}</v-list-item-subtitle>
+            <v-list-item-subtitle>地域: {{ item.region}}</v-list-item-subtitle>
             <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
             <v-layout justify-center :key="item.id">
               <v-btn icon>
@@ -82,9 +83,6 @@ export default {
 
       isFav: false,
       loading: true,
-
-      // fav押しすぎ防止用
-      favCounter: 0,
 
       // 期限オーバー確認用
       nowDate: null,
@@ -188,20 +186,11 @@ export default {
       if (fromList.indexOf(loginUser.email) >= 0) return true;
       else return false;
     },
-    favCounterLock: function() {
-      var self = this;
-      setTimeout(() => (self.favCounter = 0), 300000);
-    },
     /////////////////
     //お気に入り登録//
     /////////////////
     favorite: function(id) {
       var self = this;
-      if (self.favCounter > 100) {
-        alert("5分間お気に入りが利用できません");
-        this.favCounterLock();
-        return;
-      }
       var favRef = firebase
         .firestore()
         .collection("users")
@@ -215,7 +204,6 @@ export default {
           )
         })
         .then(function() {
-          self.favCounter += 1;
           console.log(self.favCounter);
         })
         .catch(function(error) {
@@ -229,6 +217,8 @@ export default {
           if (doc.exists) {
             var nowDate = Date.now();
             var postItem = doc.data();
+            /*
+            ランダムIDバージョン
             firebase
               .firestore()
               .collection("users")
@@ -249,6 +239,35 @@ export default {
                 title: "お気に入り",
                 isRead: false
               });
+              */
+            firebase
+              .firestore()
+              .collection("users")
+              .doc("company")
+              .collection("user")
+              .doc(postItem.ownerEmail)
+              .collection("notification")
+              .doc(
+                postItem.ownerEmail +
+                  "FAVOFROM" +
+                  firebase.auth().currentUser.email
+              )
+              .set(
+                {
+                  noteType: "favorite",
+                  content: "投稿がお気に入りに登録されました！",
+                  createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+                  userFrom: firebase.auth().currentUser.displayName,
+                  userFromEmail: firebase.auth().currentUser.email,
+                  userFromImage: firebase.auth().currentUser.photoURL,
+                  post: postItem,
+                  icon: "mdi-heart",
+                  color: "pink",
+                  title: "お気に入り",
+                  isRead: false
+                },
+                { merge: true }
+              );
           } else {
             console.log("no doc");
           }

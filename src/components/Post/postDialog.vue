@@ -39,6 +39,16 @@
             <v-row justify="center">
               <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>
+            <v-row justify="center">
+              <!-- <imageUpload /> -->
+              <v-file-input
+                v-model="image"
+                :rules="imageRules"
+                show-size
+                accept="image/*"
+                label="投稿の背景画像を選択"
+              ></v-file-input>
+            </v-row>
           </v-container>
           <small>*indicates required field</small>
         </v-card-text>
@@ -58,7 +68,6 @@ import firebase from "firebase";
 import moment from "moment";
 
 export default {
-  components: {},
   created: function() {
     var db = firebase.firestore();
     var _this = this;
@@ -71,6 +80,13 @@ export default {
     dialog: false,
 
     db: null,
+    innerImage: null,
+    imageRules: [
+      value =>
+        !value ||
+        value.size < 2000000 ||
+        "Avatar size should be less than 2 MB!"
+    ],
 
     dateLimit: new Date().toISOString().substr(0, 10),
     title: "",
@@ -143,9 +159,59 @@ export default {
       if (v_titleLength && v_contentLength && v_titleExist && v_contentExist)
         return true;
       else return false;
+    },
+    image: {
+      get() {
+        return this.innerImage;
+      },
+      set(value) {
+        this.innerImage = value;
+      }
     }
   },
   methods: {
+    uploadPhoto(postid) {
+      if (!this.innerImage) {
+        alert("ファイルを選択してください");
+        return;
+      }
+      var user = firebase.auth().currentUser;
+      var storageRef = firebase.storage().ref();
+      var photoImageRef = storageRef.child(
+        "images/post/" + postid + "/photo.png"
+      );
+      photoImageRef
+        .put(this.innerImage)
+        .then(function() {
+          photoImageRef.getDownloadURL().then(url => {
+            var photoURL = url;
+            if (user) {
+              // firestore更新
+              var userCollectionRef = firebase
+                .firestore()
+                .collection("users")
+                .doc("company")
+                .collection("posts")
+                .doc(postid);
+
+              return userCollectionRef
+                .update({
+                  photoURL: photoURL
+                })
+                .then(function() {
+                  console.log("firestore update");
+                })
+                .catch(function(ferror) {
+                  console.log(ferror);
+                });
+            }
+            console.log("uploaded a file");
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     allowedDate: function(val) {
       // 今日～100日後までを選べるようにする
       let today = new Date();
@@ -159,8 +225,17 @@ export default {
       );
       return today <= new Date(val) && new Date(val) <= maxAllowedDay;
     },
+    getUniqueStr() {
+      var strong = 1000;
+      return (
+        new Date().getTime().toString(16) +
+        Math.floor(strong * Math.random()).toString(16)
+      );
+    },
     post: function() {
       var nowDate = Date.now();
+      var uniqueKey = this.getUniqueStr();
+      console.log("1:" + uniqueKey);
       var newPost = {
         joiners: [],
         isActive: true,
@@ -174,15 +249,17 @@ export default {
         ownerEmail: this.user.email,
         // TODO 空白考慮
         title: this.title,
-        region: this.region,
+        region: this.selectedRegion,
         favoriteFrom: []
       };
       var newPostRef = this.db
         .collection("users")
         .doc("company")
         .collection("posts")
-        .doc();
-      newPostRef.set(newPost);
+        .doc(uniqueKey);
+      newPostRef.set(newPost, { merge: true });
+      console.log("2:" + uniqueKey);
+      this.uploadPhoto(uniqueKey);
       this.dialog = false;
     }
   }

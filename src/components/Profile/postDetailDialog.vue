@@ -101,7 +101,6 @@ export default {
   props: ["selectedPost"],
   computed: {},
   mounted: function() {
-    console.log("Mount");
     var self = this;
     var loginUser = firebase.auth().currentUser;
     firebase
@@ -114,7 +113,6 @@ export default {
           var docData = doc.data();
           docData.id = doc.id;
           if (docData.email === loginUser.email) {
-            console.log("find user " + docData.id);
             self.userData = docData;
           }
         });
@@ -132,8 +130,6 @@ export default {
         querySnapshot.forEach(function(doc) {
           if (doc.id === loginUser.email) {
             self.alreadyJoined = true;
-          } else {
-            console.log(doc.id + ":" + loginUser.email);
           }
         });
       });
