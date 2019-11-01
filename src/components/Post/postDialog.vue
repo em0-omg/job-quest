@@ -145,7 +145,6 @@ export default {
       else return false;
     }
   },
-  mounted() {},
   methods: {
     allowedDate: function(val) {
       // 今日～100日後までを選べるようにする

@@ -17,18 +17,24 @@
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="6" sm="6" md="4">
-                <v-text-field label="ユーザ名*" required v-model="updateUser.displayName"></v-text-field>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field
+                  label="ユーザ名*"
+                  required
+                  :rules="[rules.required]"
+                  v-model="updateUser.displayName"
+                  counter="20"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="6" sm="6" md="4">
-                <v-text-field label="所属" v-model="updateUser.belongTo"></v-text-field>
+              <v-col cols="12" sm="12" md="12">
+                <v-text-field label="所属" counter="50" v-model="updateUser.belongTo"></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12">
-                <v-textarea label="プロフィール" required v-model="updateUser.profile"></v-textarea>
+                <v-textarea label="プロフィール" required counter="1000" v-model="updateUser.profile"></v-textarea>
               </v-col>
             </v-row>
           </v-container>
@@ -36,8 +42,9 @@
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="saveUserProfile()">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">キャンセル</v-btn>
+          <v-btn v-if="updateOK" color="blue darken-1" text @click="saveUserProfile()">登録</v-btn>
+          <v-btn v-else disabled color="blue darken-1" text @click="saveUserProfile()">登録</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -54,6 +61,9 @@ export default {
   data: () => ({
     dialog: false,
     loading: false,
+    rules: {
+      required: value => !!value || "Required"
+    },
 
     loginUser: firebase.auth().currentUser,
 
@@ -71,6 +81,18 @@ export default {
       favoriteUser: []
     }
   }),
+  computed: {
+    updateOK() {
+      var v_nameLength = this.updateUser.displayName.length > 20 ? false : true;
+      var v_depLength = this.updateUser.belongTo.length > 50 ? false : true;
+      var v_profileLength =
+        this.updateUser.profile.length > 1000 ? false : true;
+      var v_nameExist = this.updateUser.displayName ? true : false;
+      if (v_nameLength && v_depLength && v_profileLength && v_nameExist)
+        return true;
+      else return false;
+    }
+  },
   updated: function() {},
   methods: {
     setProfile: function() {
