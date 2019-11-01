@@ -4,7 +4,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
-          <v-text-field label="メッセージを入力" outlined v-model="message"></v-text-field>
+          <v-text-field label="メッセージを入力" outlined v-model="message" autofocus></v-text-field>
           <div class="text-right">
             <v-btn small color="primary" @click="sendMessage()" id="scrollTarget">送信</v-btn>
           </div>

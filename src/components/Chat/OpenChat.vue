@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" width="600px">
+    <v-dialog v-model="dialog" width="80%">
       <template v-slot:activator="{ on }">
         <v-btn icon>
           <v-icon color="pink" v-on="on" @click="setChatWith()">mdi-open-in-new</v-icon>

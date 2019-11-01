@@ -1,7 +1,7 @@
 <template>
-  <v-card class="mx-auto" max-width="400">
+  <v-card class="mx-auto" max-width="100%">
     <v-card-title class="blue-grey white--text">
-      <span class="title">ポャット</span>
+      <span class="title">チャット</span>
       <v-spacer></v-spacer>
       <!--
       <v-btn icon @click="tmp()">
@@ -47,7 +47,8 @@ export default {
   components: { Chatinput },
   data() {
     return {
-      messages: []
+      messages: [],
+      sheet: true
     };
   },
   mounted: function() {
