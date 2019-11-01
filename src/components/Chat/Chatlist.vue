@@ -7,9 +7,10 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title v-text="item.with"></v-list-item-title>
-          <!-- <v-list-item-subtitle>投稿「{{item.postTitle}}」について</v-list-item-subtitle> -->
-          <!-- <v-list-item-subtitle v-text="'last updated 2019/10/11'"></v-list-item-subtitle> -->
+          <v-list-item-title>
+            <span class="title">{{ item.withName }}</span>
+          </v-list-item-title>
+          <v-list-item-subtitle>・・・・</v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-avatar>
@@ -52,7 +53,8 @@ export default {
         doc.data().ChatWith.forEach(function(uw) {
           var chatlistItem = {
             with: uw.with,
-            photoURL: uw.photoURL
+            photoURL: uw.photoURL,
+            withName: uw.withName
           };
           self.chatlist.push(chatlistItem);
         });

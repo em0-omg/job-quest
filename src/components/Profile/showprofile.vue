@@ -12,7 +12,7 @@
         </v-btn>
         <div class="flex-grow-1"></div>
       </v-toolbar>
-      <v-card class="mx-auto" max-width="434" tile v-if="userInfo">
+      <v-card class="mx-auto" max-width="600" tile v-if="userInfo">
         <v-img v-if="userInfo.headerURL" height="100%" :src="userInfo.headerURL">
           <v-row align="end" class="fill-height">
             <v-col align-self="start" class="pa-0" cols="12">
@@ -319,6 +319,7 @@ export default {
 
       var chatInfo = {
         with: self.loginUser.email,
+        withName: self.loginUser.displayName,
         photoURL: self.loginUser.photoURL,
         isRead: false
       };
@@ -341,6 +342,7 @@ export default {
       // 自分にも設定
       var chatInfoMyself = {
         with: self.userInfo.email,
+        withName: self.userInfo.displayName,
         photoURL: self.userInfo.photoURL
       };
       console.table(chatInfoMyself);
