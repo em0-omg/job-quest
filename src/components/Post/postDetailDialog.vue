@@ -75,7 +75,6 @@ export default {
   props: ["selectedPost"],
   computed: {},
   mounted: function() {
-    console.log("Mount");
     var self = this;
     var loginUser = firebase.auth().currentUser;
     firebase
@@ -105,8 +104,6 @@ export default {
         querySnapshot.forEach(function(doc) {
           if (doc.id === loginUser.email) {
             self.alreadyJoined = true;
-          } else {
-            console.log(doc.id + ":" + loginUser.email);
           }
         });
       });
@@ -135,12 +132,6 @@ export default {
         .doc(post.id)
         .update({
           joiners: firebase.firestore.FieldValue.arrayUnion(loginUser.email)
-        })
-        .then(function() {
-          console.log("joiners add");
-        })
-        .catch(function(eee) {
-          console.log(eee);
         });
 
       firebase
@@ -161,12 +152,6 @@ export default {
           color: "success",
           title: "参加希望者お知らせ",
           isRead: false
-        })
-        .then(function() {
-          console.log("note ok");
-        })
-        .catch(function(errr) {
-          console.log("note error: " + errr);
         });
 
       var postRef = firebase
@@ -191,13 +176,9 @@ export default {
           { merge: true }
         )
         .then(function() {
-          console.log("join!");
           self.alreadyJoined = true;
           self.joinAlert = true;
           setTimeout(() => (self.joinAlert = false), 2000);
-        })
-        .catch(function(err) {
-          console.log(err);
         });
     }
   }

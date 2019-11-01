@@ -39,6 +39,7 @@
             <v-row justify="center">
               <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
             </v-row>
+            <br />
             <v-row justify="center">
               <!-- <imageUpload /> -->
               <v-file-input

@@ -43,6 +43,19 @@
                 <v-row justify="center">
                   <v-date-picker locale="ja" :allowed-dates="allowedDate" v-model="dateLimit"></v-date-picker>
                 </v-row>
+                <br />
+                <v-row justify="center">
+                  <!-- <imageUpload /> -->
+                  <v-file-input
+                    v-model="image"
+                    :rules="imageRules"
+                    show-size
+                    accept="image/*"
+                    label="投稿の背景画像を更新"
+                  ></v-file-input>
+                </v-row>
+                <span>現在</span>
+                <v-img :src="nowImageURL"></v-img>
               </v-container>
               <!-- <imageUploadDialog /> -->
               <!-- <imageUpload /> -->
@@ -166,32 +179,77 @@ export default {
         "宮崎県",
         "鹿児島県",
         "沖縄県"
+      ],
+      nowImageURL: "",
+      innerImage: null,
+      imageRules: [
+        value =>
+          !value ||
+          value.size < 2000000 ||
+          "Avatar size should be less than 2 MB!"
       ]
     };
   },
-  /*
   computed: {
-    title: function() {
-      return this.selectedPost.title;
-    },
-    region: function() {
-      return this.selectedPost.region;
-    },
-    content: function() {
-      return this.selectedPost.content;
-    },
-    dateLimit: function() {
-      return this.selectedPost.dateLimit;
+    image: {
+      get() {
+        return this.innerImage;
+      },
+      set(value) {
+        this.innerImage = value;
+      }
     }
   },
-  */
   mounted() {
     this.title = this.selectedPost.title;
     this.initRegion = this.selectedPost.region;
     this.content = this.selectedPost.content;
     this.dateLimit = this.selectedPost.dateLimit;
+    this.nowImageURL = this.selectedPost.photoURL;
   },
   methods: {
+    uploadPhoto(postid) {
+      if (!this.innerImage) {
+        alert("ファイルを選択してください");
+        return;
+      }
+      var user = firebase.auth().currentUser;
+      var storageRef = firebase.storage().ref();
+      var photoImageRef = storageRef.child(
+        "images/post/" + postid + "/photo.png"
+      );
+      photoImageRef
+        .put(this.innerImage)
+        .then(function() {
+          photoImageRef.getDownloadURL().then(url => {
+            var photoURL = url;
+            if (user) {
+              // firestore更新
+              var userCollectionRef = firebase
+                .firestore()
+                .collection("users")
+                .doc("company")
+                .collection("posts")
+                .doc(postid);
+
+              return userCollectionRef
+                .update({
+                  photoURL: photoURL
+                })
+                .then(function() {
+                  console.log("firestore update");
+                })
+                .catch(function(ferror) {
+                  console.log(ferror);
+                });
+            }
+            console.log("uploaded a file");
+          });
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     allowedDate: function(val) {
       // 今日～100日後までを選べるようにする
       let today = new Date();
@@ -229,6 +287,7 @@ export default {
         .catch(function(error) {
           console.log("error:" + error);
         });
+      this.uploadPhoto(this.selectedPost.id);
     },
     deleteThisPost: function(post) {
       var id = post.id;

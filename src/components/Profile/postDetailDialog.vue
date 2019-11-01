@@ -8,17 +8,8 @@
         </v-btn>
       </template>
       <v-card max-width="100%" class="mx-auto">
-        <v-img src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="200px" dark>
-          <v-row class="fill-height">
-            <!--
-            <div class="flex-grow-1"></div>
-            <v-card-title class="white--text pl-12 pt-12">
-              <div class="display-1 pl-12 pt-12 text-truncate">{{ selectedPost.ownerName }}&nbsp;</div>
-              <showprofile/>
-            </v-card-title>
-            -->
-          </v-row>
-        </v-img>
+        <v-img v-if="selectedPost.photoURL" :src="selectedPost.photoURL" height="100%" dark></v-img>
+        <v-img v-else src="https://cdn.vuetifyjs.com/images/lists/ali.png" height="100%" dark></v-img>
 
         <v-list two-line>
           <v-list-item>
