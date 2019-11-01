@@ -51,7 +51,7 @@
     <v-toolbar dense v-else>
       <v-toolbar-title>
         <v-btn icon @click="toAbout()">
-          <v-avatar size="40px">
+          <v-avatar size="28px">
             <img src="./../../assets/jwlogo.png" />
             <span class="title">?</span>
           </v-avatar>

@@ -9,8 +9,8 @@
         <v-img src="./../../assets/jq-header1.jpg"></v-img>
         <br />
         <p class="subtitle-2 text-center">
-          シンプルなタイムライン表示
-          <br />希望の求職情報へとすぐにたどり着けます。
+          SNSのようなシンプルなシステム
+          <br />求人募集や職探しが簡単に行えます。
         </p>
         <v-divider></v-divider>
         <GuestTimeline />
@@ -23,7 +23,8 @@
         <br />
         <p class="subtitle-2 text-center">
           双方向の評価制度
-          <br />ユーザーのマナーを一定に保ちます。
+          <br />ユーザーのマナーを一定に保ち、
+          <br />採用や応募の指標となります。
         </p>
         <v-layout justify-center>
           <v-img src="./../../assets/jq-header2.jpg"></v-img>
@@ -37,7 +38,8 @@
         <br />
         <p class="subtitle-2 text-center">
           誰もが手軽に参加できる
-          <br />史上初の職探しコミュニティー
+          <br />職探しコミュニティー
+          <br />史上初の体験をいますぐに
           <br />
           <br />
           <template>
