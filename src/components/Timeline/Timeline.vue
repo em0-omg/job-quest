@@ -23,29 +23,29 @@
               <span style="color: red;">非公開設定中</span>
             </v-list-item-content>
             <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
-            <v-list-item-subtitle v-html="item.content"></v-list-item-subtitle>
-            <v-list-item-subtitle>&nbsp;</v-list-item-subtitle>
-            <v-list-item-subtitle>&nbsp;</v-list-item-subtitle>
+            <v-list-item-subtitle>
+              <p class="text-truncate">{{ item.content }}</p>
+            </v-list-item-subtitle>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle>投稿者: {{ item.ownerName }}</v-list-item-subtitle>
             <v-list-item-subtitle>地域: {{ item.region}}</v-list-item-subtitle>
-            <v-list-item-content>{{ item.createdAt }}投稿</v-list-item-content>
             <!-- <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content> -->
             <v-layout justify-center :key="item.id">
               <v-btn icon>
                 <postDetailDialog :selectedPost="item"></postDetailDialog>&nbsp;
               </v-btn>
               <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
-                <v-badge color="pink" overlap bottom>
-                  <template v-slot:badge>{{ item.favoriteFrom.length }}</template>
-                  <v-icon>mdi-heart-multiple-outline</v-icon>
-                </v-badge>
+                <!-- <v-badge color="pink" overlap bottom> -->
+                <!-- <template v-slot:badge>{{ item.favoriteFrom.length }}</template> -->
+                <v-icon>mdi-heart-multiple-outline</v-icon>
+                {{ item.favoriteFrom.length}}
+                <!-- </v-badge> -->
               </v-btn>
               <v-btn icon v-else @click="unfavorite(item.id)">
-                <v-badge color="pink" overlap bottom>
-                  <template v-slot:badge>{{ item.favoriteFrom.length }}</template>
-                  <v-icon>mdi-heart-multiple</v-icon>
-                </v-badge>
+                <!-- <v-badge color="pink" overlap bottom> -->
+                <!-- <template v-slot:badge>{{ item.favoriteFrom.length }}</template> -->
+                <v-icon>mdi-heart-multiple</v-icon>
+                {{ item.favoriteFrom.length }}
+                <!-- </v-badge> -->
               </v-btn>&nbsp;
               <v-btn icon v-if="nowTimeline!='mypost'">
                 <ShowProfile :post="item" />

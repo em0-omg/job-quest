@@ -143,7 +143,8 @@ export default {
       "宮崎県",
       "鹿児島県",
       "沖縄県"
-    ]
+    ],
+    userRank: 0
   }),
   computed: {
     user() {
@@ -169,6 +170,19 @@ export default {
         this.innerImage = value;
       }
     }
+  },
+  mounted() {
+    var self = this;
+    var loginUser = firebase.auth().currentUser;
+    var userRef = firebase
+      .firestore()
+      .collection("users")
+      .doc("company")
+      .collection("user")
+      .doc(loginUser.email);
+    userRef.get().then(function(doc) {
+      self.userRank = doc.data().Rank;
+    });
   },
   methods: {
     uploadPhoto(postid) {
@@ -251,7 +265,8 @@ export default {
         // TODO 空白考慮
         title: this.title,
         region: this.selectedRegion,
-        favoriteFrom: []
+        favoriteFrom: [],
+        userRank: this.userRank
       };
       var newPostRef = this.db
         .collection("users")

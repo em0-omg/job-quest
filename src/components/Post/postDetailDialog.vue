@@ -5,6 +5,7 @@
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on">
           <v-icon>mdi-open-in-new</v-icon>
+          {{ joinerNum }}
         </v-btn>
       </template>
       <v-card max-width="100%" class="mx-auto">
@@ -70,7 +71,8 @@ export default {
     dialog: false,
     joinAlert: false,
     userData: null,
-    alreadyJoined: false
+    alreadyJoined: false,
+    joinerNum: 0
   }),
   props: ["selectedPost"],
   computed: {},
@@ -101,7 +103,9 @@ export default {
       .collection("joinUsers")
       .get()
       .then(function(querySnapshot) {
+        self.joinerNum = 0;
         querySnapshot.forEach(function(doc) {
+          self.joinerNum += 1;
           if (doc.id === loginUser.email) {
             self.alreadyJoined = true;
           }

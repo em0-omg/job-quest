@@ -29,9 +29,11 @@
               </v-btn>
               <v-btn icon v-if="!isFavorite(item.favoriteFrom)" @click="favorite(item.id)">
                 <v-icon>mdi-heart-multiple-outline</v-icon>
+                {{ item.favoriteFrom.length }}
               </v-btn>
               <v-btn icon v-else @click="unfavorite(item.id)">
                 <v-icon>mdi-heart-multiple</v-icon>
+                {{ item.favoriteFrom.length }}
               </v-btn>&nbsp;
             </v-layout>
           </v-list-item-content>
@@ -82,7 +84,7 @@ export default {
           self.userPost.push(docData);
         });
       });
- },
+  },
   methods: {
     infiniteHandler() {
       setTimeout(() => {

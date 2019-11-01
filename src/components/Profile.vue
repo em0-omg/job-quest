@@ -82,6 +82,11 @@
                 <profileDialog :userprofile="showUserProfile" />
               </v-layout>
             </v-card-actions>
+            <v-card-actions v-if="showUserProfile.isAdmin">
+              <v-layout justify-center>
+                <AdminPage />
+              </v-layout>
+            </v-card-actions>
           </v-list-item-content>
         </v-list-item>
       </div>
@@ -131,9 +136,11 @@ import favoritepost from "./Profile/Favoritepost";
 import imageUploadDialog from "./Profile/imageUploadDialog";
 import firebase from "firebase";
 import Firebase from "./../firebase";
+import AdminPage from "./Admin/AdminPage";
 
 export default {
   components: {
+    AdminPage,
     profileDialog,
     imageUploadDialog,
     profilemypost,
