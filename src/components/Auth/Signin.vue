@@ -44,11 +44,19 @@
       <span class="subtitle-2">メールアドレスで入場</span>
     </v-layout>
     <v-layout justify-center>
+      <div width="60%">
+        <v-text-field label="メールアドレス" type="text" required v-model="username"></v-text-field>
+        <v-text-field label="パスワード" type="password" required v-model="password"></v-text-field>
+      </div>
+    </v-layout>
+    <!--
+    <v-layout justify-center>
       <input type="text" placeholder="メールアドレス" v-model="username" />
     </v-layout>
     <v-layout justify-center>
       <input type="password" placeholder="パスワード" v-model="password" />
     </v-layout>
+    -->
     <v-layout justify-center>
       <v-btn depressed color="primary" @click="signIn()">入場</v-btn>
     </v-layout>

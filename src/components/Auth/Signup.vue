@@ -5,9 +5,18 @@
   <v-container v-else>
     <div class="signup">
       <h2>登録</h2>
+      <v-layout justify-center>
+        <div width="60%">
+          <v-text-field label="メールアドレス" type="text" required v-model="username"></v-text-field>
+          <v-text-field label="パスワード" type="password" required v-model="password"></v-text-field>
+          <v-text-field label="パスワード確認" type="password" required v-model="password2"></v-text-field>
+        </div>
+      </v-layout>
+      <!--
       <input type="text" placeholder="メールアドレス" v-model="username" />
       <input type="password" placeholder="パスワード" v-model="password" />
       <input type="password" placeholder="パスワード確認" v-model="password2" />
+      -->
       <v-layout justify-center>
         <v-btn depressed color="primary" @click="signUp()">登録</v-btn>
       </v-layout>
