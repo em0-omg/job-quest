@@ -19,10 +19,12 @@
               <span style="color: red;">非公開設定中</span>
             </v-list-item-content>
             <v-list-item-content v-html="'<h3>'+item.title+'</h3>'"></v-list-item-content>
-            <v-list-item-content v-html="item.content"></v-list-item-content>
+            <v-list-item-subtitle>
+              <p class="text-truncate">{{ item.content }}</p>
+            </v-list-item-subtitle>
             <v-list-item-subtitle v-html="item.createdAt"></v-list-item-subtitle>
-            <v-list-item-subtitle v-html="item.ownerEmail"></v-list-item-subtitle>
-            <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content>
+            <v-list-item-subtitle>地域: {{ item.region }}</v-list-item-subtitle>
+            <!-- <v-list-item-content>{{ item.favoriteFrom.length }}件のお気に入り登録者</v-list-item-content> -->
             <v-layout justify-center :key="item.id">
               <v-btn icon>
                 <postdetaildialog :selectedPost="item"></postdetaildialog>&nbsp;
