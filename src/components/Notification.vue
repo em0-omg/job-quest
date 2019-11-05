@@ -8,6 +8,14 @@
         :icon="item.icon"
         fill-dot
       >
+        <v-card :color="item.color" dark v-if="item.noteType==='profile'">
+          <v-card-title class="title">{{ item.title }}</v-card-title>
+          <v-card-text class="white text--primary">
+            <br />
+            <p>{{ item.content }}</p>
+            {{ item.createdAt }}&nbsp;
+          </v-card-text>
+        </v-card>
         <v-card :color="item.color" dark v-if="item.noteType==='ratioAlert'">
           <v-card-title class="title">{{ item.title }}</v-card-title>
           <v-card-text class="white text--primary">

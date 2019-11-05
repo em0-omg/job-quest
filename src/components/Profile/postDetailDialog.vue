@@ -39,7 +39,6 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          {{ alreadyJoined }}
           <div class="text-center">
             <v-btn
               class="ma-2"

@@ -54,9 +54,9 @@
 import firebase from "firebase";
 import { VueLoading } from "vue-loading-template";
 import store from "./../../store";
+import moment from "moment";
 
 export default {
-  components: { VueLoading },
   props: ["userprofile"],
   data: () => ({
     dialog: false,
@@ -130,8 +130,25 @@ export default {
         .collection("user")
         .doc(newUser.email);
       newUserRef.set(newUser, { merge: true });
-      // TODO メールをキーにしてるので、メールを変えたらここのキーも変える
-      store.commit("isExistUser", true);
+
+      //通知
+      var nowDate = Date.now();
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(newUser.email)
+        .collection("notification")
+        .add({
+          noteType: "profile",
+          content: "プロフィールを設定しました！",
+          createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
+          icon: "mdi-account-check",
+          color: "info",
+          title: "プロフィール更新",
+          isRead: false
+        });
     }
   }
 };

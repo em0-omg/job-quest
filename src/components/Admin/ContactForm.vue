@@ -1,39 +1,37 @@
 <template>
-  <div>
-    <v-card>
-      <v-container>
-        <h2>お問い合わせ</h2>
-        <v-form ref="form" v-model="contactFormValidation.valid" lazy-validation>
-          <v-text-field
-            v-model="contactForm.name"
-            :rules="contactFormValidation.nameRules"
-            label="名前"
-            required
-          ></v-text-field>
-          <v-text-field
-            v-model="contactForm.email"
-            :rules="contactFormValidation.emailRules"
-            label="メールアドレス"
-            required
-          ></v-text-field>
-          <v-textarea
-            v-model="contactForm.contents"
-            :rules="contactFormValidation.contentsRules"
-            label="内容"
-            required
-          ></v-textarea>
-          <v-btn
-            :loading="contactForm.loading"
-            :disabled="!contactFormValidation.valid"
-            @click="sendContact()"
-            block
-            large
-            color="info"
-            class="mt-4 font-weight-bold"
-          >送信</v-btn>
-        </v-form>
-      </v-container>
-    </v-card>
+  <v-card width="100%">
+    <v-container>
+      <h2>お問い合わせ</h2>
+      <v-form ref="form" v-model="contactFormValidation.valid" lazy-validation>
+        <v-text-field
+          v-model="contactForm.name"
+          :rules="contactFormValidation.nameRules"
+          label="名前"
+          required
+        ></v-text-field>
+        <v-text-field
+          v-model="contactForm.email"
+          :rules="contactFormValidation.emailRules"
+          label="メールアドレス"
+          required
+        ></v-text-field>
+        <v-textarea
+          v-model="contactForm.contents"
+          :rules="contactFormValidation.contentsRules"
+          label="内容"
+          required
+        ></v-textarea>
+        <v-btn
+          :loading="contactForm.loading"
+          :disabled="!contactFormValidation.valid"
+          @click="sendContact()"
+          block
+          large
+          color="info"
+          class="mt-4 font-weight-bold"
+        >送信</v-btn>
+      </v-form>
+    </v-container>
     <v-snackbar
       v-model="snackBar.show"
       :color="snackBar.color"
@@ -42,7 +40,7 @@
       :timeout="6000"
       class="font-weight-bold"
     >{{snackBar.message}}</v-snackbar>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -71,7 +69,6 @@ export default {
   }),
   mounted() {
     var loginUser = firebase.auth().currentUser;
-    console.log(loginUser);
     this.contactForm.name = loginUser.displayName;
     this.contactForm.email = loginUser.email;
   },
@@ -145,7 +142,10 @@ export default {
       this.snackBar.show = true;
     },
     formReset: function() {
+      var loginUser = firebase.auth().currentUser;
       this.$refs.form.reset();
+      this.contactForm.name = loginUser.displayName;
+      this.contactForm.email = loginUser.email;
     }
   }
 };

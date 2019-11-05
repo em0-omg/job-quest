@@ -52,9 +52,9 @@ export default {
         .get()
         .then(function(doc) {
           if (doc.exists) {
-            self.returnRating = doc.rating;
             // もしまだ評価未設定ならば評価をおこなう
             if (doc.data().returnRating < 1) {
+              self.receiveRating = doc.data().rating;
               ratioRef
                 .update({
                   returnRating: self.rating
@@ -137,7 +137,25 @@ export default {
               title: "評価通知",
               isRead: false
             });
-          //参加者に通知
+
+          //参加者にランク追加、通知
+          var joinerRef = firebase
+            .firestore()
+            .collection("users")
+            .doc("company")
+            .collection(user);
+          joinerRef
+            .doc(loginUser.email)
+            .get()
+            .then(function(userDoc) {
+              if (userDoc.exists) {
+                var newRank = userDoc.data().Rank + self.receiveRating;
+                userRef.doc(loginUser.email).update({
+                  Rank: newRank
+                });
+                console.log("参加者にratio追加");
+              }
+            });
           firebase
             .firestore()
             .collection("users")
