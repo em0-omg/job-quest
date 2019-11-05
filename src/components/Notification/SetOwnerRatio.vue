@@ -98,6 +98,7 @@ export default {
         if (doc.exists) {
           var owner = doc.data().ownerEmail;
           var ownerName = doc.data().ownerName;
+          var ownerEmail = doc.data().ownerEmail;
           var ownerImage = doc.data().image;
           var loginUser = firebase.auth().currentUser;
           var nowDate = Date.now();
@@ -124,6 +125,7 @@ export default {
             .collection("notification")
             .add({
               noteType: "ratioAlert",
+              userFromEmail: loginUser.email,
               avatarImage: loginUser.photoURL,
               content:
                 loginUser.displayName +
@@ -143,7 +145,8 @@ export default {
             .firestore()
             .collection("users")
             .doc("company")
-            .collection(user);
+            .collection("user");
+
           joinerRef
             .doc(loginUser.email)
             .get()
@@ -166,6 +169,7 @@ export default {
             .add({
               noteType: "ratioAlert",
               avatarImage: ownerImage,
+              userFromEmail: ownerEmail,
               content:
                 ownerName +
                 "から" +

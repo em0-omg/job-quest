@@ -53,7 +53,6 @@
 <script>
 import firebase from "firebase";
 import { VueLoading } from "vue-loading-template";
-import store from "./../../store";
 import moment from "moment";
 
 export default {

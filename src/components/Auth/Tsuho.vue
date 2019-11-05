@@ -16,7 +16,7 @@
             :color="snackBar.color"
             bottom
             right
-            :timeout="6000"
+            :timeout="3000"
             class="font-weight-bold"
           >{{snackBar.message}}</v-snackbar>
         </v-card-text>

@@ -147,7 +147,10 @@ export default {
         .collection("notification")
         .add({
           noteType: "joinAlert",
-          content: loginUser.displayName + "が参加希望を行いました！",
+          content:
+            loginUser.displayName +
+            "が参加希望を行いました！投稿履歴から参加者を編集してください",
+          userFromEmail: loginUser.email,
           avatarImage: loginUser.photoURL,
           createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm"),
           postTitle: this.selectedPost.title,

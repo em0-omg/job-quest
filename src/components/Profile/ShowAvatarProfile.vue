@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" fullscreen hide-overlay transition="scale-transition">
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
+      <v-btn icon v-on="on" @click="getUserInfo()">
         <v-avatar size="20px">
           <img :src="avatarurl" />
         </v-avatar>
@@ -84,6 +84,9 @@
                 <!-- {{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }}) -->
                 {{ userInfo.Rank}}
               </v-list-item-subtitle>
+              <div width="50%" class="text-right">
+                <Tsuho :email="email" />
+              </div>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -175,6 +178,19 @@ export default {
     });
   },
   methods: {
+    getUserInfo: function() {
+      var self = this;
+      firebase
+        .firestore()
+        .collection("users")
+        .doc("company")
+        .collection("user")
+        .doc(self.email)
+        .get()
+        .then(function(doc) {
+          self.userInfo = doc.data();
+        });
+    },
     addFavoriteUser: function() {
       var loginUser = firebase.auth().currentUser;
       var userRef = firebase

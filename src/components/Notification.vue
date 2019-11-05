@@ -21,11 +21,7 @@
           <v-card-text class="white text--primary">
             <br />
             <p>
-              <v-btn icon>
-                <v-avatar size="20px">
-                  <img :src="item.avatarImage" />
-                </v-avatar>
-              </v-btn>
+              <ShowAvatarProfile :email="item.userFromEmail" :avatarurl="item.avatarImage" />
               {{ item.content }}
             </p>
             {{ item.createdAt }}&nbsp;
@@ -38,11 +34,14 @@
             <br />
             <p>「{{item.post.title}}」</p>
             <p>
+              <ShowAvatarProfile :email="item.userFromEmail" :avatarurl="item.userFromImage" />
+              <!--
               <v-btn icon>
                 <v-avatar size="20px">
                   <img :src="item.userFromImage" />
                 </v-avatar>
               </v-btn>
+              -->
               {{ item.userFrom }}から{{ item.content }}
             </p>
             {{ item.createdAt }}&nbsp;
@@ -53,14 +52,7 @@
           <v-card-text class="white text--primary">
             <br />
             <p>「{{ item.postTitle }}」</p>
-            <p>
-              <v-btn icon>
-                <v-avatar size="20px">
-                  <img :src="item.ownerImage" />
-                </v-avatar>
-              </v-btn>
-              {{ item.content }}
-            </p>
+            <p>募集{{ item.content }}</p>
             {{ item.createdAt }}&nbsp;
             <SetOwnerRatio :postid="item.postID" />
           </v-card-text>
@@ -71,11 +63,7 @@
             <br />
             <p>「{{item.postTitle}}」</p>
             <p>
-              <v-btn icon>
-                <v-avatar size="20px">
-                  <img :src="item.avatarImage" />
-                </v-avatar>
-              </v-btn>
+              <ShowAvatarProfile :email="item.userFromEmail" :avatarurl="item.avatarImage" />
               {{ item.content }}
             </p>
             {{ item.createdAt }}&nbsp;
