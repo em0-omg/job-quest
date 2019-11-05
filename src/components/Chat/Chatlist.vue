@@ -58,8 +58,6 @@ export default {
           };
           self.chatlist.push(chatlistItem);
         });
-      } else {
-        console.log("no such doc");
       }
     });
   },

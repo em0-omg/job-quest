@@ -102,40 +102,12 @@ export default {
               "error",
               "送信に失敗しました。時間をおいて再度お試しください"
             );
-            console.log(err);
           })
           .finally(() => {
             self.contactForm.loading = false;
           });
       }
     },
-    /*
-    sendMail: function() {
-      if (this.$refs.form.validate()) {
-        this.contactForm.loading = true;
-        const mailer = functions.httpsCallable("sendMail");
-
-        mailer(this.contactForm)
-          .then(() => {
-            this.formReset();
-            this.showSnackBar(
-              "success",
-              "お問い合わせありがとうございます。送信完了しました"
-            );
-          })
-          .catch(err => {
-            this.showSnackBar(
-              "error",
-              "送信に失敗しました。時間をおいて再度お試しください"
-            );
-            console.log(err);
-          })
-          .finally(() => {
-            this.contactForm.loading = false;
-          });
-      }
-    },
-    */
     showSnackBar: function(color, message) {
       this.snackBar.message = message;
       this.snackBar.color = color;

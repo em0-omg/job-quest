@@ -53,19 +53,11 @@ export default {
         .collection("user")
         .doc(loginUser.email);
 
-      firestoreUserRef
-        .get()
-        .then(function(doc) {
-          if (doc.exists) {
-            self.userInfo = doc.data();
-            console.log(self.userInfo);
-          } else {
-            console.log("No such document!");
-          }
-        })
-        .catch(function(e) {
-          console.log(e);
-        });
+      firestoreUserRef.get().then(function(doc) {
+        if (doc.exists) {
+          self.userInfo = doc.data();
+        }
+      });
     }
   }
 };

@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 export default {
   data() {
     return {
@@ -51,7 +51,6 @@ export default {
         })
         .catch(function(error) {
           // An error happened.
-          console.log("mail error: " + error);
         });
       this.dialog = false;
     }

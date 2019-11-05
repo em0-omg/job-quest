@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" max-width="100%">
     <v-card-title class="blue-grey white--text">
-      <span class="title">チャット</span>
+      <span class="title">ポャット</span>
       <v-spacer></v-spacer>
       <!--
       <v-btn icon @click="tmp()">
@@ -56,7 +56,6 @@ export default {
     this.$refs.targetRef.focus();
     var self = this;
     var docKey = this.createRoomKey();
-    console.log("docKey:" + docKey);
     firebase
       .firestore()
       .collection("chatroom")
@@ -85,9 +84,7 @@ export default {
     },
     scrollToEnd: function() {
       var container = this.$refs.scroll;
-      console.log("before:" + container.scrollTop);
       container.scrollTop = container.scrollHeight;
-      console.log("after:" + container.scrollTop);
     }
   },
   watch: {

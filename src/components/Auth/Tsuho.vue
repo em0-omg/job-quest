@@ -77,7 +77,6 @@ export default {
             "error",
             "送信に失敗しました。時間をおいて再度お試しください"
           );
-          console.log(err);
         });
     },
     showSnackBar: function(color, message) {

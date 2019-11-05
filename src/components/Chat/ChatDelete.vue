@@ -42,28 +42,18 @@ export default {
         .collection("user")
         .doc(loginUser.email);
 
-      chatRef
-        .get()
-        .then(function(doc) {
-          if (doc.exists) {
-            var ChatWith = doc.data().ChatWith;
-            ChatWith.forEach(info => {
-              if (info.with === userKey && info.postID === postKey) {
-                chatRef.update({
-                  ChatWith: firebase.firestore.FieldValue.arrayRemove(info)
-                });
-                console.log("delete target");
-              } else {
-                console.log("not found");
-              }
-            });
-          } else {
-            console.log("no doc");
-          }
-        })
-        .catch(function(error) {
-          console.log("error get doc" + error);
-        });
+      chatRef.get().then(function(doc) {
+        if (doc.exists) {
+          var ChatWith = doc.data().ChatWith;
+          ChatWith.forEach(info => {
+            if (info.with === userKey && info.postID === postKey) {
+              chatRef.update({
+                ChatWith: firebase.firestore.FieldValue.arrayRemove(info)
+              });
+            }
+          });
+        }
+      });
       this.dialog = false;
     }
   }

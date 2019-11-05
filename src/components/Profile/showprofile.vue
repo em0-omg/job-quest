@@ -157,7 +157,6 @@
 import firebase from "firebase";
 import profilemypost from "./Profilemypost";
 import joinedpost from "./Joinedpost";
-import moment from "moment";
 import Tsuho from "./../Auth/Tsuho";
 
 export default {

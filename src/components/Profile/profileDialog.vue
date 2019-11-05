@@ -52,7 +52,6 @@
 </template>
 <script>
 import firebase from "firebase";
-import { VueLoading } from "vue-loading-template";
 import moment from "moment";
 
 export default {

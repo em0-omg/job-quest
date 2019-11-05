@@ -109,7 +109,6 @@ export default {
         docData.id = doc.id;
         if (!docData.isRead) {
           self.unreadNote += 1;
-          console.log("unreadnote count:" + self.unreadNote);
         }
         self.note.push(docData);
       });
@@ -146,21 +145,10 @@ export default {
         .get()
         .then(function(querySnapshot) {
           querySnapshot.forEach(function(doc) {
-            kidokuRef
-              .doc(doc.id)
-              .update({
-                isRead: true
-              })
-              .then(function() {
-                console.log("既読");
-              })
-              .catch(function() {
-                console.log("既読 失敗");
-              });
+            kidokuRef.doc(doc.id).update({
+              isRead: true
+            });
           });
-        })
-        .catch(function(eee) {
-          console.log("kidoku error: " + eee);
         });
     },
     infiniteHandler() {

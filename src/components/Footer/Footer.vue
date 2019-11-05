@@ -112,7 +112,6 @@ export default {
   },
   watch: {
     nowTimeline: function(newVal, oldVal) {
-      console.log(oldVal + "=>" + newVal);
       if (newVal === "setting") this.bottomNav = 4;
     }
   }

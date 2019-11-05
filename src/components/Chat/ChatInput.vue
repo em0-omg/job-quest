@@ -58,11 +58,7 @@ export default {
           { merge: true }
         )
         .then(function() {
-          console.log("send message success!");
           setTimeout(() => console.log(this.message), 1200);
-        })
-        .catch(function(error) {
-          console.log(error);
         });
       this.message = "";
     }

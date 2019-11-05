@@ -101,16 +101,8 @@ export default {
     var loginUser = firebase.auth().currentUser;
     var self = this;
     if (loginUser.emailVerified != true) {
-      loginUser
-        .sendEmailVerification()
-        .then(function() {
-          console.log("email send");
-        })
-        .catch(function(error) {
-          console.log("send mail error: " + error);
-        });
+      loginUser.sendEmailVerification();
     } else {
-      console.log("verified user");
       self.isVerified = true;
     }
     var docRef = firebase
@@ -120,23 +112,18 @@ export default {
       .collection("user")
       .doc(loginUser.email);
 
-    docRef
-      .get()
-      .then(function(doc) {
-        if (doc.exists) {
-          self.isProfiled = true;
-          if (self.isVerified) {
-            store.commit("isExistUser", true);
-          } else {
-            store.commit("isExistUser", false);
-          }
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+        self.isProfiled = true;
+        if (self.isVerified) {
+          store.commit("isExistUser", true);
         } else {
           store.commit("isExistUser", false);
         }
-      })
-      .catch(function(error) {
-        console.log("Error getting document:", error);
-      });
+      } else {
+        store.commit("isExistUser", false);
+      }
+    });
   },
   computed: {
     user() {

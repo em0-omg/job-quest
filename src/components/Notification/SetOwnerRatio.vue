@@ -48,35 +48,23 @@ export default {
         .doc(self.postid)
         .collection("joinUsers")
         .doc(loginUser.email);
-      ratioRef
-        .get()
-        .then(function(doc) {
-          if (doc.exists) {
-            // もしまだ評価未設定ならば評価をおこなう
-            if (doc.data().returnRating < 1) {
-              self.receiveRating = doc.data().rating;
-              ratioRef
-                .update({
-                  returnRating: self.rating
-                })
-                .then(function() {
-                  console.log("ratio set:" + self.rating);
-                  self.closePost();
-                })
-                .catch(function(error) {
-                  console.log("ratio set error:" + error);
-                });
-            } else {
-              console.log(doc.data().returnRating);
-              alert("すでに設定済みです");
-            }
+      ratioRef.get().then(function(doc) {
+        if (doc.exists) {
+          // もしまだ評価未設定ならば評価をおこなう
+          if (doc.data().returnRating < 1) {
+            self.receiveRating = doc.data().rating;
+            ratioRef
+              .update({
+                returnRating: self.rating
+              })
+              .then(function() {
+                self.closePost();
+              });
           } else {
-            console.log("no such doc: " + loginUser.email + "," + self.postid);
+            alert("すでに設定済みです");
           }
-        })
-        .catch(function(er) {
-          console.log("error setReturnRatio: " + er);
-        });
+        }
+      });
     },
     closePost: function() {
       var postRef = firebase
@@ -111,7 +99,6 @@ export default {
                 userRef.doc(owner).update({
                   Rank: newRank
                 });
-                console.log("投稿者にratio追加");
               }
             });
           //投稿者に通知
@@ -156,7 +143,6 @@ export default {
                 userRef.doc(loginUser.email).update({
                   Rank: newRank
                 });
-                console.log("参加者にratio追加");
               }
             });
           firebase
@@ -181,15 +167,7 @@ export default {
               color: "lime",
               title: "評価通知",
               isRead: false
-            })
-            .then(function() {
-              console.log("note ok");
-            })
-            .catch(function(errr) {
-              console.log("note error: " + errr);
             });
-        } else {
-          console.log("no doc");
         }
       });
 

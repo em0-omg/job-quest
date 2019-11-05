@@ -135,16 +135,10 @@ export default {
       if (loginUser) {
         var emailAddress = loginUser.email;
 
-        auth
-          .sendPasswordResetEmail(emailAddress)
-          .then(function() {
-            // Email sent.
-            alert("パスワード再設定のメールを送りました");
-          })
-          .catch(function(error) {
-            // An error happened.
-            console.log("mail error: " + error);
-          });
+        auth.sendPasswordResetEmail(emailAddress).then(function() {
+          // Email sent.
+          alert("パスワード再設定のメールを送りました");
+        });
       } else {
         alert("サインインしてください");
       }
