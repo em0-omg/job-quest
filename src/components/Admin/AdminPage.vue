@@ -12,19 +12,48 @@
           <v-toolbar-title>管理者ページ</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
-        <v-list three-line subheader>
-          <v-subheader>User Controls</v-subheader>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list three-line subheader>
-          <v-subheader>General</v-subheader>
-        </v-list>
+        <br />
+        <v-tabs background-color="primary" centered dark grow icons-and-text>
+          <v-tab>
+            お問い合わせ
+            <v-icon>mdi-post</v-icon>
+          </v-tab>
+          <v-tab>
+            ログ
+            <v-icon>mdi-heart</v-icon>
+          </v-tab>
+          <v-tab>
+            tmp
+            <v-icon>mdi-hand</v-icon>
+          </v-tab>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>
+                <ContactReceive />
+              </v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>tmp</v-card-text>
+            </v-card>
+          </v-tab-item>
+          <v-tab-item>
+            <v-card flat>
+              <v-card-text>tmp</v-card-text>
+            </v-card>
+          </v-tab-item>
+        </v-tabs>
       </v-card>
     </v-dialog>
   </v-row>
 </template>
 <script>
+import ContactReceive from "./ContactReceive";
 export default {
+  components: {
+    ContactReceive
+  },
   data() {
     return {
       dialog: false

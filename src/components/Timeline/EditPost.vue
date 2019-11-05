@@ -210,7 +210,6 @@ export default {
   methods: {
     uploadPhoto(postid) {
       if (!this.innerImage) {
-        alert("ファイルを選択してください");
         return;
       }
       var user = firebase.auth().currentUser;

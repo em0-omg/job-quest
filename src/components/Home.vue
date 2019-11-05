@@ -78,7 +78,7 @@ import store from "./../store";
 import Timeline from "./Timeline/Timeline";
 import Profile from "./Profile";
 import Notification from "./Notification";
-import ContactForm from "./ContactForm";
+import ContactForm from "./Admin/ContactForm";
 
 export default {
   name: "Home",

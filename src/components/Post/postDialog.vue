@@ -195,37 +195,24 @@ export default {
       var photoImageRef = storageRef.child(
         "images/post/" + postid + "/photo.png"
       );
-      photoImageRef
-        .put(this.innerImage)
-        .then(function() {
-          photoImageRef.getDownloadURL().then(url => {
-            var photoURL = url;
-            if (user) {
-              // firestore更新
-              var userCollectionRef = firebase
-                .firestore()
-                .collection("users")
-                .doc("company")
-                .collection("posts")
-                .doc(postid);
+      photoImageRef.put(this.innerImage).then(function() {
+        photoImageRef.getDownloadURL().then(url => {
+          var photoURL = url;
+          if (user) {
+            // firestore更新
+            var userCollectionRef = firebase
+              .firestore()
+              .collection("users")
+              .doc("company")
+              .collection("posts")
+              .doc(postid);
 
-              return userCollectionRef
-                .update({
-                  photoURL: photoURL
-                })
-                .then(function() {
-                  console.log("firestore update");
-                })
-                .catch(function(ferror) {
-                  console.log(ferror);
-                });
-            }
-            console.log("uploaded a file");
-          });
-        })
-        .catch(function(error) {
-          console.log(error);
+            return userCollectionRef.update({
+              photoURL: photoURL
+            });
+          }
         });
+      });
     },
     allowedDate: function(val) {
       // 今日～100日後までを選べるようにする
@@ -250,7 +237,6 @@ export default {
     post: function() {
       var nowDate = Date.now();
       var uniqueKey = this.getUniqueStr();
-      console.log("1:" + uniqueKey);
       var newPost = {
         joiners: [],
         isActive: true,
@@ -274,7 +260,6 @@ export default {
         .collection("posts")
         .doc(uniqueKey);
       newPostRef.set(newPost, { merge: true });
-      console.log("2:" + uniqueKey);
       this.uploadPhoto(uniqueKey);
       this.dialog = false;
     }
