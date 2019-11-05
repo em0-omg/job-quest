@@ -39,6 +39,7 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+          {{ alreadyJoined }}
           <div class="text-center">
             <v-btn
               class="ma-2"
@@ -120,9 +121,10 @@ export default {
       .collection("joinUsers")
       .get()
       .then(function(querySnapshot) {
-        this.joinerNum = 0;
+        self.joinerNum = 0;
+        var _self = self;
         querySnapshot.forEach(function(doc) {
-          this.joinerNum += 1;
+          _self.joinerNum += 1;
           if (doc.id === loginUser.email) {
             self.alreadyJoined = true;
           }
@@ -214,9 +216,6 @@ export default {
         .catch(function(err) {
           console.log(err);
         });
-    },
-    tmp: function() {
-      console.log("tmp methods");
     }
   }
 };

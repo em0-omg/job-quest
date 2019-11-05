@@ -36,9 +36,6 @@
                 <v-icon>mdi-heart-multiple</v-icon>
                 {{ item.favoriteFrom.length }}
               </v-btn>&nbsp;
-              <v-btn icon v-if="nowTimeline!='mypost'">
-                <ShowProfile :post="item" />
-              </v-btn>
             </v-layout>
           </v-list-item-content>
         </v-list-item>
