@@ -8,7 +8,8 @@
             {{ index }}
           </v-btn>
           <v-list-item-content>
-            <v-list-item-title>名前：{{ item.name }},メール：{{item.email}})</v-list-item-title>
+            <v-list-item-title>名前：{{ item.name }}</v-list-item-title>
+            <v-list-item-title>メール：{{item.mail}}</v-list-item-title>
             <v-list-item-subtitle>{{ item.contents }}</v-list-item-subtitle>
             <v-list-item-subtitle>{{ item.createdAt }}</v-list-item-subtitle>
           </v-list-item-content>
@@ -41,7 +42,11 @@ export default {
     contact: []
   }),
   mounted() {
-    var contactRef = firebase.firestore().collection("contact");
+    var contactRef = firebase
+      .firestore()
+      .collection("admin")
+      .doc("contact")
+      .collection("messages");
     var self = this;
     contactRef.onSnapshot(function(querySnapshot) {
       self.contact = [];

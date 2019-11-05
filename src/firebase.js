@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import "firebase/firestore";
 import store from "./store";
+import moment from "moment";
 
 const config = {
   apiKey: "AIzaSyD9sC8Di2L-3Sxkh7pWvgX_H845KyT62Dk",
@@ -49,5 +50,26 @@ export default {
       store.commit("onUserStatusChanged", user.uid ? true : false);
       store.commit("nowTimelineChanged", "home");
     });
+  },
+  logging(who, what, contents) {
+    var nowDate = Date.now();
+    var logRef = firebase
+      .firestore()
+      .collection("admin")
+      .doc("log")
+      .collection("messages");
+    logRef
+      .add({
+        name: who,
+        category: what,
+        contents: contents,
+        createdAt: moment(nowDate).format("YYYY/MM/DD HH:mm")
+      })
+      .then(() => {
+        console.log("log ok");
+      })
+      .catch(error => {
+        console.log("log error:" + error);
+      });
   }
 };

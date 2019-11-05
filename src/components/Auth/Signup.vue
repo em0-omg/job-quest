@@ -38,6 +38,7 @@
 
 <script>
 import firebase from "firebase";
+import Firebase from "./../../firebase";
 import { VueLoading } from "vue-loading-template";
 
 export default {
@@ -65,7 +66,15 @@ export default {
         .createUserWithEmailAndPassword(this.username, this.password)
         .then(user => {
           this.loading = false;
-          alert("Create account: ", user.email);
+
+          // ログを残す
+          Firebase.logging(
+            this.username,
+            "Signup",
+            "ユーザが新規登録されました！"
+          );
+
+          alert("Create account", user.email);
           this.$router.push("/signin").catch(err => {
             alert(err.message);
           });
