@@ -81,7 +81,11 @@ export default {
         this.contactForm.loading = true;
         var self = this;
         var nowDate = Date.now();
-        var contactRef = firebase.firestore().collection("contact");
+        var contactRef = firebase
+          .firestore()
+          .collection("admin")
+          .doc("contact")
+          .collection("messages");
         contactRef
           .add({
             name: self.contactForm.name,
@@ -108,6 +112,7 @@ export default {
           });
       }
     },
+    /*
     sendMail: function() {
       if (this.$refs.form.validate()) {
         this.contactForm.loading = true;
@@ -133,6 +138,7 @@ export default {
           });
       }
     },
+    */
     showSnackBar: function(color, message) {
       this.snackBar.message = message;
       this.snackBar.color = color;

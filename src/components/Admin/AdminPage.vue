@@ -35,7 +35,9 @@
           </v-tab-item>
           <v-tab-item>
             <v-card flat>
-              <v-card-text>tmp</v-card-text>
+              <v-card-text>
+                <LogReceive />
+              </v-card-text>
             </v-card>
           </v-tab-item>
           <v-tab-item>
@@ -50,9 +52,11 @@
 </template>
 <script>
 import ContactReceive from "./ContactReceive";
+import LogReceive from "./LogReceive";
 export default {
   components: {
-    ContactReceive
+    ContactReceive,
+    LogReceive
   },
   data() {
     return {
