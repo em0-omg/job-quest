@@ -4,7 +4,7 @@
       <template v-for="(item, index) in contact">
         <v-list-item :key="item.id">
           <v-btn class="ma-2" color="orange darken-2" dark>
-            <v-icon dark left>mdi-email</v-icon>
+            <v-icon dark left>mdi-check-bold</v-icon>
             {{ index }}
           </v-btn>
           <v-list-item-content>
@@ -13,7 +13,7 @@
             <v-list-item-subtitle>{{ item.createdAt }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-divider :key="item.id"></v-divider>
+        <v-divider :key="index"></v-divider>
       </template>
     </v-list>
   </v-card>
