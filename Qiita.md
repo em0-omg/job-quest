@@ -39,3 +39,39 @@ Twitter や Instagram のような見た目にしております。
 2019/9/30 ~ 2019/11/5(現在も機能追加中)
 
 # 開発人数
+
+自分ひとりです。昨年新卒で入社した企業が IT 会社とは名ばかりでほぼ開発ゼロ、
+ギャップを感じて転職を決意し、何か技術を身に着けようと考え、
+学生時代のアルバイトで Web ページ作成を行った経験から Vue.js を学習しようと思いました。
+
+終業後の残業時間や休日に 1~2h/日程度でコツコツ開発に取り組んでいました。
+最初の 1 週間程度は書籍の選定、（後ほど載せます）
+2 週目からはやりながら慣れろの精神でとにかく Qiita 等のチュートリアル記事を読みながら写経しつつ
+自身のアプリケーションの形に落とし込んでいきました。
+
+本格的に Web アプリ開発をしたのは今回が初めてなのですが、
+Firebase も Vue.js も凄いですね・・・ドキュメントが分かりやすいのは勿論物自体が分かりやすくて
+初心者でもくじけることなく学習を進めることができました。
+
+# 使用技術
+
+## Vue.js
+
+- 読んだ本、ドキュメント、サイト
+
+  - 基礎から学ぶ Vue.js
+    https://www.amazon.co.jp/%E5%9F%BA%E7%A4%8E%E3%81%8B%E3%82%89%E5%AD%A6%E3%81%B6-Vue-js-mio/dp/4863542453/ref=sr_1_3?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&keywords=vue.js&qid=1572947490&sr=8-3
+
+  - 速習 Vue.js 速習シリーズ Kindle 版
+    https://www.amazon.co.jp/%E9%80%9F%E7%BF%92Vue-js-%E9%80%9F%E7%BF%92%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E5%B1%B1%E7%94%B0%E7%A5%A5%E5%AF%9B-ebook/dp/B07BS62Z94/ref=sr_1_7?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&keywords=vue.js&qid=1572947490&sr=8-7
+
+  - 公式ドキュメント
+
+## Firebase
+
+- 読んだ本
+
+  - 改訂新版　 Vue.js と Firebase で作るミニ Web サービス (技術の泉シリーズ（NextPublishing）) Kindle 版
+    https://www.amazon.co.jp/%E6%94%B9%E8%A8%82%E6%96%B0%E7%89%88-Vue-js%E3%81%A8Firebase%E3%81%A7%E4%BD%9C%E3%82%8B%E3%83%9F%E3%83%8BWeb%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9-%E6%8A%80%E8%A1%93%E6%9B%B8%E5%85%B8%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA%EF%BC%88NextPublishing%EF%BC%89-%E6%B8%A1%E9%82%8A-%E9%81%94%E6%98%8E-ebook/dp/B07HXMHQQK/ref=sr_1_2?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&keywords=firebase&qid=1572947610&sr=8-2
+
+  - 公式ドキュメント
