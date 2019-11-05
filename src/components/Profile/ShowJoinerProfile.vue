@@ -119,6 +119,9 @@
                 <!-- {{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }}) -->
                 {{ userInfo.Rank}}
               </v-list-item-subtitle>
+              <div width="50%" class="text-right">
+                <Tsuho :email="email" />
+              </div>
             </v-list-item-content>
           </v-list-item>
         </div>

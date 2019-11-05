@@ -119,6 +119,9 @@
                 <!-- {{ level }} &nbsp; (レベルアップまで{{ userInfo.Rank }}/{{ needRank }})</v-list-item-subtitle> -->
                 {{ userInfo.Rank }}
               </v-list-item-subtitle>
+              <div width="50%" class="text-right">
+                <Tsuho :email="post.ownerEmail" />
+              </div>
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -154,13 +157,16 @@
 import firebase from "firebase";
 import profilemypost from "./Profilemypost";
 import joinedpost from "./Joinedpost";
+import moment from "moment";
+import Tsuho from "./../Auth/Tsuho";
 
 export default {
   name: "ShowProfile",
   props: ["post"],
   components: {
     profilemypost,
-    joinedpost
+    joinedpost,
+    Tsuho
   },
   data() {
     return {
@@ -177,7 +183,8 @@ export default {
       favoriteFrom: [],
 
       loginUser: firebase.auth().currentUser,
-      createChatAlert: false
+      createChatAlert: false,
+      loading: false
     };
   },
   computed: {
